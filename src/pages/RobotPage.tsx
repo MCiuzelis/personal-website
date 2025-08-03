@@ -13,8 +13,9 @@ import Navigation from '@/components/Navigation'
 export default function RobotPage() {
   const [controlsKey] = useState(0)
   const navigate = useNavigate()
-  const [scrollValue, setScrollValue] = useState(0)
+  const [animationProgress, setAnimationProgress] = useState(0)
   const [lockScroll, setLockScroll] = useState(true)
+  const [scrollValue, setScrollValue] = useState(0)
 
 
 
@@ -36,7 +37,7 @@ export default function RobotPage() {
         </div>
         
         {/* Navigation */}
-        <Navigation />
+        <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
         {/* 3D Model Section - Full height with ScrollControls */}
         <div>
@@ -52,7 +53,7 @@ export default function RobotPage() {
               <ScrollControls pages={1} damping={0}>
                 <Scroll>
                   <AnimationTracker
-                      onScroll={(v) => {setScrollValue(v);}}
+                      onScroll={(v) => {setAnimationProgress(v);}}
                       onUnlock={() => setLockScroll(false)}
                       lockScroll={lockScroll}
                   />
@@ -64,11 +65,12 @@ export default function RobotPage() {
                   setLockScroll(true)
                 }}
                 lockScroll={lockScroll}
+                onScrollChange={(scrolled) => setScrollValue(scrolled)}
             />
 
 
             <Robot
-                scrollValue={scrollValue}
+                scrollValue={animationProgress}
                 position={[0, 0, 0]}
                 scale={25}
                 rotation-y={Math.PI / 4}
@@ -234,7 +236,6 @@ function AnimationTracker({onScroll, onUnlock, lockScroll}: {
 
     console.log(currentOffset)
     onScroll(scroll.offset)
-    // onScroll(Math.min(scroll.offset * 1.2, 1))
 
     if (currentOffset >= 0.99 && lastScroll.current < 0.99) {
       console.log("unlocking")
@@ -247,11 +248,13 @@ function AnimationTracker({onScroll, onUnlock, lockScroll}: {
   return null
 }
 
-
-function PageTracker({onRelock, lockScroll}: {
+interface PageTrackerProps {
   onRelock: () => void
   lockScroll: boolean
-}) {
+  onScrollChange?: (scrollValue: number) => void
+}
+
+function PageTracker({onRelock, lockScroll, onScrollChange,}: PageTrackerProps) {
   const lastWindowY = React.useRef(0)
 
   useFrame(() => {
@@ -261,8 +264,15 @@ function PageTracker({onRelock, lockScroll}: {
 
       if (scrollY == 0 && lastWindowY.current != 0){
         console.log("relocking")
+        onScrollChange?.(0)
         onRelock()
       }
+
+      if (scrollY > 0){
+        onScrollChange?.(scrollY)
+        console.log("for nav " + scrollY)
+      }
+
       lastWindowY.current = scrollY
     }
   })

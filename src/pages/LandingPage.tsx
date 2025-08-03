@@ -21,34 +21,68 @@ const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
 // Create Siri-style border animation
 function createSiriBorder() {
+  const size = 2048
+  const borderThickness = 10
+  const cornerRadius = 256
+
+  // create and size canvas
   const canvas = document.createElement('canvas')
+  canvas.width = size
+  canvas.height = size
   const ctx = canvas.getContext('2d')!
-  canvas.width = 256
-  canvas.height = 256
-  
-  const gradient = ctx.createLinearGradient(0, 0, 256, 256)
-  gradient.addColorStop(0, 'rgba(124, 58, 237, 0.8)')
-  gradient.addColorStop(0.2, 'rgba(59, 130, 246, 0.8)')
-  gradient.addColorStop(0.4, 'rgba(16, 185, 129, 0.8)')
-  gradient.addColorStop(0.6, 'rgba(245, 158, 11, 0.8)')
-  gradient.addColorStop(0.8, 'rgba(239, 68, 68, 0.8)')
-  gradient.addColorStop(1, 'rgba(219, 39, 119, 0.8)')
-  
-  ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, 256, 256)
-  
-  // Create border effect
+
+  // draw full‐canvas gradient
+  const grad = ctx.createLinearGradient(0, 0, size, size)
+  grad.addColorStop(0, 'rgba(124, 58, 237, 1)')
+  grad.addColorStop(0.2, 'rgba(59, 130, 246, 1)')
+  grad.addColorStop(0.4, 'rgba(16, 185, 129, 1)')
+  grad.addColorStop(0.6, 'rgba(245, 158, 11, 1)')
+  grad.addColorStop(0.8, 'rgba(239, 68, 68, 1)')
+  grad.addColorStop(1, 'rgba(219, 39, 119, 1)')
+  ctx.fillStyle = grad
+
+  // draw rounded rect background
+  ctx.beginPath()
+  ctx.moveTo(cornerRadius, 0)
+  ctx.lineTo(size - cornerRadius, 0)
+  ctx.quadraticCurveTo(size, 0, size, cornerRadius)
+  ctx.lineTo(size, size - cornerRadius)
+  ctx.quadraticCurveTo(size, size, size - cornerRadius, size)
+  ctx.lineTo(cornerRadius, size)
+  ctx.quadraticCurveTo(0, size, 0, size - cornerRadius)
+  ctx.lineTo(0, cornerRadius)
+  ctx.quadraticCurveTo(0, 0, cornerRadius, 0)
+  ctx.closePath()
+  ctx.fill()
+
+  // punch out inner rounded rect to form border
   ctx.globalCompositeOperation = 'destination-out'
-  ctx.fillStyle = 'white'
-  ctx.fillRect(4, 4, 248, 248)
-  
+  ctx.beginPath()
+  const inner = borderThickness
+  const innerSize = size - borderThickness * 2
+  ctx.moveTo(inner + cornerRadius, inner)
+  ctx.lineTo(inner + innerSize - cornerRadius, inner)
+  ctx.quadraticCurveTo(inner + innerSize, inner, inner + innerSize, inner + cornerRadius)
+  ctx.lineTo(inner + innerSize, inner + innerSize - cornerRadius)
+  ctx.quadraticCurveTo(inner + innerSize, inner + innerSize, inner + innerSize - cornerRadius, inner + innerSize)
+  ctx.lineTo(inner + cornerRadius, inner + innerSize)
+  ctx.quadraticCurveTo(inner, inner + innerSize, inner, inner + innerSize - cornerRadius)
+  ctx.lineTo(inner, inner + cornerRadius)
+  ctx.quadraticCurveTo(inner, inner, inner + cornerRadius, inner)
+  ctx.closePath()
+  ctx.fill()
+
+  // reset composite for future draws
+  ctx.globalCompositeOperation = 'source-over'
+
   return canvas
 }
 
-const LandingPage = () => {
-  const [hasScrolled, setHasScrolled] = useState(false)
 
-  const handleScrollChange = (scrolled: boolean) => {
+const LandingPage = () => {
+  const [hasScrolled, setHasScrolled] = useState(0)
+
+  const handleScrollChange = (scrolled: number) => {
     setHasScrolled(scrolled)
   }
 
@@ -62,7 +96,7 @@ const LandingPage = () => {
       </div>
       
       {/* Navigation */}
-      <Navigation showScrollMessage={true} onScrollChange={handleScrollChange} />
+      <Navigation pageType = 'landing' scrollOffset={hasScrolled} />
       
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
@@ -80,7 +114,7 @@ const LandingPage = () => {
 
 interface RigProps extends React.ComponentProps<'group'> {
   rotation: [number, number, number]
-  onScrollChange?: (hasScrolled: boolean) => void
+  onScrollChange?: (hasScrolled: number) => void
 }
 
 function Rig({ onScrollChange, ...props }: RigProps) {
@@ -95,7 +129,8 @@ function Rig({ onScrollChange, ...props }: RigProps) {
     
     // Detect scroll change
     if (Math.abs(scroll.offset - prevOffset.current) > 0.001) {
-      onScrollChange?.(true)
+      onScrollChange?.(scroll.offset)
+      console.log("scrolled")
       prevOffset.current = scroll.offset
     }
     
@@ -175,15 +210,15 @@ function Card({ url, ...props }: CardProps) {
           rotation={props.rotation}
           scale={1.26}
         >
-          <planeGeometry args={[1.02, 1.02]} />
-          <meshBasicMaterial 
-            transparent 
-            opacity={0.6}
+          <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
+          <meshBasicMaterial
+            transparent
+            opacity={1}
             side={THREE.DoubleSide}
           >
-            <primitive 
-              attach="map" 
-              object={new THREE.CanvasTexture(createSiriBorder())} 
+            <primitive
+              attach="map"
+              object={new THREE.CanvasTexture(createSiriBorder())}
             />
           </meshBasicMaterial>
         </mesh>
