@@ -5,6 +5,7 @@ import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber'
 import { Image, Environment, ScrollControls, useScroll } from '@react-three/drei'
 import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
+import Navigation from '@/components/Navigation'
 
 // Import card images
 import card1 from '@/assets/card1.jpg'
@@ -18,19 +19,56 @@ import card8 from '@/assets/card8.jpg'
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
+// Create Siri-style border animation
+function createSiriBorder() {
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')!
+  canvas.width = 256
+  canvas.height = 256
+  
+  const gradient = ctx.createLinearGradient(0, 0, 256, 256)
+  gradient.addColorStop(0, 'rgba(124, 58, 237, 0.8)')
+  gradient.addColorStop(0.2, 'rgba(59, 130, 246, 0.8)')
+  gradient.addColorStop(0.4, 'rgba(16, 185, 129, 0.8)')
+  gradient.addColorStop(0.6, 'rgba(245, 158, 11, 0.8)')
+  gradient.addColorStop(0.8, 'rgba(239, 68, 68, 0.8)')
+  gradient.addColorStop(1, 'rgba(219, 39, 119, 0.8)')
+  
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, 256, 256)
+  
+  // Create border effect
+  ctx.globalCompositeOperation = 'destination-out'
+  ctx.fillStyle = 'white'
+  ctx.fillRect(4, 4, 248, 248)
+  
+  return canvas
+}
+
 const LandingPage = () => {
   return (
-      <div className="h-screen w-full overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
-          <fog attach="fog" args={['#a79', 8.5, 12]} />
-          <ScrollControls pages={4} infinite>
-            <Rig rotation={[0, 0, 0.03]}>
-              <Carousel />
-            </Rig>
-          </ScrollControls>
-          <Environment preset="dawn" background blur={0.5} />
-        </Canvas>
+    <div className="h-screen w-full overflow-hidden relative">
+      {/* Background Orbs */}
+      <div className="background-orbs">
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
+        <div className="orb orb-3"></div>
       </div>
+      
+      {/* Navigation */}
+      <Navigation showScrollMessage={true} />
+      
+      {/* 3D Canvas */}
+      <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
+        <fog attach="fog" args={['#a79', 8.5, 12]} />
+        <ScrollControls pages={4} infinite>
+          <Rig rotation={[0, 0, 0.03]}>
+            <Carousel />
+          </Rig>
+        </ScrollControls>
+        <Environment preset="dawn" background blur={0.5} />
+      </Canvas>
+    </div>
   )
 }
 
@@ -102,18 +140,39 @@ function Card({ url, ...props }: CardProps) {
   })
 
   return (
+    <group>
       <Image
-          ref={ref}
-          url={url}
-          transparent
-          side={THREE.DoubleSide}
-          onPointerOver={pointerOver}
-          onPointerOut={pointerOut}
-          onClick={handleClick}
-          {...props}
+        ref={ref}
+        url={url}
+        transparent
+        side={THREE.DoubleSide}
+        onPointerOver={pointerOver}
+        onPointerOut={pointerOut}
+        onClick={handleClick}
+        {...props}
       >
         <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
       </Image>
+      {hovered && (
+        <mesh
+          position={props.position}
+          rotation={props.rotation}
+          scale={1.26}
+        >
+          <planeGeometry args={[1.02, 1.02]} />
+          <meshBasicMaterial 
+            transparent 
+            opacity={0.8}
+            side={THREE.DoubleSide}
+          >
+            <primitive 
+              attach="map" 
+              object={new THREE.CanvasTexture(createSiriBorder())} 
+            />
+          </meshBasicMaterial>
+        </mesh>
+      )}
+    </group>
   )
 }
 

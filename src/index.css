@@ -112,3 +112,115 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Apple-inspired glassy design system */
+@layer components {
+  .glass-nav {
+    @apply backdrop-blur-xl bg-white/5 border-b border-white/10;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  }
+  
+  .glass-button {
+    @apply backdrop-blur-sm bg-white/5 border border-white/10 rounded-full px-6 py-2;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-button:hover {
+    @apply bg-white/15 border-white/20 scale-105;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+  }
+  
+  .siri-border {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .siri-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      transparent,
+      rgba(124, 58, 237, 0.5),
+      rgba(59, 130, 246, 0.5),
+      rgba(16, 185, 129, 0.5),
+      rgba(245, 158, 11, 0.5),
+      rgba(239, 68, 68, 0.5),
+      transparent
+    );
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: siri-rotate 3s linear infinite;
+    pointer-events: none;
+  }
+  
+  .siri-border:hover::before {
+    opacity: 1;
+  }
+  
+  .background-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .orb-1 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, rgba(124, 58, 237, 0.3), rgba(59, 130, 246, 0.3));
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  
+  .orb-2 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(45deg, rgba(16, 185, 129, 0.3), rgba(245, 158, 11, 0.3));
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+  }
+  
+  .orb-3 {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.3), rgba(219, 39, 119, 0.3));
+    bottom: 20%;
+    left: 60%;
+    animation-delay: 4s;
+  }
+}
+
+@keyframes siri-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px) scale(1); 
+  }
+  33% { 
+    transform: translateY(-20px) translateX(10px) scale(1.1); 
+  }
+  66% { 
+    transform: translateY(10px) translateX(-10px) scale(0.9); 
+  }
+}

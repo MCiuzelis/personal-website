@@ -7,6 +7,7 @@ import Robot from '../components/Robot'
 import { Perf } from 'r3f-perf'
 import { useControls } from 'leva'
 import { useNavigate } from 'react-router-dom'
+import Navigation from '@/components/Navigation'
 
 
 export default function RobotPage() {
@@ -27,15 +28,15 @@ export default function RobotPage() {
 
   return (
       <div className="relative overflow-hidden">
-        {/* Back button */}
-        <div className="fixed top-5 left-5 z-50">
-          <button
-              onClick={() => navigate('/')}
-              className="px-5 py-2 bg-background/90 backdrop-blur-sm border border-border text-foreground rounded-lg hover:bg-accent transition-colors"
-          >
-            ← Back to Gallery
-          </button>
+        {/* Background Orbs */}
+        <div className="background-orbs">
+          <div className="orb orb-1"></div>
+          <div className="orb orb-2"></div>
+          <div className="orb orb-3"></div>
         </div>
+        
+        {/* Navigation */}
+        <Navigation />
 
         {/* 3D Model Section - Full height with ScrollControls */}
         <div>
