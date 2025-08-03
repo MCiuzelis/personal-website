@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import React, { useRef } from 'react'
+import { GLTF } from 'three-stdlib'
 
 type MoveVec = [number, number, number]
 type ExplosionPart = { name: string; move: MoveVec }
@@ -13,7 +14,10 @@ interface RobotProps extends React.ComponentProps<'group'> {
 
 export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
     const dampingFactor: number = 0.15;
-    const { nodes, materials } = useGLTF('/src/assets/robot2.glb') as any
+    const { nodes, materials } = useGLTF('/src/assets/robot2.glb') as GLTF & {
+        nodes: Record<string, THREE.Mesh>
+        materials: Record<string, THREE.Material>
+    }
 
     const explosionSequence: ExplosionStep[] = [
         {
@@ -46,9 +50,13 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
     )
 
     // 🧵 Refs by name
-    const refMap: Record<string, React.RefObject<THREE.Object3D>> = Object.fromEntries(
-        allPartNames.map(name => [name, useRef<THREE.Object3D>(null!)])
-    )
+    const refMap = React.useMemo(() => {
+        const map: Record<string, React.RefObject<THREE.Object3D>> = {}
+        allPartNames.forEach(name => {
+            map[name] = React.createRef<THREE.Object3D>()
+        })
+        return map
+    }, [allPartNames])
 
     // 🔧 Helpers to cast refs safely
     const getMeshRef = (name: string) =>

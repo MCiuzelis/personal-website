@@ -201,7 +201,7 @@ function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
        }`
     )
 
-    gl.toneMapping = (THREE as any)[mapping + 'ToneMapping'] ?? THREE.ACESFilmicToneMapping
+    gl.toneMapping = (THREE as unknown as Record<string, THREE.ToneMapping>)[`${mapping}ToneMapping`] ?? THREE.ACESFilmicToneMapping
     gl.toneMappingExposure = exposure
 
     return () => {

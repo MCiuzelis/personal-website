@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import '../utils/geometry'
 import { useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber'
 import { Image, Environment, ScrollControls, useScroll } from '@react-three/drei'
 import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
@@ -20,22 +20,22 @@ const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
 const LandingPage = () => {
   return (
-    <div className="h-screen w-full overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
-        <fog attach="fog" args={['#a79', 8.5, 12]} />
-        <ScrollControls pages={4} infinite>
-          <Rig rotation={[0, 0, 0.03]}>
-            <Carousel />
-          </Rig>
-        </ScrollControls>
-        <Environment preset="dawn" background blur={0.5} />
-      </Canvas>
-    </div>
+      <div className="h-screen w-full overflow-hidden">
+        <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
+          <fog attach="fog" args={['#a79', 8.5, 12]} />
+          <ScrollControls pages={4} infinite>
+            <Rig rotation={[0, 0, 0.03]}>
+              <Carousel />
+            </Rig>
+          </ScrollControls>
+          <Environment preset="dawn" background blur={0.5} />
+        </Canvas>
+      </div>
   )
 }
 
 interface RigProps extends React.ComponentProps<'group'> {
-  rotation: [number, number, number];
+  rotation: [number, number, number]
 }
 
 function Rig(props: RigProps) {
@@ -54,38 +54,45 @@ function Rig(props: RigProps) {
 
 function Carousel({ radius = 1.4, count = 8 }) {
   return Array.from({ length: count }, (_, i) => (
-    <Card
-      key={i}
-      url={cardImages[i % cardImages.length]}
-      position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
-      rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
-    />
+      <Card
+          key={i}
+          url={cardImages[i % cardImages.length]}
+          position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
+          rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
+      />
   ))
 }
 
 interface CardProps {
-  url: string;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
+  url: string
+  position?: [number, number, number]
+  rotation?: [number, number, number]
+}
+
+interface ZoomableMaterial extends THREE.ShaderMaterial {
+  radius: number
+  zoom: number
 }
 
 function Card({ url, ...props }: CardProps) {
-  const ref = useRef<any>(null!)
+  const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
   const [hovered, hover] = useState(false)
   const navigate = useNavigate()
-  
-  const pointerOver = (e: any) => {
+
+  const pointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     hover(true)
   }
-  
-  const pointerOut = () => hover(false)
-  
-  const handleClick = (e: any) => {
+
+  const pointerOut = (_e: ThreeEvent<PointerEvent>) => {
+    hover(false)
+  }
+
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation()
     navigate('/robot')
   }
-  
+
   useFrame((state, delta) => {
     if (ref.current) {
       easing.damp3(ref.current.scale, hovered ? 1.25 : 1, 0.1, delta)
@@ -93,21 +100,21 @@ function Card({ url, ...props }: CardProps) {
       easing.damp(ref.current.material, 'zoom', hovered ? 1.15 : 1, 0.2, delta)
     }
   })
-  
-  return (
-    <Image 
-      ref={ref} 
-      url={url} 
-      transparent 
-      side={THREE.DoubleSide} 
-      onPointerOver={pointerOver} 
-      onPointerOut={pointerOut}
-      onClick={handleClick}
-      {...props}
-    >
-      <bentPlaneGeometry args={[0.1 /* radius */, 1, 1, 20, 20]} />
-    </Image>
-  )
-};
 
-export default LandingPage;
+  return (
+      <Image
+          ref={ref}
+          url={url}
+          transparent
+          side={THREE.DoubleSide}
+          onPointerOver={pointerOver}
+          onPointerOut={pointerOut}
+          onClick={handleClick}
+          {...props}
+      >
+        <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
+      </Image>
+  )
+}
+
+export default LandingPage
