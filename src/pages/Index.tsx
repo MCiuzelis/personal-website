@@ -73,7 +73,7 @@ function Card({ url, ...props }: { url: string; [key: string]: any }) {
   
   const handleClick = (e: any) => {
     e.stopPropagation()
-    navigate('/details')
+    navigate('/robot')
   }
   
   useFrame((state, delta) => {
