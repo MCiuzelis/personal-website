@@ -5,6 +5,7 @@ import { Image, Environment, ScrollControls, useScroll } from '@react-three/drei
 import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
 import '../utils/geometry'
+import '../types/three-extend'
 
 // Import card images
 import card1 from '@/assets/card1.jpg'
