@@ -17,15 +17,13 @@ export default function RobotPage() {
   const [lockScroll, setLockScroll] = useState(true)
   const [scrollValue, setScrollValue] = useState(0)
 
-
-
-  const { mapping, exposure } = useControls({
-    exposure: { value: 0.85, min: 0, max: 4 },
-    mapping: {
-      value: 'ACESFilmic',
-      options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'],
-    },
-  })
+  // const { mapping, exposure } = useControls({
+  //   exposure: { value: 0.85, min: 0, max: 4 },
+  //   mapping: {
+  //     value: 'ACESFilmic',
+  //     options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'],
+  //   },
+  // })
 
   return (
       <div className="relative overflow-hidden">
@@ -35,7 +33,7 @@ export default function RobotPage() {
           <div className="orb orb-2"></div>
           <div className="orb orb-3"></div>
         </div>
-        
+
         {/* Navigation */}
         <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
@@ -68,25 +66,26 @@ export default function RobotPage() {
                 onScrollChange={(scrolled) => setScrollValue(scrolled)}
             />
 
+            {/*<PrintY lockScroll={lockScroll}/>*/}
 
             <Robot
                 scrollValue={animationProgress}
-                position={[0, 0, 0]}
-                scale={25}
-                rotation-y={Math.PI / 4}
+                position={[1, -2, 1]}
+                scale={23}
+                rotation-y={0}
             />
 
-            <PerspectiveCamera makeDefault position={[45, 45, 10]} fov={100} />
+            <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50}/>
             <OrbitControls
                 enableZoom={false}
                 enablePan={false}
                 minPolarAngle={0}
-                maxPolarAngle={Math.PI / 2.25}
+                maxPolarAngle={Math.PI / 1.25}
                 makeDefault
                 key={controlsKey}
             />
-            <Tone mapping={mapping} exposure={exposure} />
-            <Perf />
+            <Tone mapping={'ACESFilmic'} exposure={0.85} />
+            <Perf style={{position: 'absolute', top: '4rem', right: '1.5rem', pointerEvents: 'none'}}/>
           </Canvas>
 
         </div>
@@ -234,7 +233,7 @@ function AnimationTracker({onScroll, onUnlock, lockScroll}: {
 
     const currentOffset = scroll.offset;
 
-    console.log(currentOffset)
+    // console.log(currentOffset)
     onScroll(scroll.offset)
 
     if (currentOffset >= 0.99 && lastScroll.current < 0.99) {
@@ -254,13 +253,13 @@ interface PageTrackerProps {
   onScrollChange?: (scrollValue: number) => void
 }
 
-function PageTracker({onRelock, lockScroll, onScrollChange,}: PageTrackerProps) {
+function PageTracker({onRelock, lockScroll, onScrollChange}: PageTrackerProps) {
   const lastWindowY = React.useRef(0)
 
   useFrame(() => {
     if (!lockScroll){
       const scrollY = window.scrollY
-      console.log(scrollY)
+      // console.log(scrollY)
 
       if (scrollY == 0 && lastWindowY.current != 0){
         console.log("relocking")
@@ -270,7 +269,7 @@ function PageTracker({onRelock, lockScroll, onScrollChange,}: PageTrackerProps) 
 
       if (scrollY > 0){
         onScrollChange?.(scrollY)
-        console.log("for nav " + scrollY)
+        // console.log("for nav " + scrollY)
       }
 
       lastWindowY.current = scrollY
@@ -280,9 +279,17 @@ function PageTracker({onRelock, lockScroll, onScrollChange,}: PageTrackerProps) 
   return null
 }
 
-// function PrintY({onRelock} : {onRelock: () => void}) {
-//   useFrame(() => {
-//
-//   })
-//   return null
-// }
+
+
+interface PrintYProps {
+  lockScroll: boolean
+}
+
+function PrintY({lockScroll}: PrintYProps) {
+
+  useFrame(() => {
+    // console.log(lockScroll)
+  })
+
+  return null
+}

@@ -19,75 +19,6 @@ import card8 from '@/assets/card8.jpg'
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
-// Create Siri-style border animation
-function createSiriBorder(rotationAngle = 0) {
-  const size = 2048
-  const borderThickness = 10
-  const cornerRadius = 256
-
-  // create and size canvas
-  const canvas = document.createElement('canvas')
-  canvas.width = size
-  canvas.height = size
-  const ctx = canvas.getContext('2d')!
-
-  // Calculate gradient endpoints based on rotation angle
-  const centerX = size / 2
-  const centerY = size / 2
-  const radius = size * 0.7
-  const startX = centerX + Math.cos(rotationAngle) * radius
-  const startY = centerY + Math.sin(rotationAngle) * radius
-  const endX = centerX + Math.cos(rotationAngle + Math.PI) * radius
-  const endY = centerY + Math.sin(rotationAngle + Math.PI) * radius
-
-  // draw full‐canvas gradient with rotation
-  const grad = ctx.createLinearGradient(startX, startY, endX, endY)
-  grad.addColorStop(0, 'rgba(124, 58, 237, 1)')
-  grad.addColorStop(0.2, 'rgba(59, 130, 246, 1)')
-  grad.addColorStop(0.4, 'rgba(16, 185, 129, 1)')
-  grad.addColorStop(0.6, 'rgba(245, 158, 11, 1)')
-  grad.addColorStop(0.8, 'rgba(239, 68, 68, 1)')
-  grad.addColorStop(1, 'rgba(219, 39, 119, 1)')
-  ctx.fillStyle = grad
-
-  // draw rounded rect background
-  ctx.beginPath()
-  ctx.moveTo(cornerRadius, 0)
-  ctx.lineTo(size - cornerRadius, 0)
-  ctx.quadraticCurveTo(size, 0, size, cornerRadius)
-  ctx.lineTo(size, size - cornerRadius)
-  ctx.quadraticCurveTo(size, size, size - cornerRadius, size)
-  ctx.lineTo(cornerRadius, size)
-  ctx.quadraticCurveTo(0, size, 0, size - cornerRadius)
-  ctx.lineTo(0, cornerRadius)
-  ctx.quadraticCurveTo(0, 0, cornerRadius, 0)
-  ctx.closePath()
-  ctx.fill()
-
-  // punch out inner rounded rect to form border
-  ctx.globalCompositeOperation = 'destination-out'
-  ctx.beginPath()
-  const inner = borderThickness
-  const innerSize = size - borderThickness * 2
-  ctx.moveTo(inner + cornerRadius, inner)
-  ctx.lineTo(inner + innerSize - cornerRadius, inner)
-  ctx.quadraticCurveTo(inner + innerSize, inner, inner + innerSize, inner + cornerRadius)
-  ctx.lineTo(inner + innerSize, inner + innerSize - cornerRadius)
-  ctx.quadraticCurveTo(inner + innerSize, inner + innerSize, inner + innerSize - cornerRadius, inner + innerSize)
-  ctx.lineTo(inner + cornerRadius, inner + innerSize)
-  ctx.quadraticCurveTo(inner, inner + innerSize, inner, inner + innerSize - cornerRadius)
-  ctx.lineTo(inner, inner + cornerRadius)
-  ctx.quadraticCurveTo(inner, inner, inner + cornerRadius, inner)
-  ctx.closePath()
-  ctx.fill()
-
-  // reset composite for future draws
-  ctx.globalCompositeOperation = 'source-over'
-
-  return canvas
-}
-
-
 const LandingPage = () => {
   const [hasScrolled, setHasScrolled] = useState(0)
 
@@ -108,7 +39,7 @@ const LandingPage = () => {
       <Navigation pageType = 'landing' scrollOffset={hasScrolled} />
       
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
+      <Canvas camera={{ position: [0, 0, 100], fov: 9.25 }}>
         <fog attach="fog" args={['#a79', 8.5, 12]} />
         <ScrollControls pages={4} infinite>
           <Rig rotation={[0, 0, 0.03]} onScrollChange={handleScrollChange}>
@@ -137,20 +68,21 @@ function Rig({ onScrollChange, ...props }: RigProps) {
     }
     
     // Detect scroll change
-    if (Math.abs(scroll.offset - prevOffset.current) > 0.001) {
-      onScrollChange?.(scroll.offset)
+    const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
+    if (scrollDelta > 0.001) {
+      onScrollChange?.(scrollDelta)
       console.log("scrolled")
       prevOffset.current = scroll.offset
     }
     
     state.events?.update?.()
     easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta)
-    state.camera.lookAt(0, 0, 1.25)
+    state.camera.lookAt(0, 0, 1)
   })
   return <group ref={ref} {...props} />
 }
 
-function Carousel({ radius = 1.4, count = 8 }) {
+function Carousel({ radius = 1.35, count = 8 }) {
   return Array.from({ length: count }, (_, i) => (
       <Card
           key={i}
@@ -194,52 +126,28 @@ function Card({ url, ...props }: CardProps) {
 
   useFrame((state, delta) => {
     if (ref.current) {
-      easing.damp3(ref.current.scale, hovered ? 1.25 : 1, 0.1, delta)
+      easing.damp3(ref.current.scale, hovered ? 1.16 : 1, 0.1, delta)
       easing.damp(ref.current.material, 'radius', hovered ? 0.1 : 0.05, 0.2, delta)
-      easing.damp(ref.current.material, 'zoom', hovered ? 1.15 : 1, 0.2, delta)
-    }
-    
-    // Animate border rotation when hovered
-    if (hovered) {
-      rotationAngle.current += delta * 0.5 // Adjust speed as needed
+      easing.damp(ref.current.material, 'zoom', hovered ? 1.05 : 1, 0.2, delta)
     }
   })
 
   return (
-    <group>
       <Image
-        ref={ref}
-        url={url}
-        transparent
-        side={THREE.DoubleSide}
-        onPointerOver={pointerOver}
-        onPointerOut={pointerOut}
-        onClick={handleClick}
-        {...props}
+          ref={ref}
+          url={url}
+          transparent
+          side={THREE.DoubleSide}
+          onPointerOver={pointerOver}
+          onPointerOut={pointerOut}
+          onClick={handleClick}
+          {...props}
       >
         <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
       </Image>
-      {hovered && (
-        <mesh
-          position={props.position}
-          rotation={props.rotation}
-          scale={1.26}
-        >
-          <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
-          <meshBasicMaterial
-            transparent
-            opacity={1}
-            side={THREE.DoubleSide}
-          >
-            <primitive
-              attach="map"
-              object={new THREE.CanvasTexture(createSiriBorder(rotationAngle.current))}
-            />
-          </meshBasicMaterial>
-        </mesh>
-      )}
-    </group>
   )
 }
+
+
 
 export default LandingPage

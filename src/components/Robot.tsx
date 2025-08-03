@@ -3,13 +3,14 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import React, { useRef } from 'react'
 import { GLTF } from 'three-stdlib'
+import { useEffect, useState } from 'react'
 
 type MoveVec = [number, number, number]
 type ExplosionPart = { name: string; move: MoveVec }
 type ExplosionStep = { parts: ExplosionPart[] }
 
 interface RobotProps extends React.ComponentProps<'group'> {
-  scrollValue?: number;
+    scrollValue?: number
 }
 
 export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
@@ -72,42 +73,43 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
         )
     )
 
+    // — NEW: auto-rotate state & listener
+    const groupRef = useRef<THREE.Group>(null!)
+    const [userInteracted, setUserInteracted] = useState(false)
+    useEffect(() => {
+        const onFirstPointer = () => setUserInteracted(true)
+        window.addEventListener('pointerdown', onFirstPointer, { once: true })
+        return () => {
+            window.removeEventListener('pointerdown', onFirstPointer)
+        }
+    }, [])
+
     // 🎞 Animate parts with cumulative movement
-    useFrame(() => {
+    useFrame((_, delta) => {
+        // 1) explosion logic
         const totalMovement: Record<string, THREE.Vector3> = {}
-
-        explosionSequence.forEach((step, stepIndex) => {
-            const start = stepIndex * stepSize
-            const end = (stepIndex + 1) * stepSize
-
+        explosionSequence.forEach((step, i) => {
+            const start = i * stepSize
+            const end = (i + 1) * stepSize
             let localT = 0
-            if (scrollValue >= end) {
-                localT = 1
-            } else if (scrollValue > start) {
+            if (scrollValue >= end) localT = 1
+            else if (scrollValue > start)
                 localT = (scrollValue - start) / stepSize
-            } else {
-                localT = 0
-            }
 
             step.parts.forEach(part => {
                 for (const suffix of ['', 'Mirror']) {
                     const name = part.name + suffix
-
-                    const move = suffix === 'Mirror'
+                    const moveVec = suffix === 'Mirror'
                         ? [-part.move[0], part.move[1], part.move[2]]
                         : part.move
+                    const vec = new THREE.Vector3(...moveVec)
 
-                    const vec = new THREE.Vector3(...move)
-
-                    if (!totalMovement[name]) {
-                        totalMovement[name] = new THREE.Vector3()
-                    }
-
-                    if (scrollValue >= end) {
-                        totalMovement[name].add(vec)
-                    } else if (scrollValue > start) {
-                        totalMovement[name].add(vec.clone().multiplyScalar(localT))
-                    }
+                    if (!totalMovement[name]) totalMovement[name] = new THREE.Vector3()
+                    totalMovement[name].add(
+                        vec.clone().multiplyScalar(
+                            scrollValue >= end ? 1 : localT
+                        )
+                    )
                 }
             })
         })
@@ -121,12 +123,16 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
                 ref.current.position.copy(smoothedPositions.current[name])
             }
         }
+
+        if (!userInteracted && groupRef.current) {
+            groupRef.current.rotation.y += delta * 0.5 // rad/s
+        }
     })
 
 
 
         return (
-            <group {...props} dispose={null}>
+            <group ref={groupRef} {...props}>
                     <mesh name="Shape_IndexedFaceSet004" geometry={nodes.Shape_IndexedFaceSet004.geometry} material={materials.metal} rotation={[Math.PI / 2, 0, Math.PI]} />
                     <mesh name="Shape_IndexedFaceSet009" geometry={nodes.Shape_IndexedFaceSet009.geometry} material={materials.darkGrey} rotation={[Math.PI / 2, 0, Math.PI]} />
                     <mesh name="Shape_IndexedFaceSet011" geometry={nodes.Shape_IndexedFaceSet011.geometry} material={materials.wood} rotation={[Math.PI / 2, 0, Math.PI]} />
