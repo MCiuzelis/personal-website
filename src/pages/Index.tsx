@@ -1,11 +1,10 @@
 import * as THREE from 'three'
+import '../utils/geometry'
 import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Image, Environment, ScrollControls, useScroll } from '@react-three/drei'
 import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
-import '../utils/geometry'
-import '../types/three-extend'
 
 // Import card images
 import card1 from '@/assets/card1.jpg'
@@ -96,7 +95,7 @@ function Card({ url, ...props }: { url: string; [key: string]: any }) {
       onClick={handleClick}
       {...props}
     >
-      <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
+      <bentPlaneGeometry args={[0.1 /* radius */, 1, 1, 20, 20]} />
     </Image>
   )
 };
