@@ -46,6 +46,12 @@ function createSiriBorder() {
 }
 
 const LandingPage = () => {
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  const handleScrollChange = (scrolled: boolean) => {
+    setHasScrolled(scrolled)
+  }
+
   return (
     <div className="h-screen w-full overflow-hidden relative">
       {/* Background Orbs */}
@@ -56,13 +62,13 @@ const LandingPage = () => {
       </div>
       
       {/* Navigation */}
-      <Navigation showScrollMessage={true} />
+      <Navigation showScrollMessage={true} onScrollChange={handleScrollChange} />
       
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
         <fog attach="fog" args={['#a79', 8.5, 12]} />
         <ScrollControls pages={4} infinite>
-          <Rig rotation={[0, 0, 0.03]}>
+          <Rig rotation={[0, 0, 0.03]} onScrollChange={handleScrollChange}>
             <Carousel />
           </Rig>
         </ScrollControls>
@@ -74,15 +80,25 @@ const LandingPage = () => {
 
 interface RigProps extends React.ComponentProps<'group'> {
   rotation: [number, number, number]
+  onScrollChange?: (hasScrolled: boolean) => void
 }
 
-function Rig(props: RigProps) {
+function Rig({ onScrollChange, ...props }: RigProps) {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
+  const prevOffset = useRef(0)
+  
   useFrame((state, delta) => {
     if (ref.current) {
       ref.current.rotation.y = -scroll.offset * (Math.PI * 2)
     }
+    
+    // Detect scroll change
+    if (Math.abs(scroll.offset - prevOffset.current) > 0.001) {
+      onScrollChange?.(true)
+      prevOffset.current = scroll.offset
+    }
+    
     state.events?.update?.()
     easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta)
     state.camera.lookAt(0, 0, 1.25)
@@ -154,15 +170,18 @@ function Card({ url, ...props }: CardProps) {
         <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
       </Image>
       {hovered && (
-        <mesh
+        <Image
+          url={url}
+          transparent
+          side={THREE.DoubleSide}
           position={props.position}
           rotation={props.rotation}
           scale={1.26}
         >
-          <planeGeometry args={[1.02, 1.02]} />
+          <bentPlaneGeometry args={[0.1, 1.02, 1.02, 20, 20]} />
           <meshBasicMaterial 
             transparent 
-            opacity={0.8}
+            opacity={0.6}
             side={THREE.DoubleSide}
           >
             <primitive 
@@ -170,7 +189,7 @@ function Card({ url, ...props }: CardProps) {
               object={new THREE.CanvasTexture(createSiriBorder())} 
             />
           </meshBasicMaterial>
-        </mesh>
+        </Image>
       )}
     </group>
   )

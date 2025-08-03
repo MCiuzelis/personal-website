@@ -206,6 +206,10 @@
     left: 60%;
     animation-delay: 4s;
   }
+  
+  .animate-thinking-wave {
+    animation: thinking-wave 2s ease-in-out infinite;
+  }
 }
 
 @keyframes siri-rotate {
@@ -222,5 +226,14 @@
   }
   66% { 
     transform: translateY(10px) translateX(-10px) scale(0.9); 
+  }
+}
+
+@keyframes thinking-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
   }
 }

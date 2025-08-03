@@ -41,12 +41,12 @@ const Navigation = ({ showScrollMessage = false, onScrollChange }: NavigationPro
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-8 py-2">
         {/* Home Button - Left */}
         <Button 
           variant="ghost" 
           onClick={handleHome}
-          className="glass-button text-white/90 hover:text-white hover:bg-white/10"
+          className="glass-button text-white/90 hover:text-white hover:bg-white/10 px-8 py-2"
         >
           Home
         </Button>
@@ -54,9 +54,12 @@ const Navigation = ({ showScrollMessage = false, onScrollChange }: NavigationPro
         {/* Instructions - Center */}
         {showScrollMessage && (
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <span className="text-white/80 text-sm font-medium tracking-wide animate-fade-in">
-              {getInstructionText()}
-            </span>
+            <div className="relative overflow-hidden">
+              <span className="text-white/80 text-sm font-medium tracking-wide animate-fade-in relative z-10">
+                {getInstructionText()}
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-thinking-wave"></div>
+            </div>
           </div>
         )}
         
@@ -64,7 +67,7 @@ const Navigation = ({ showScrollMessage = false, onScrollChange }: NavigationPro
         <Button 
           variant="ghost" 
           onClick={handleContact}
-          className="glass-button text-white/90 hover:text-white hover:bg-white/10"
+          className="glass-button text-white/90 hover:text-white hover:bg-white/10 px-8 py-2"
         >
           Contact
         </Button>
