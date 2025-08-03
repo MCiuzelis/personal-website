@@ -20,7 +20,7 @@ import card8 from '@/assets/card8.jpg'
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
 // Create Siri-style border animation
-function createSiriBorder() {
+function createSiriBorder(rotationAngle = 0) {
   const size = 2048
   const borderThickness = 10
   const cornerRadius = 256
@@ -31,8 +31,17 @@ function createSiriBorder() {
   canvas.height = size
   const ctx = canvas.getContext('2d')!
 
-  // draw full‐canvas gradient
-  const grad = ctx.createLinearGradient(0, 0, size, size)
+  // Calculate gradient endpoints based on rotation angle
+  const centerX = size / 2
+  const centerY = size / 2
+  const radius = size * 0.7
+  const startX = centerX + Math.cos(rotationAngle) * radius
+  const startY = centerY + Math.sin(rotationAngle) * radius
+  const endX = centerX + Math.cos(rotationAngle + Math.PI) * radius
+  const endY = centerY + Math.sin(rotationAngle + Math.PI) * radius
+
+  // draw full‐canvas gradient with rotation
+  const grad = ctx.createLinearGradient(startX, startY, endX, endY)
   grad.addColorStop(0, 'rgba(124, 58, 237, 1)')
   grad.addColorStop(0.2, 'rgba(59, 130, 246, 1)')
   grad.addColorStop(0.4, 'rgba(16, 185, 129, 1)')
@@ -166,6 +175,7 @@ interface ZoomableMaterial extends THREE.ShaderMaterial {
 function Card({ url, ...props }: CardProps) {
   const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
   const [hovered, hover] = useState(false)
+  const rotationAngle = useRef(0)
   const navigate = useNavigate()
 
   const pointerOver = (e: ThreeEvent<PointerEvent>) => {
@@ -187,6 +197,11 @@ function Card({ url, ...props }: CardProps) {
       easing.damp3(ref.current.scale, hovered ? 1.25 : 1, 0.1, delta)
       easing.damp(ref.current.material, 'radius', hovered ? 0.1 : 0.05, 0.2, delta)
       easing.damp(ref.current.material, 'zoom', hovered ? 1.15 : 1, 0.2, delta)
+    }
+    
+    // Animate border rotation when hovered
+    if (hovered) {
+      rotationAngle.current += delta * 0.5 // Adjust speed as needed
     }
   })
 
@@ -218,7 +233,7 @@ function Card({ url, ...props }: CardProps) {
           >
             <primitive
               attach="map"
-              object={new THREE.CanvasTexture(createSiriBorder())}
+              object={new THREE.CanvasTexture(createSiriBorder(rotationAngle.current))}
             />
           </meshBasicMaterial>
         </mesh>
