@@ -142,19 +142,21 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, 
+    background: conic-gradient(
+      from 0deg,
       transparent,
-      rgba(124, 58, 237, 0.5),
-      rgba(59, 130, 246, 0.5),
-      rgba(16, 185, 129, 0.5),
-      rgba(245, 158, 11, 0.5),
-      rgba(239, 68, 68, 0.5),
+      rgba(124, 58, 237, 0.8),
+      rgba(59, 130, 246, 0.8),
+      rgba(16, 185, 129, 0.8),
+      rgba(245, 158, 11, 0.8),
+      rgba(239, 68, 68, 0.8),
+      rgba(124, 58, 237, 0.8),
       transparent
     );
     border-radius: inherit;
     opacity: 0;
     transition: opacity 0.3s ease;
-    animation: siri-rotate 3s linear infinite;
+    animation: siri-rotate 6s linear infinite;
     pointer-events: none;
   }
   
