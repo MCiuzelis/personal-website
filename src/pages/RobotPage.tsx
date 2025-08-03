@@ -26,7 +26,7 @@ export default function RobotPage() {
   })
 
   return (
-      <div className="relative">
+      <div className="relative overflow-hidden">
         {/* Back button */}
         <div className="fixed top-5 left-5 z-50">
           <button
@@ -201,7 +201,7 @@ function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
        }`
     )
 
-    gl.toneMapping = (THREE as any)[mapping + 'ToneMapping']
+    gl.toneMapping = (THREE as any)[mapping + 'ToneMapping'] ?? THREE.ACESFilmicToneMapping
     gl.toneMappingExposure = exposure
 
     return () => {

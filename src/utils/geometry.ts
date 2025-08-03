@@ -4,7 +4,7 @@ import { extend } from '@react-three/fiber'
 // Paul West @prisoner849 https://discourse.threejs.org/u/prisoner849
 // https://discourse.threejs.org/t/simple-curved-plane/26647/10
 class BentPlaneGeometry extends THREE.PlaneGeometry {
-  constructor(radius: number, ...args: any[]) {
+  constructor(radius: number, ...args: ConstructorParameters<typeof THREE.PlaneGeometry>) {
     super(...args)
     const p = this.parameters
     const hw = p.width * 0.5
@@ -35,7 +35,7 @@ class BentPlaneGeometry extends THREE.PlaneGeometry {
 class MeshSineMaterial extends THREE.MeshBasicMaterial {
   public time: { value: number }
 
-  constructor(parameters: any = {}) {
+  constructor(parameters: THREE.MeshBasicMaterialParameters = {}) {
     super(parameters)
     this.setValues(parameters)
     this.time = { value: 0 }

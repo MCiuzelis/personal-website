@@ -7,9 +7,8 @@ type MoveVec = [number, number, number]
 type ExplosionPart = { name: string; move: MoveVec }
 type ExplosionStep = { parts: ExplosionPart[] }
 
-interface RobotProps {
+interface RobotProps extends React.ComponentProps<'group'> {
   scrollValue?: number;
-  [key: string]: any;
 }
 
 export default function Robot({ scrollValue = 0, ...props }: RobotProps) {

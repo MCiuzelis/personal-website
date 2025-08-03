@@ -18,9 +18,9 @@ import card8 from '@/assets/card8.jpg'
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
-const Index = () => {
+const LandingPage = () => {
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full overflow-hidden">
       <Canvas camera={{ position: [0, 0, 100], fov: 9 }}>
         <fog attach="fog" args={['#a79', 8.5, 12]} />
         <ScrollControls pages={4} infinite>
@@ -34,7 +34,11 @@ const Index = () => {
   )
 }
 
-function Rig(props: any) {
+interface RigProps extends React.ComponentProps<'group'> {
+  rotation: [number, number, number];
+}
+
+function Rig(props: RigProps) {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
   useFrame((state, delta) => {
@@ -59,7 +63,13 @@ function Carousel({ radius = 1.4, count = 8 }) {
   ))
 }
 
-function Card({ url, ...props }: { url: string; [key: string]: any }) {
+interface CardProps {
+  url: string;
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+}
+
+function Card({ url, ...props }: CardProps) {
   const ref = useRef<any>(null!)
   const [hovered, hover] = useState(false)
   const navigate = useNavigate()
@@ -100,4 +110,4 @@ function Card({ url, ...props }: { url: string; [key: string]: any }) {
   )
 };
 
-export default Index;
+export default LandingPage;
