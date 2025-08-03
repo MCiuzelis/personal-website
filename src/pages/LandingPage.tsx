@@ -170,15 +170,12 @@ function Card({ url, ...props }: CardProps) {
         <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
       </Image>
       {hovered && (
-        <Image
-          url={url}
-          transparent
-          side={THREE.DoubleSide}
+        <mesh
           position={props.position}
           rotation={props.rotation}
           scale={1.26}
         >
-          <bentPlaneGeometry args={[0.1, 1.02, 1.02, 20, 20]} />
+          <planeGeometry args={[1.02, 1.02]} />
           <meshBasicMaterial 
             transparent 
             opacity={0.6}
@@ -189,7 +186,7 @@ function Card({ url, ...props }: CardProps) {
               object={new THREE.CanvasTexture(createSiriBorder())} 
             />
           </meshBasicMaterial>
-        </Image>
+        </mesh>
       )}
     </group>
   )

@@ -207,8 +207,8 @@
     animation-delay: 4s;
   }
   
-  .animate-thinking-wave {
-    animation: thinking-wave 2s ease-in-out infinite;
+  .animate-text-glow {
+    animation: text-glow 2s ease-in-out infinite;
   }
 }
 
@@ -229,11 +229,11 @@
   }
 }
 
-@keyframes thinking-wave {
-  0% {
-    transform: translateX(-100%);
+@keyframes text-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   }
-  100% {
-    transform: translateX(300%);
+  50% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
   }
 }

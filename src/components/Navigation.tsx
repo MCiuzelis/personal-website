@@ -54,12 +54,9 @@ const Navigation = ({ showScrollMessage = false, onScrollChange }: NavigationPro
         {/* Instructions - Center */}
         {showScrollMessage && (
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <div className="relative overflow-hidden">
-              <span className="text-white/80 text-sm font-medium tracking-wide animate-fade-in relative z-10">
-                {getInstructionText()}
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-thinking-wave"></div>
-            </div>
+            <span className="text-white/80 text-sm font-medium tracking-wide animate-fade-in animate-text-glow">
+              {getInstructionText()}
+            </span>
           </div>
         )}
         
