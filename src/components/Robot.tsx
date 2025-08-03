@@ -14,7 +14,7 @@ interface RobotProps {
 
 export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
     const dampingFactor: number = 0.15;
-    const { nodes, materials } = useGLTF('/robot2.glb') as any
+    const { nodes, materials } = useGLTF('/src/assets/robot2.glb') as any
 
     const explosionSequence: ExplosionStep[] = [
         {
@@ -631,4 +631,4 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
         )
 }
 
-useGLTF.preload('/robot2.glb')
+useGLTF.preload('/src/assets/robot2.glb')
