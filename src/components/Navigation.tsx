@@ -28,17 +28,17 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
   // Helper for opacity and pointer events classes
   const getOpacityClass = (visible: boolean) =>
-      `absolute whitespace-nowrap text-[#3b3b3b] text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
+      `absolute whitespace-nowrap text-[#6b6b6b] text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
           visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`
 
   return (
       <nav className="fixed top-0 left-0 right-0 z-50">
-        <div className="flex items-center justify-between px-8 py-2">
+        <div className="bg-black flex items-center justify-between px-8 py-2">
           {/* Home Button */}
           <button
               onClick={() => navigate('/')}
-              className="text-[#3b3b3b] hover:text-[#5b5b5b] px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
+              className="text-[#6b6b6b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Home
           </button>
@@ -73,7 +73,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
           <button
               onClick={() => console.log('Contact clicked')}
-              className="text-[#3b3b3b] hover:text-[#5b5b5b] px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
+              className="text-[#6b6b6b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Contact
           </button>
