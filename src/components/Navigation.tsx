@@ -33,8 +33,8 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
       }`
 
   return (
-      <nav className="fixed top-0 left-0 right-0 z-50">
-        <div className="bg-black flex items-center justify-between px-8 py-2">
+      <nav className="relative w-full z-50">
+        <div className="bg-black flex items-center justify-between px-8 py-4">
           {/* Home Button */}
           <button
               onClick={() => navigate('/')}

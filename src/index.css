@@ -222,7 +222,7 @@
   }
   
   .apple-nav-text {
-    @apply text-sm font-normal text-gray-300 hover:text-white transition-all cursor-pointer;
+    @apply text-sm font-normal text-[#86868b] hover:text-white transition-all cursor-pointer;
   }
 }
 

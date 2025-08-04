@@ -93,12 +93,12 @@ const RobotPageTemplate = ({
       )}
 
       {/* Dynamic content sections */}
-      <div className="absolute top-full left-0 w-full bg-white text-black">
+      <div className="absolute top-full left-0 w-full bg-[#1d1d1f] text-white">
         {sections.map((section, index) => (
           <div 
             key={index}
             className={`min-h-screen flex items-center justify-center ${
-              index % 2 === 1 ? 'bg-gray-100' : ''
+              index % 2 === 1 ? 'bg-[#161617]' : ''
             } ${section.className || ''}`}
           >
             <div className="max-w-4xl mx-auto p-8">
