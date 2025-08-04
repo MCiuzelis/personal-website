@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import Details from "./pages/Details";
 import RobotPage from "./pages/RobotPage";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
@@ -18,7 +17,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div style={{ backgroundColor: '#1a1a2e', minHeight: '100vh' }}>
+        <div style={{ backgroundColor: '#000', minHeight: '100vh' }}> //1a1a2e
           <AnimatedRoutes />
         </div>
         {/*<Routes>*/}
@@ -48,11 +47,6 @@ function AnimatedRoutes() {
           <Route path="/robot" element={
             <PageWrapper>
               <RobotPage />
-            </PageWrapper>
-          }/>
-          <Route path="/details" element={
-            <PageWrapper>
-              <Details />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />

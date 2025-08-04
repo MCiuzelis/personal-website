@@ -37,15 +37,15 @@ export default function RobotPage() {
         <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
         {/* 3D Model Section - Full height with ScrollControls */}
-        <div className="relative overflow-hidden bg-[#1a1a2e]">
+        <div className="relative overflow-hidden bg-[#000]">
             <Canvas
                 dpr={[1, 2]}
                 style={{ width: '100vw', height: '100vh', pointerEvents: lockScroll ? 'auto' : 'none' }}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-                onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#1a1a2e'))}
+                onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#000'))}
             >
               <Environment files="/old_depot_2k.hdr" background={false} />
-              <primitive attach="background" object={new THREE.Color('#1a1a2e')} />
+              <primitive attach="background" object={new THREE.Color('#000')} />
 
               <ScrollControls pages={1} damping={0}>
                 <Scroll>

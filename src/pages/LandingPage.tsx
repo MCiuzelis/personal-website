@@ -40,7 +40,7 @@ const LandingPage = () => {
       
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 9.25 }}>
-        <fog attach="fog" args={['#a79', 8.5, 12]} />
+        <fog attach="fog" args={['#000', 8.5, 12]} /> //a79
         <ScrollControls pages={4} infinite>
           <Rig rotation={[0, 0, 0.03]} onScrollChange={handleScrollChange}>
             <Carousel />
