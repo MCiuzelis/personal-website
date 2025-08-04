@@ -11,14 +11,19 @@ type ExplosionStep = { parts: ExplosionPart[] }
 
 interface RobotProps extends React.ComponentProps<'group'> {
     scrollValue?: number
+    scale?: number
 }
 
-export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
+export default function Robot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
     const dampingFactor: number = 0.15;
     const { nodes, materials } = useGLTF('/src/assets/robot2.glb') as GLTF & {
         nodes: Record<string, THREE.Mesh>
         materials: Record<string, THREE.Material>
     }
+
+    const groupRef = useRef<THREE.Group>(null!)
+    // state to indicate "model is mounted"
+    const [modelReady, setModelReady] = useState(false)
 
     const explosionSequence: ExplosionStep[] = [
         {
@@ -73,16 +78,21 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
         )
     )
 
-    // — NEW: auto-rotate state & listener
-    const groupRef = useRef<THREE.Group>(null!)
+
     const [userInteracted, setUserInteracted] = useState(false)
     useEffect(() => {
+        if (groupRef.current && Object.keys(nodes).length) {
+            // ensure initial scale is zero
+            groupRef.current.scale.setScalar(0)
+            setModelReady(true)
+        }
+
         const onFirstPointer = () => setUserInteracted(true)
         window.addEventListener('pointerdown', onFirstPointer, { once: true })
         return () => {
             window.removeEventListener('pointerdown', onFirstPointer)
         }
-    }, [])
+    }, [nodes])
 
     // 🎞 Animate parts with cumulative movement
     useFrame((_, delta) => {
@@ -124,11 +134,17 @@ export default function Robot({ scrollValue = 0, ...props }: RobotProps) {
             }
         }
 
-        if (!userInteracted && groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.5 // rad/s
+        if (groupRef.current &&!userInteracted){
+                groupRef.current.rotation.y += delta * 0.5 // rad/s
+        }
+
+        if (modelReady && groupRef.current) {
+            // target scale is 1
+            const current = groupRef.current.scale.x
+            const next = THREE.MathUtils.lerp(current, finalScale, 0.01)
+            groupRef.current.scale.setScalar(next)
         }
     })
-
 
 
         return (

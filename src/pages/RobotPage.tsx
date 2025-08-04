@@ -9,7 +9,6 @@ import { useControls } from 'leva'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
 
-
 export default function RobotPage() {
   const [controlsKey] = useState(0)
   const navigate = useNavigate()
@@ -38,57 +37,52 @@ export default function RobotPage() {
         <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
         {/* 3D Model Section - Full height with ScrollControls */}
-        <div>
-          <Canvas
-              dpr={[1, 2]}
-              style={{ width: '100vw', height: '100vh', pointerEvents: lockScroll ? 'auto' : 'none'}}
-              gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-          >
-            <Environment files="/old_depot_2k.hdr" background={false} />
-            <primitive attach="background" object={new THREE.Color('#1a1a2e')} />
+        <div className="relative overflow-hidden bg-[#1a1a2e]">
+            <Canvas
+                dpr={[1, 2]}
+                style={{ width: '100vw', height: '100vh', pointerEvents: lockScroll ? 'auto' : 'none' }}
+                gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+                onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#1a1a2e'))}
+            >
+              <Environment files="/old_depot_2k.hdr" background={false} />
+              <primitive attach="background" object={new THREE.Color('#1a1a2e')} />
 
-            {/*maxSpeed = {1}*/}
               <ScrollControls pages={1} damping={0}>
                 <Scroll>
                   <AnimationTracker
-                      onScroll={(v) => {setAnimationProgress(v);}}
+                      onScroll={(v) => {
+                        setAnimationProgress(v)
+                      }}
                       onUnlock={() => setLockScroll(false)}
                       lockScroll={lockScroll}
                   />
                 </Scroll>
               </ScrollControls>
 
-            <PageTracker
-                onRelock={() => {
-                  setLockScroll(true)
-                }}
-                lockScroll={lockScroll}
-                onScrollChange={(scrolled) => setScrollValue(scrolled)}
-            />
+              <PageTracker
+                  onRelock={() => {
+                    setLockScroll(true)
+                  }}
+                  lockScroll={lockScroll}
+                  onScrollChange={(scrolled) => setScrollValue(scrolled)}
+              />
 
-            {/*<PrintY lockScroll={lockScroll}/>*/}
+              <Robot scrollValue={animationProgress} position={[1, -2, 1]} scale={23} rotation-y={0} />
 
-            <Robot
-                scrollValue={animationProgress}
-                position={[1, -2, 1]}
-                scale={23}
-                rotation-y={0}
-            />
-
-            <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50}/>
-            <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                minPolarAngle={0}
-                maxPolarAngle={Math.PI / 1.25}
-                makeDefault
-                key={controlsKey}
-            />
-            <Tone mapping={'ACESFilmic'} exposure={0.85} />
-            <Perf style={{position: 'absolute', top: '4rem', right: '1.5rem', pointerEvents: 'none'}}/>
-          </Canvas>
-
+              <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
+              <OrbitControls
+                  enableZoom={false}
+                  enablePan={false}
+                  minPolarAngle={0}
+                  maxPolarAngle={Math.PI / 1.25}
+                  makeDefault
+                  key={controlsKey}
+              />
+              <Tone mapping={'ACESFilmic'} exposure={0.85} />
+              <Perf style={{ position: 'absolute', top: '4rem', right: '1.5rem', pointerEvents: 'none' }} />
+            </Canvas>
         </div>
+
 
         {/* Content Sections - Positioned below the 3D section */}
         <div className="relative z-10 bg-background">
