@@ -88,6 +88,7 @@ function Carousel({ radius = 1.35, count = 8 }) {
           url={cardImages[i % cardImages.length]}
           position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
           rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
+          cardIndex={i}
       />
   ))
 }
@@ -96,6 +97,7 @@ interface CardProps {
   url: string
   position?: [number, number, number]
   rotation?: [number, number, number]
+  cardIndex: number
 }
 
 interface ZoomableMaterial extends THREE.ShaderMaterial {
@@ -103,7 +105,7 @@ interface ZoomableMaterial extends THREE.ShaderMaterial {
   zoom: number
 }
 
-function Card({ url, ...props }: CardProps) {
+function Card({ url, cardIndex, ...props }: CardProps) {
   const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
   const [hovered, hover] = useState(false)
   const rotationAngle = useRef(0)
@@ -118,9 +120,11 @@ function Card({ url, ...props }: CardProps) {
     hover(false)
   }
 
-  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+  const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
-    navigate('/robot')
+    // Navigate to different robot pages based on card index
+    const routes = ['/robot1', '/robot2', '/robot1', '/robot2', '/robot1', '/robot2', '/robot1', '/robot2']
+    navigate(routes[cardIndex])
   }
 
   useFrame((state, delta) => {
@@ -139,7 +143,7 @@ function Card({ url, ...props }: CardProps) {
           side={THREE.DoubleSide}
           onPointerOver={pointerOver}
           onPointerOut={pointerOut}
-          onClick={handleClick}
+          onClick={(e) => handleClick(e, cardIndex)}
           {...props}
       >
         <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import RobotPage from "./pages/RobotPage";
+import RobotPage2 from "./pages/RobotPage2";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
 import { AnimatePresence } from 'framer-motion'
@@ -44,9 +45,14 @@ function AnimatedRoutes() {
               <LandingPage />
             </PageWrapper>
           }/>
-          <Route path="/robot" element={
+          <Route path="/robot1" element={
             <PageWrapper>
               <RobotPage />
+            </PageWrapper>
+          }/>
+          <Route path="/robot2" element={
+            <PageWrapper>
+              <RobotPage2 />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />
