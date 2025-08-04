@@ -27,7 +27,7 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="h-screen w-full overflow-hidden relative">
+    <div className="h-screen w-full overflow-hidden relative bg-black">
       {/* Background Orbs */}
       <div className="background-orbs">
         <div className="orb orb-1"></div>

@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
 import * as React from 'react'
 
 interface NavigationProps {
@@ -29,21 +28,20 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
   // Helper for opacity and pointer events classes
   const getOpacityClass = (visible: boolean) =>
-      `absolute whitespace-nowrap text-white/80 text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
+      `absolute whitespace-nowrap text-[#3b3b3b] text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
           visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`
 
   return (
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
+      <nav className="fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center justify-between px-8 py-2">
           {/* Home Button */}
-          <Button
-              variant="ghost"
+          <button
               onClick={() => navigate('/')}
-              className="glass-button text-white/90 hover:text-white hover:bg-white/10 px-8 py-2 transition-opacity duration-1000 ease-in-out"
+              className="text-[#3b3b3b] hover:text-[#5b5b5b] px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Home
-          </Button>
+          </button>
 
           {/* Center crossfade container */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
@@ -73,13 +71,12 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
             </div>
           </div>
 
-          <Button
-              variant="ghost"
+          <button
               onClick={() => console.log('Contact clicked')}
-              className="glass-button text-white/90 hover:text-white hover:bg-white/10 px-8 py-2 transition-opacity duration-1000 ease-in-out"
+              className="text-[#3b3b3b] hover:text-[#5b5b5b] px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Contact
-          </Button>
+          </button>
         </div>
       </nav>
   )
