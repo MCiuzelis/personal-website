@@ -48,7 +48,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
       <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50 m-0 p-0">
         <div className="bg-black relative px-4 py-6">
           {/* Home button on the left */}
-          <div className="absolute left-[40%] top-1/2 -translate-y-1/2">
+          <div className="absolute left-[35%] top-1/2 -translate-y-1/2">
             <button
                 onClick={() => navigate('/')}
                 className="apple-nav-text px-5"
@@ -58,7 +58,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
           </div>
 
           {/* Contact button on the right */}
-          <div className="absolute right-[40%] top-1/2 -translate-y-1/2">
+          <div className="absolute right-[35%] top-1/2 -translate-y-1/2">
             <button
                 onClick={() => console.log('Contact clicked')}
                 className="apple-nav-text px-5"
