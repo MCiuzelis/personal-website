@@ -39,14 +39,13 @@ const LandingPage = () => {
       <Navigation pageType = 'landing' scrollOffset={hasScrolled} />
       
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 0, 100], fov: 9.25 }}>
-        <fog attach="fog" args={['#000', 8.5, 12]} /> //a79
+      <Canvas camera={{ position: [0, 0, 100], fov: 9.25 }} style={{ background: '#000' }}>
+        <fog attach="fog" args={['#000', 8.5, 12]} />
         <ScrollControls pages={4} infinite>
           <Rig rotation={[0, 0, 0.03]} onScrollChange={handleScrollChange}>
             <Carousel />
           </Rig>
         </ScrollControls>
-        <Environment preset="dawn" background blur={0.5} />
       </Canvas>
     </div>
   )
