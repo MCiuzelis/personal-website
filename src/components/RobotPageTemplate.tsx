@@ -8,15 +8,37 @@ import {
   useScroll 
 } from '@react-three/drei'
 import Navigation from '@/components/Navigation'
-import Robot2 from '@/components/Robot2'
 
-// Component that integrates Robot2 with scroll tracking
-function RobotWithScroll() {
-  const scroll = useScroll()
-  return <Robot2 scrollValue={scroll.offset} />
+interface ExplosionPart {
+  name: string
+  move: [number, number, number]
 }
 
-const RobotPage2 = () => {
+interface ExplosionStep {
+  parts: ExplosionPart[]
+}
+
+interface RobotPageTemplateProps {
+  explosionSequence: ExplosionStep[]
+  robotModel: React.ComponentType<{ 
+    scrollValue: number
+    explosionSequence: ExplosionStep[]
+    finalScale?: number
+  }>
+  sections: Array<{
+    title: string
+    content: string
+    className?: string
+  }>
+  finalScale?: number
+}
+
+const RobotPageTemplate = ({ 
+  explosionSequence, 
+  robotModel: RobotModel, 
+  sections,
+  finalScale = 1
+}: RobotPageTemplateProps) => {
   const [scrollLocked, setScrollLocked] = useState(true)
   const [animationProgress, setAnimationProgress] = useState(0)
 
@@ -46,7 +68,11 @@ const RobotPage2 = () => {
         
         <ScrollControls pages={3} damping={0.1}>
           <Suspense fallback={null}>
-            <RobotWithScroll />
+            <RobotModel 
+              scrollValue={0} 
+              explosionSequence={explosionSequence}
+              finalScale={finalScale}
+            />
             <AnimationTracker 
               onUnlock={() => setScrollLocked(false)}
               onProgressChange={setAnimationProgress}
@@ -66,33 +92,27 @@ const RobotPage2 = () => {
         />
       )}
 
-      {/* Static content sections */}
+      {/* Dynamic content sections */}
       <div className="absolute top-full left-0 w-full bg-white text-black">
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="max-w-4xl mx-auto p-8">
-            <h2 className="text-4xl font-bold mb-6">Meet Our Second Robot</h2>
-            <p className="text-lg leading-relaxed">
-              This is our second innovative robot design, featuring advanced capabilities
-              and cutting-edge technology. Built with precision and designed for excellence.
-            </p>
+        {sections.map((section, index) => (
+          <div 
+            key={index}
+            className={`min-h-screen flex items-center justify-center ${
+              index % 2 === 1 ? 'bg-gray-100' : ''
+            } ${section.className || ''}`}
+          >
+            <div className="max-w-4xl mx-auto p-8">
+              <h2 className="text-4xl font-bold mb-6">{section.title}</h2>
+              <p className="text-lg leading-relaxed">{section.content}</p>
+            </div>
           </div>
-        </div>
-        
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-          <div className="max-w-4xl mx-auto p-8">
-            <h2 className="text-4xl font-bold mb-6">Enhanced Features</h2>
-            <p className="text-lg leading-relaxed">
-              Our second robot incorporates lessons learned from the first model,
-              with improved efficiency, better performance, and enhanced user experience.
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   )
 }
 
-// Helper components (copied from original RobotPage)
+// Helper components
 function Tone() {
   const { gl } = useThree()
   
@@ -152,4 +172,4 @@ function PageTracker({ onRelock, lockScroll, onScrollChange }: PageTrackerProps)
   return null
 }
 
-export default RobotPage2
+export default RobotPageTemplate
