@@ -109,8 +109,9 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
   }
+}
 }
 
 /* Apple-inspired glassy design system */
@@ -211,6 +212,17 @@
   
   .animate-text-glow {
     animation: text-glow 2s ease-in-out infinite;
+  }
+}
+
+/* Apple-style utilities */
+@layer utilities {
+  .section-heading {
+    @apply text-gray-400 lg:text-6xl md:text-5xl text-3xl lg:mb-0 mb-5 font-medium;
+  }
+  
+  .apple-nav-text {
+    @apply text-sm font-normal text-gray-300 hover:text-white transition-all cursor-pointer;
   }
 }
 
