@@ -3,37 +3,28 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import {Environment, OrbitControls, PerspectiveCamera, ScrollControls, Scroll, useScroll,} from '@react-three/drei'
-import CenterStageRobot from '../components/CenterStageRobot.tsx'
 import { Perf } from 'r3f-perf'
 import { useControls } from 'leva'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
+import SwerveRobot from "@/components/SwerveRobot.tsx";
 
-export default function CenterStagePage() {
+export default function SwervePage() {
   const [controlsKey] = useState(0)
   const navigate = useNavigate()
   const [animationProgress, setAnimationProgress] = useState(0)
   const [lockScroll, setLockScroll] = useState(true)
   const [scrollValue, setScrollValue] = useState(0)
 
-  // const { mapping, exposure } = useControls({
-  //   exposure: { value: 0.85, min: 0, max: 4 },
-  //   mapping: {
-  //     value: 'ACESFilmic',
-  //     options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'],
-  //   },
-  // })
-
   return (
       <div className="relative overflow-hidden">
-        {/* Navigation */}
         <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
         {/* 3D Model Section - Full height with ScrollControls */}
         <div className="relative overflow-hidden bg-[#000]">
             <Canvas
                 dpr={[1, 2]}
-                style={{ width: '100vw', height: '100vh', pointerEvents: lockScroll ? 'auto' : 'none' }}
+                style={{ width: '100vw', height: '100vh', position: 'relative', pointerEvents: lockScroll ? 'auto' : 'none' }}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
                 onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#000'))}
             >
@@ -60,7 +51,7 @@ export default function CenterStagePage() {
                   onScrollChange={(scrolled) => setScrollValue(scrolled)}
               />
 
-              <CenterStageRobot scrollValue={animationProgress} position={[1, -2, 1]} scale={23} rotation-y={0} />
+              <SwerveRobot scrollValue={animationProgress} position={[-1, -3.5, -1]} scale={13} rotation-y={0} />
 
               <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
               <OrbitControls
@@ -72,10 +63,10 @@ export default function CenterStagePage() {
                   key={controlsKey}
               />
               <Tone mapping={'ACESFilmic'} exposure={0.85} />
-              <Perf style={{ position: 'absolute', top: '4rem', right: '1.5rem', pointerEvents: 'none' }} />
+
+              <Perf style={{ position: 'absolute', top: '1rem', right: '1rem', pointerEvents: 'none', zIndex: 9999 }} />
             </Canvas>
         </div>
-
 
         {/* Content Sections - Positioned below the 3D section */}
         <div className="relative z-10 bg-background">
@@ -262,11 +253,8 @@ function PageTracker({onRelock, lockScroll, onScrollChange}: PageTrackerProps) {
       lastWindowY.current = scrollY
     }
   })
-
   return null
 }
-
-
 
 interface PrintYProps {
   lockScroll: boolean

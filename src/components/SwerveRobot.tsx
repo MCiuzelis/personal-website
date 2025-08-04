@@ -13,8 +13,8 @@ interface RobotProps extends React.ComponentProps<'group'> {
     scale?: number
 }
 
-export default function IntoTheDeepRobot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
-    const { nodes, materials } = useGLTF('/src/assets/swerve.glb') as GLTF & {
+export default function SwerveRobot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
+    const { nodes, materials } = useGLTF('/src/assets/SwerveRobot.glb') as GLTF & {
         nodes: Record<string, THREE.Mesh>
         materials: Record<string, THREE.Material>
     }

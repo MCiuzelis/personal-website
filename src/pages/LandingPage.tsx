@@ -28,16 +28,9 @@ const LandingPage = () => {
 
   return (
     <div className="h-screen w-full overflow-hidden relative bg-black">
-      {/* Background Orbs */}
-      <div className="background-orbs">
-        <div className="orb orb-1"></div>
-        <div className="orb orb-2"></div>
-        <div className="orb orb-3"></div>
-      </div>
-      
       {/* Navigation */}
       <Navigation pageType = 'landing' scrollOffset={hasScrolled} />
-      
+
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 9.25 }} style={{ background: '#000' }}>
         <fog attach="fog" args={['#000', 8.5, 12]} />
@@ -60,12 +53,12 @@ function Rig({ onScrollChange, ...props }: RigProps) {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
   const prevOffset = useRef(0)
-  
+
   useFrame((state, delta) => {
     if (ref.current) {
       ref.current.rotation.y = -scroll.offset * (Math.PI * 2)
     }
-    
+
     // Detect scroll change
     const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
     if (scrollDelta > 0.001) {
@@ -73,7 +66,7 @@ function Rig({ onScrollChange, ...props }: RigProps) {
       console.log("scrolled")
       prevOffset.current = scroll.offset
     }
-    
+
     state.events?.update?.()
     easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta)
     state.camera.lookAt(0, 0, 1)
@@ -123,7 +116,7 @@ function Card({ url, cardIndex, ...props }: CardProps) {
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
     // Navigate to different robot pages based on card index
-    const routes = ['/robot1', '/robot2', '/robot3', '/robot4', '/robot5', '/robot6', '/robot7', '/robot8']
+    const routes = ['/VLR', '/Swerve']
     navigate(routes[cardIndex])
   }
 

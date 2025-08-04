@@ -12,8 +12,8 @@ interface RobotProps extends React.ComponentProps<'group'> {
     scale?: number
 }
 
-export default function CenterStageRobot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
-    const { nodes, materials } = useGLTF('/src/assets/centerStage.glb') as GLTF & {
+export default function VLR_Robot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
+    const { nodes, materials } = useGLTF('/src/assets/VLR_Robot.glb') as GLTF & {
         nodes: Record<string, THREE.Mesh>
         materials: Record<string, THREE.Material>
     }

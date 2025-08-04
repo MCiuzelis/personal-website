@@ -3,21 +3,30 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import {Environment, OrbitControls, PerspectiveCamera, ScrollControls, Scroll, useScroll,} from '@react-three/drei'
+import VLR_Robot from '../components/VLR_Robot.tsx'
 import { Perf } from 'r3f-perf'
 import { useControls } from 'leva'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
-import IntoTheDeepRobot from "@/components/IntoTheDeepRobot.tsx";
 
-export default function IntoTheDeepPage() {
+export default function VLR_Page() {
   const [controlsKey] = useState(0)
   const navigate = useNavigate()
   const [animationProgress, setAnimationProgress] = useState(0)
   const [lockScroll, setLockScroll] = useState(true)
   const [scrollValue, setScrollValue] = useState(0)
 
+  // const { mapping, exposure } = useControls({
+  //   exposure: { value: 0.85, min: 0, max: 4 },
+  //   mapping: {
+  //     value: 'ACESFilmic',
+  //     options: ['No', 'Linear', 'AgX', 'ACESFilmic', 'Reinhard', 'Cineon', 'Custom'],
+  //   },
+  // })
+
   return (
       <div className="relative overflow-hidden">
+        {/* Navigation */}
         <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
 
         {/* 3D Model Section - Full height with ScrollControls */}
@@ -51,7 +60,7 @@ export default function IntoTheDeepPage() {
                   onScrollChange={(scrolled) => setScrollValue(scrolled)}
               />
 
-              <IntoTheDeepRobot scrollValue={animationProgress} position={[-1, -3.5, -1]} scale={13} rotation-y={0} />
+              <VLR_Robot scrollValue={animationProgress} position={[1, -2, 1]} scale={23} rotation-y={0} />
 
               <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
               <OrbitControls
@@ -63,7 +72,7 @@ export default function IntoTheDeepPage() {
                   key={controlsKey}
               />
               <Tone mapping={'ACESFilmic'} exposure={0.85} />
-              <Perf style={{ position: 'absolute', top: '4rem', right: '1.5rem', pointerEvents: 'none' }} />
+              <Perf style={{ position: 'absolute', top: '1rem', right: '1rem', pointerEvents: 'none', zIndex: 9999 }} />
             </Canvas>
         </div>
 
@@ -253,8 +262,11 @@ function PageTracker({onRelock, lockScroll, onScrollChange}: PageTrackerProps) {
       lastWindowY.current = scrollY
     }
   })
+
   return null
 }
+
+
 
 interface PrintYProps {
   lockScroll: boolean

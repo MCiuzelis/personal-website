@@ -4,11 +4,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import CenterStagePage from "./pages/CenterStagePage.tsx";
+import VLR_Page from "./pages/VLR_Page.tsx";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
 import { AnimatePresence } from 'framer-motion'
-import IntoTheDeepPage from "@/pages/IntoTheDeepPage.tsx";
+import SwervePage from "@/pages/SwervePage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -18,13 +18,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div style={{ backgroundColor: '#000', minHeight: '100vh' }}> //1a1a2e
+        <div style={{ backgroundColor: '#000', minHeight: '100vh' }}>
           <AnimatedRoutes />
         </div>
         {/*<Routes>*/}
         {/*  <Route path="/" element={<LandingPage />} />*/}
         {/*  <Route path="/details" element={<Details />} />*/}
-        {/*  <Route path="/robot" element={<CenterStagePage />} />*/}
+        {/*  <Route path="/robot" element={<VLR_Page />} />*/}
         {/*  /!* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE *!/*/}
         {/*  <Route path="*" element={<NotFound />} />*/}
         {/*</Routes>*/}
@@ -45,14 +45,14 @@ function AnimatedRoutes() {
               <LandingPage />
             </PageWrapper>
           }/>
-          <Route path="/robot1" element={
+          <Route path="/VLR" element={
             <PageWrapper>
-              <CenterStagePage />
+              <VLR_Page />
             </PageWrapper>
           }/>
-          <Route path="/robot2" element={
+          <Route path="/Swerve" element={
             <PageWrapper>
-              <IntoTheDeepPage />
+              <SwervePage />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />
