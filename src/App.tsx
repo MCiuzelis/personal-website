@@ -4,11 +4,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import RobotPage from "./pages/RobotPage";
-import RobotPage2 from "./pages/RobotPage2";
+import CenterStagePage from "./pages/CenterStagePage.tsx";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
 import { AnimatePresence } from 'framer-motion'
+import IntoTheDeepPage from "@/pages/IntoTheDeepPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +24,7 @@ const App = () => (
         {/*<Routes>*/}
         {/*  <Route path="/" element={<LandingPage />} />*/}
         {/*  <Route path="/details" element={<Details />} />*/}
-        {/*  <Route path="/robot" element={<RobotPage />} />*/}
+        {/*  <Route path="/robot" element={<CenterStagePage />} />*/}
         {/*  /!* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE *!/*/}
         {/*  <Route path="*" element={<NotFound />} />*/}
         {/*</Routes>*/}
@@ -47,12 +47,12 @@ function AnimatedRoutes() {
           }/>
           <Route path="/robot1" element={
             <PageWrapper>
-              <RobotPage />
+              <CenterStagePage />
             </PageWrapper>
           }/>
           <Route path="/robot2" element={
             <PageWrapper>
-              <RobotPage2 />
+              <IntoTheDeepPage />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />
