@@ -28,7 +28,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
   // Helper for opacity and pointer events classes
   const getOpacityClass = (visible: boolean) =>
-      `absolute whitespace-nowrap text-[#6b6b6b] text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
+      `absolute whitespace-nowrap text-[#86868b] text-sm font-medium tracking-wide transition-opacity duration-1000 ease-in-out ${
           visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`
 
@@ -38,7 +38,8 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
           {/* Home Button */}
           <button
               onClick={() => navigate('/')}
-              className="text-[#6b6b6b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
+              // rgb(134 134 139
+              className="text-[#86868b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Home
           </button>
@@ -73,7 +74,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
           <button
               onClick={() => console.log('Contact clicked')}
-              className="text-[#6b6b6b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
+              className="text-[#86868b] hover:text-white px-8 py-2 transition-colors duration-300 ease-in-out font-medium"
           >
             Contact
           </button>
