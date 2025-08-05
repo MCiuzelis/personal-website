@@ -84,7 +84,7 @@ export default function VLRPage() {
                 
                 {/* Vertical Separator */}
                 <div className="flex justify-center">
-                  <div className="w-1 h-64 bg-gradient-to-b from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
+                  <div className="w-0.5 h-80 bg-gradient-to-b from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
                 </div>
                 
                 {/* Electrical Section */}

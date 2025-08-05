@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 interface ImageSlideshowProps {
     images: string[]
@@ -10,11 +10,17 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
     const [isVisible, setIsVisible] = useState(false)
     const [hasStarted, setHasStarted] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
 
     // Calculate how many slides are jumped (usually 1, but can be 5 when going from last to first)
     const slideDistance = Math.abs(currentIndex - prevIndex)
     const baseDuration = 700 // in ms per 1 slide
     const transitionDuration = slideDistance * baseDuration
+
+    // Check if a file is a video
+    const isVideo = useCallback((src: string) => {
+        return src.toLowerCase().endsWith('.mp4')
+    }, [])
 
     // Visibility observer
     useEffect(() => {
@@ -48,13 +54,36 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
     useEffect(() => {
         if (!isVisible) return
 
-        const timeout = setTimeout(() => {
-            setPrevIndex(currentIndex)
-            setCurrentIndex((prev) => (prev + 1) % images.length)
-        }, transitionDuration + 3500) // Wait for animation + full visible time
+        const currentMedia = images[currentIndex]
+        
+        if (isVideo(currentMedia)) {
+            // For videos, wait for the video to end + 400ms
+            const videoElement = videoRefs.current[currentIndex]
+            if (videoElement) {
+                const handleVideoEnd = () => {
+                    setTimeout(() => {
+                        setPrevIndex(currentIndex)
+                        setCurrentIndex((prev) => (prev + 1) % images.length)
+                    }, 400)
+                }
+                
+                videoElement.addEventListener('ended', handleVideoEnd)
+                videoElement.play()
+                
+                return () => {
+                    videoElement.removeEventListener('ended', handleVideoEnd)
+                }
+            }
+        } else {
+            // For images, use the original 3500ms timing
+            const timeout = setTimeout(() => {
+                setPrevIndex(currentIndex)
+                setCurrentIndex((prev) => (prev + 1) % images.length)
+            }, transitionDuration + 3500)
 
-        return () => clearTimeout(timeout)
-    }, [currentIndex, isVisible])
+            return () => clearTimeout(timeout)
+        }
+    }, [currentIndex, isVisible, transitionDuration, images, isVideo])
 
     return (
         <div ref={containerRef} className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
@@ -65,13 +94,23 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                     transition: `transform ${transitionDuration}ms ease-in-out`,
                 }}
             >
-                {images.map((image, index) => (
+                {images.map((media, index) => (
                     <div key={index} className="w-full flex-shrink-0">
-                        <img
-                            src={image}
-                            alt={`Slide ${index + 1}`}
-                            className="w-full h-[75vh] object-cover rounded-lg"
-                        />
+                        {isVideo(media) ? (
+                            <video
+                                ref={(el) => (videoRefs.current[index] = el)}
+                                src={media}
+                                muted
+                                playsInline
+                                className="w-full h-[75vh] object-cover rounded-lg"
+                            />
+                        ) : (
+                            <img
+                                src={media}
+                                alt={`Slide ${index + 1}`}
+                                className="w-full h-[75vh] object-cover rounded-lg"
+                            />
+                        )}
                     </div>
                 ))}
             </div>
