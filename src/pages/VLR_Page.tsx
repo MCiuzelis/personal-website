@@ -2,18 +2,47 @@ import React from 'react'
 import VLRRobot from '@/components/VLR_Robot'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from '@/components/ImageSlideshow'
+import RobotInAction from '@/assets/VLR_Page/RobotInAction.mp4'
+import { useEffect, useRef, useState } from 'react'
+
 
 export default function VLRPage() {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [hasPlayed, setHasPlayed] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !hasPlayed) {
+            videoRef.current?.play()
+            setHasPlayed(true)
+          }
+        },
+        { threshold: 0.8 } // Play when 80% of the video is visible
+    )
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current)
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current)
+      }
+    }
+  }, [hasPlayed])
+
+
   return (
       <RobotPageTemplate
           robot={<VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} />}
       >
         <div className="relative z-10">
           {/* Season Recap Section */}
-          <section className="min-h-screen bg-black px-8 py-16">
+          <section className="min-h-screen bg-black px-8 py-12">
             <div className="max-w-6xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8">Season Recap</h2>
-              <div className="flex items-center justify-center">
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
+              <div className="flex items-center justify-center mt-6">
                 <ImageSlideshow />
               </div>
             </div>
@@ -22,8 +51,7 @@ export default function VLRPage() {
           {/* My Contribution Section */}
           <section className="min-h-screen px-8 py-16" style={{ backgroundColor: '#101010' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8">My Contribution</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
                   <h3 className="text-2xl font-semibold text-white mb-6">Mechanical Engineering</h3>
@@ -66,20 +94,21 @@ export default function VLRPage() {
           </section>
 
           {/* Robot in Action Section */}
-          <section className="min-h-screen bg-black px-8 py-16">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8">Robot in Action</h2>
-              <div className="flex items-center justify-center">
-                <div className="w-full max-w-4xl">
-                  {/* Video Placeholder */}
-                  <div className="relative bg-gray-900 rounded-lg overflow-hidden aspect-video">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-6xl text-gray-600 mb-4">▶</div>
-                        <p className="text-xl text-gray-400">Video Preview</p>
-                        <p className="text-gray-500 mt-2">Robot demonstration video will be displayed here</p>
-                      </div>
-                    </div>
+          <section className="min-h-screen bg-black px-8 py-12">
+            <div className="max-w-screen-2xl mx-auto">
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
+              <div className="flex items-center justify-center mt-6">
+                <div className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[75vw] max-h-[85vh] aspect-video">
+                  <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
+                    <video
+                        ref={videoRef}
+                        src={RobotInAction}
+                        muted
+                        loop
+                        playsInline
+                        controls={false}
+                        className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>

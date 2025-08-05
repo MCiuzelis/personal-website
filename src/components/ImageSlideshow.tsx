@@ -1,55 +1,68 @@
 import { useState, useEffect } from 'react'
-import card1 from '@/assets/card1.jpg'
-import card2 from '@/assets/card2.jpg'
-import card3 from '@/assets/card3.jpg'
-import card4 from '@/assets/card4.jpg'
-import card5 from '@/assets/card5.jpg'
-import card6 from '@/assets/card6.jpg'
-import card7 from '@/assets/card7.jpg'
-import card8 from '@/assets/card8.jpg'
+import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
+import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
+import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
+import image4 from '@/assets/VLR_Page/Slideshow/img4.jpeg'
+import image5 from '@/assets/VLR_Page/Slideshow/img5.jpeg'
+import image6 from '@/assets/VLR_Page/Slideshow/img6.jpeg'
 
-const images = [card1, card2, card3, card4, card5, card6, card7, card8]
+const images = [image1, image2, image3, image4, image5, image6]
 
 export default function ImageSlideshow() {
-  const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [prevIndex, setPrevIndex] = useState(0)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
-    }, 3000) // Change image every 3 seconds
+    // Calculate how many slides are jumped (usually 1, but can be 5 when going from last to first)
+    const slideDistance = Math.abs(currentIndex - prevIndex)
+    const baseDuration = 700 // in ms per 1 slide
+    const transitionDuration = slideDistance * baseDuration
 
-    return () => clearInterval(interval)
-  }, [])
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setPrevIndex(currentIndex)
+            setCurrentIndex((prev) => (prev + 1) % images.length)
+        }, transitionDuration + 3500) // Wait for animation + full visible time
 
-  return (
-    <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
-      <div 
-        className="flex transition-transform duration-1000 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {images.map((image, index) => (
-          <div key={index} className="w-full flex-shrink-0">
-            <img
-              src={image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-96 object-cover"
-            />
-          </div>
-        ))}
-      </div>
-      
-      {/* Dots indicator */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              index === currentIndex ? 'bg-white' : 'bg-white/50'
-            }`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
-      </div>
-    </div>
-  )
+        return () => clearTimeout(timeout)
+    }, [currentIndex])
+
+    return (
+        <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
+            <div
+                className="flex"
+                style={{
+                    transform: `translateX(-${currentIndex * 100}%)`,
+                    transition: `transform ${transitionDuration}ms ease-in-out`,
+                }}
+            >
+                {images.map((image, index) => (
+                    <div key={index} className="w-full flex-shrink-0">
+                        <img
+                            src={image}
+                            alt={`Slide ${index + 1}`}
+                            className="w-full h-[75vh] object-cover rounded-lg"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            {/* Dot indicators in a glassy pill container */}
+            <div className="mt-8 flex justify-center">
+                <div className="backdrop-blur-md bg-white/20 rounded-full px-4 py-3 flex space-x-3 shadow-md">
+                    {images.map((_, index) => (
+                        <button
+                            key={index}
+                            className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
+                                index === currentIndex ? 'bg-white' : 'bg-white/50'
+                            }`}
+                            onClick={() => {
+                                setPrevIndex(currentIndex)
+                                setCurrentIndex(index)
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
 }

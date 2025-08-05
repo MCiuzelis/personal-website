@@ -8,14 +8,14 @@ import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
 
 // Import card images
-import card1 from '@/assets/card1.jpg'
-import card2 from '@/assets/card2.jpg'
-import card3 from '@/assets/card3.jpg'
-import card4 from '@/assets/card4.jpg'
-import card5 from '@/assets/card5.jpg'
-import card6 from '@/assets/card6.jpg'
-import card7 from '@/assets/card7.jpg'
-import card8 from '@/assets/card8.jpg'
+import card1 from '@/assets/ProjectThumbnails/card1.jpg'
+import card2 from '@/assets/ProjectThumbnails/card2.jpg'
+import card3 from '@/assets/ProjectThumbnails/card3.jpg'
+import card4 from '@/assets/ProjectThumbnails/card4.jpg'
+import card5 from '@/assets/ProjectThumbnails/card5.jpg'
+import card6 from '@/assets/ProjectThumbnails/card6.jpg'
+import card7 from '@/assets/ProjectThumbnails/card7.jpg'
+import card8 from '@/assets/ProjectThumbnails/card8.jpg'
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
