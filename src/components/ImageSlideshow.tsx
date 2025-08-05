@@ -1,14 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
-import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
-import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
-import image4 from '@/assets/VLR_Page/Slideshow/img4.jpeg'
-import image5 from '@/assets/VLR_Page/Slideshow/img5.jpeg'
-import image6 from '@/assets/VLR_Page/Slideshow/img6.jpeg'
 
-const images = [image1, image2, image3, image4, image5, image6]
+interface ImageSlideshowProps {
+    images: string[]
+}
 
-export default function ImageSlideshow() {
+export default function ImageSlideshow({ images }: ImageSlideshowProps) {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [prevIndex, setPrevIndex] = useState(0)
     const [isVisible, setIsVisible] = useState(false)

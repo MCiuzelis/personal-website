@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import {
   Environment,
@@ -24,13 +24,35 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   const [animationProgress, setAnimationProgress] = useState(0)
   const [lockScroll, setLockScroll] = useState(true)
   const [scrollValue, setScrollValue] = useState(0)
+  const [robotVisible, setRobotVisible] = useState(true)
+  const robotSectionRef = useRef<HTMLDivElement>(null)
+
+  // Robot visibility observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setRobotVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    if (robotSectionRef.current) {
+      observer.observe(robotSectionRef.current)
+    }
+
+    return () => {
+      if (robotSectionRef.current) {
+        observer.unobserve(robotSectionRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="relative overflow-hidden">
       <Navigation pageType="robot" scrollOffset={scrollValue} />
 
       {/* Canvas section */}
-      <div className="relative overflow-hidden bg-[#101010]">
+      <div ref={robotSectionRef} className="relative overflow-hidden bg-[#101010]">
         <Canvas
           dpr={[1, 2]}
           style={{
@@ -62,7 +84,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           />
 
           {/* Robot Component passed in as prop */}
-          {React.cloneElement(robot as React.ReactElement<any>, {
+          {robotVisible && React.cloneElement(robot as React.ReactElement<any>, {
             scrollValue: animationProgress,
           })}
 

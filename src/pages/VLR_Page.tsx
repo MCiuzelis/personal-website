@@ -4,13 +4,19 @@ import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from '@/components/ImageSlideshow'
 import RobotInAction from '@/assets/VLR_Page/RobotInAction.mp4'
 import { useEffect, useRef, useState } from 'react'
+import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
+import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
+import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
+import image4 from '@/assets/VLR_Page/Slideshow/img4.jpeg'
+import image5 from '@/assets/VLR_Page/Slideshow/img5.jpeg'
+import image6 from '@/assets/VLR_Page/Slideshow/img6.jpeg'
+
+const slideshowImages = [image1, image2, image3, image4, image5, image6]
 
 
 export default function VLRPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [hasPlayed, setHasPlayed] = useState(false)
-  const [robotVisible, setRobotVisible] = useState(true)
-  const robotSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -34,31 +40,12 @@ export default function VLRPage() {
     }
   }, [hasPlayed])
 
-  // Robot visibility observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setRobotVisible(entry.isIntersecting)
-      },
-      { threshold: 0.1 }
-    )
-
-    if (robotSectionRef.current) {
-      observer.observe(robotSectionRef.current)
-    }
-
-    return () => {
-      if (robotSectionRef.current) {
-        observer.unobserve(robotSectionRef.current)
-      }
-    }
-  }, [])
 
 
   return (
-      <div ref={robotSectionRef}>
+      <div>
         <RobotPageTemplate
-            robot={robotVisible ? <VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} /> : null}
+            robot={<VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} />}
         >
         <div className="relative z-10">
           {/* Season Recap Section */}
@@ -66,7 +53,7 @@ export default function VLRPage() {
             <div className="max-w-6xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
               <div className="flex items-center justify-center mt-6">
-                <ImageSlideshow />
+                <ImageSlideshow images={slideshowImages} />
               </div>
             </div>
           </section>
@@ -97,7 +84,7 @@ export default function VLRPage() {
                 
                 {/* Vertical Separator */}
                 <div className="flex justify-center">
-                  <div className="w-px h-64 bg-gradient-to-b from-transparent via-gray-600 to-transparent"></div>
+                  <div className="w-1 h-64 bg-gradient-to-b from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
                 </div>
                 
                 {/* Electrical Section */}
