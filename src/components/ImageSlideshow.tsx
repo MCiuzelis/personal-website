@@ -22,7 +22,7 @@ export default function ImageSlideshow() {
   }, [])
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg">
+    <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
       <div 
         className="flex transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -32,7 +32,7 @@ export default function ImageSlideshow() {
             <img
               src={image}
               alt={`Slide ${index + 1}`}
-              className="w-full h-80 object-cover"
+              className="w-full h-96 object-cover"
             />
           </div>
         ))}
