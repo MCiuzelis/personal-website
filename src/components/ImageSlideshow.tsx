@@ -37,7 +37,7 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                     setPrevIndex(0)
                 }
             },
-            { threshold: 0.3 }
+            { threshold: 0.1 }
         )
 
         if (containerRef.current) {
@@ -102,14 +102,12 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                                 src={media}
                                 muted
                                 playsInline
-                                className="w-full h-[75vh] object-cover rounded-lg"
-                            />
+                                className="aspect-[4/3] max-h-[75vh] w-auto mx-auto object-cover rounded-lg"                         />
                         ) : (
                             <img
                                 src={media}
                                 alt={`Slide ${index + 1}`}
-                                className="w-full h-[75vh] object-cover rounded-lg"
-                            />
+                                className="aspect-[4/3] max-h-[75vh] w-auto mx-auto object-cover rounded-lg"                          />
                         )}
                     </div>
                 ))}

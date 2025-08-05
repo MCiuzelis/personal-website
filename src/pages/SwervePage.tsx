@@ -2,15 +2,18 @@ import React from 'react'
 import SwerveRobot from '@/components/SwerveRobot'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
-import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
-import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
-import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
-import image4 from '@/assets/VLR_Page/Slideshow/img4.jpeg'
-import image5 from '@/assets/VLR_Page/Slideshow/img5.jpeg'
-import image6 from '@/assets/VLR_Page/Slideshow/img6.jpeg'
-import video from '@/assets/VLR_Page/RobotInAction.mp4'
+import team from '@/assets/SwervePage/SwerveTeamPicture.jpeg'
+import image1 from '@/assets/SwervePage/img1.jpg'
+import image2 from '@/assets/SwervePage/img2.jpeg'
+import image3 from '@/assets/SwervePage/img3.jpeg'
+import image4 from '@/assets/SwervePage/img4.jpeg'
+import image5 from '@/assets/SwervePage/img5.jpeg'
+import video1 from '@/assets/SwervePage/vid0.mp4'
+import video2 from '@/assets/SwervePage/vid1.mp4'
+import video3 from '@/assets/SwervePage/vid2.mp4'
 
-const slideshowImages = [image1, image2, image3, image4, image5, image6, video]
+
+const slideshowImages = [team, image1, image3, image4, image2, image5, video1, video3, video2]
 
 export default function SwervePage() {
   return (
