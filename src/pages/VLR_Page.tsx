@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from 'react'
 export default function VLRPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [hasPlayed, setHasPlayed] = useState(false)
+  const [robotVisible, setRobotVisible] = useState(true)
+  const robotSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,11 +34,32 @@ export default function VLRPage() {
     }
   }, [hasPlayed])
 
+  // Robot visibility observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setRobotVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    if (robotSectionRef.current) {
+      observer.observe(robotSectionRef.current)
+    }
+
+    return () => {
+      if (robotSectionRef.current) {
+        observer.unobserve(robotSectionRef.current)
+      }
+    }
+  }, [])
+
 
   return (
-      <RobotPageTemplate
-          robot={<VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} />}
-      >
+      <div ref={robotSectionRef}>
+        <RobotPageTemplate
+            robot={robotVisible ? <VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} /> : null}
+        >
         <div className="relative z-10">
           {/* Season Recap Section */}
           <section className="min-h-screen bg-black px-8 py-12">
@@ -51,7 +74,8 @@ export default function VLRPage() {
           {/* My Contribution Section */}
           <section className="min-h-screen px-8 py-16" style={{ backgroundColor: '#101010' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>
+              <div className="grid grid-cols-3 gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
                   <h3 className="text-2xl font-semibold text-white mb-6">Mechanical Engineering</h3>
@@ -69,6 +93,11 @@ export default function VLRPage() {
                       weight by 15% compared to previous designs.
                     </p>
                   </div>
+                </div>
+                
+                {/* Vertical Separator */}
+                <div className="flex justify-center">
+                  <div className="w-px h-64 bg-gradient-to-b from-transparent via-gray-600 to-transparent"></div>
                 </div>
                 
                 {/* Electrical Section */}
@@ -115,6 +144,7 @@ export default function VLRPage() {
             </div>
           </section>
         </div>
-      </RobotPageTemplate>
+        </RobotPageTemplate>
+      </div>
   )
 }

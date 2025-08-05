@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
 import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
 import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
@@ -11,23 +11,57 @@ const images = [image1, image2, image3, image4, image5, image6]
 export default function ImageSlideshow() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [prevIndex, setPrevIndex] = useState(0)
+    const [isVisible, setIsVisible] = useState(false)
+    const [hasStarted, setHasStarted] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
 
     // Calculate how many slides are jumped (usually 1, but can be 5 when going from last to first)
     const slideDistance = Math.abs(currentIndex - prevIndex)
     const baseDuration = 700 // in ms per 1 slide
     const transitionDuration = slideDistance * baseDuration
 
+    // Visibility observer
     useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !hasStarted) {
+                    setIsVisible(true)
+                    setHasStarted(true)
+                } else if (!entry.isIntersecting && hasStarted) {
+                    // Reset when scrolling away and back
+                    setIsVisible(false)
+                    setHasStarted(false)
+                    setCurrentIndex(0)
+                    setPrevIndex(0)
+                }
+            },
+            { threshold: 0.3 }
+        )
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current)
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current)
+            }
+        }
+    }, [hasStarted])
+
+    useEffect(() => {
+        if (!isVisible) return
+
         const timeout = setTimeout(() => {
             setPrevIndex(currentIndex)
             setCurrentIndex((prev) => (prev + 1) % images.length)
         }, transitionDuration + 3500) // Wait for animation + full visible time
 
         return () => clearTimeout(timeout)
-    }, [currentIndex])
+    }, [currentIndex, isVisible])
 
     return (
-        <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
+        <div ref={containerRef} className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-lg">
             <div
                 className="flex"
                 style={{
