@@ -79,7 +79,7 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
             const timeout = setTimeout(() => {
                 setPrevIndex(currentIndex)
                 setCurrentIndex((prev) => (prev + 1) % images.length)
-            }, transitionDuration + 3500)
+            }, transitionDuration + 3000)
 
             return () => clearTimeout(timeout)
         }
