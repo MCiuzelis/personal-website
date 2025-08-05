@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
 import { AnimatePresence } from 'framer-motion'
 import SwervePage from "@/pages/SwervePage.tsx";
+import FLL_Page from "@/pages/FLL_Page.tsx";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,11 @@ function AnimatedRoutes() {
           <Route path="/Swerve" element={
             <PageWrapper>
               <SwervePage />
+            </PageWrapper>
+          }/>
+          <Route path="/FLL" element={
+            <PageWrapper>
+              <FLL_Page />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />

@@ -116,7 +116,7 @@ function Card({ url, cardIndex, ...props }: CardProps) {
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
     // Navigate to different robot pages based on card index
-    const routes = ['/VLR', '/Swerve']
+    const routes = ['/VLR', '/Swerve', 'FLL']
     navigate(routes[cardIndex])
   }
 
