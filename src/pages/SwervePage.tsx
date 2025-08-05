@@ -1,74 +1,13 @@
-import * as THREE from 'three'
 import React from 'react'
-import { useEffect, useState } from 'react'
-import { Canvas, useThree, useFrame } from '@react-three/fiber'
-import {Environment, OrbitControls, PerspectiveCamera, ScrollControls, Scroll, useScroll,} from '@react-three/drei'
-import { Perf } from 'r3f-perf'
-import { useControls } from 'leva'
-import { useNavigate } from 'react-router-dom'
-import Navigation from '@/components/Navigation'
-import SwerveRobot from "@/components/SwerveRobot.tsx";
+import SwerveRobot from '@/components/SwerveRobot'
+import RobotPageTemplate from './RobotPageTemplate'
 
 export default function SwervePage() {
-  const [controlsKey] = useState(0)
-  const navigate = useNavigate()
-  const [animationProgress, setAnimationProgress] = useState(0)
-  const [lockScroll, setLockScroll] = useState(true)
-  const [scrollValue, setScrollValue] = useState(0)
-
   return (
-      <div className="relative overflow-hidden">
-        <Navigation pageType = 'robot' scrollOffset={scrollValue}/>
-
-        {/* 3D Model Section - Full height with ScrollControls */}
-        <div className="relative overflow-hidden bg-[#000]">
-            <Canvas
-                dpr={[1, 2]}
-                style={{ width: '100vw', height: '100vh', position: 'relative', pointerEvents: lockScroll ? 'auto' : 'none' }}
-                gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-                onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#000'))}
-            >
-              <Environment files="/old_depot_2k.hdr" background={false} />
-              <primitive attach="background" object={new THREE.Color('#000')} />
-
-              <ScrollControls pages={1} damping={0}>
-                <Scroll>
-                  <AnimationTracker
-                      onScroll={(v) => {
-                        setAnimationProgress(v)
-                      }}
-                      onUnlock={() => setLockScroll(false)}
-                      lockScroll={lockScroll}
-                  />
-                </Scroll>
-              </ScrollControls>
-
-              <PageTracker
-                  onRelock={() => {
-                    setLockScroll(true)
-                  }}
-                  lockScroll={lockScroll}
-                  onScrollChange={(scrolled) => setScrollValue(scrolled)}
-              />
-
-              <SwerveRobot scrollValue={animationProgress} position={[-1, -3.5, -1]} scale={13} rotation-y={0} />
-
-              <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
-              <OrbitControls
-                  enableZoom={false}
-                  enablePan={false}
-                  minPolarAngle={0}
-                  maxPolarAngle={Math.PI / 1.25}
-                  makeDefault
-                  key={controlsKey}
-              />
-              <Tone mapping={'ACESFilmic'} exposure={0.85} />
-
-              <Perf style={{ position: 'absolute', top: '1rem', right: '1rem', pointerEvents: 'none', zIndex: 9999 }} />
-            </Canvas>
-        </div>
-
-        {/* Content Sections - Positioned below the 3D section */}
+      <RobotPageTemplate
+          robot={<SwerveRobot position={[-1, -3.5, -1]} scale={13} rotation-y={0} />}
+      >
+        {/* Team + Build content goes here */}
         <div className="relative z-10 bg-background">
           {/* Team Section */}
           <section className="min-h-screen px-8 py-16 bg-gradient-to-br from-secondary to-accent">
@@ -150,121 +89,6 @@ export default function SwervePage() {
             </div>
           </section>
         </div>
-      </div>
+      </RobotPageTemplate>
   )
-}
-
-function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
-  const gl = useThree((state) => state.gl)
-
-  useEffect(() => {
-    const prevFrag = THREE.ShaderChunk.tonemapping_pars_fragment
-    const prevTM = gl.toneMapping
-    const prevExp = gl.toneMappingExposure
-
-    THREE.ShaderChunk.tonemapping_pars_fragment = prevFrag.replace(
-        'vec3 CustomToneMapping( vec3 color ) { return color; }',
-        `float startCompression = 0.8 - 0.04;
-       float desaturation = 0.15;
-       vec3 CustomToneMapping( vec3 color ) {
-         color *= toneMappingExposure;
-         float x = min(color.r, min(color.g, color.b));
-         float offset = x < 0.08 ? x - 6.25 * x * x : 0.04;
-         color -= offset;
-         float peak = max(color.r, max(color.g, color.b));
-         if (peak < startCompression) return color;
-         float d = 1. - startCompression;
-         float newPeak = 1. - d * d / (peak + d - startCompression);
-         color *= newPeak / peak;
-         float g = 1. - 1. / (desaturation * (peak - newPeak) + 1.);
-         return mix(color, vec3(1), g);
-       }`
-    )
-
-    gl.toneMapping = (THREE as unknown as Record<string, THREE.ToneMapping>)[`${mapping}ToneMapping`] ?? THREE.ACESFilmicToneMapping
-    gl.toneMappingExposure = exposure
-
-    return () => {
-      gl.toneMapping = prevTM
-      gl.toneMappingExposure = prevExp
-      THREE.ShaderChunk.tonemapping_pars_fragment = prevFrag
-    }
-  }, [mapping, exposure])
-
-  return null
-}
-
-
-
-function AnimationTracker({onScroll, onUnlock, lockScroll}: {
-  onScroll: (value: number) => void
-  onUnlock: () => void
-  lockScroll: boolean
-}) {
-  const scroll = useScroll()
-  const lastScroll = React.useRef(0)
-
-  useFrame(() => {
-    if (!lockScroll){
-      return
-    }
-
-    const currentOffset = scroll.offset;
-
-    // console.log(currentOffset)
-    onScroll(scroll.offset)
-
-    if (currentOffset >= 0.99 && lastScroll.current < 0.99) {
-      console.log("unlocking")
-      onUnlock()
-    }
-
-    lastScroll.current = currentOffset
-  })
-
-  return null
-}
-
-interface PageTrackerProps {
-  onRelock: () => void
-  lockScroll: boolean
-  onScrollChange?: (scrollValue: number) => void
-}
-
-function PageTracker({onRelock, lockScroll, onScrollChange}: PageTrackerProps) {
-  const lastWindowY = React.useRef(0)
-
-  useFrame(() => {
-    if (!lockScroll){
-      const scrollY = window.scrollY
-      // console.log(scrollY)
-
-      if (scrollY == 0 && lastWindowY.current != 0){
-        console.log("relocking")
-        onScrollChange?.(0)
-        onRelock()
-      }
-
-      if (scrollY > 0){
-        onScrollChange?.(scrollY)
-        // console.log("for nav " + scrollY)
-      }
-
-      lastWindowY.current = scrollY
-    }
-  })
-  return null
-}
-
-interface PrintYProps {
-  lockScroll: boolean
-}
-
-function PrintY({lockScroll}: PrintYProps) {
-
-  useFrame(() => {
-    // console.log(lockScroll)
-  })
-
-  return null
 }
