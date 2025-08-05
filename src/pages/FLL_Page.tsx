@@ -2,23 +2,20 @@ import React from 'react'
 import FLL_Robot from '@/components/FLL_Robot.tsx'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
-import team from '@/assets/SwervePage/SwerveTeamPicture.jpeg'
-import image1 from '@/assets/SwervePage/img1.jpg'
-import image2 from '@/assets/SwervePage/img2.jpeg'
-import image3 from '@/assets/SwervePage/img3.jpeg'
-import image4 from '@/assets/SwervePage/img4.jpeg'
-import image5 from '@/assets/SwervePage/img5.jpeg'
-import video1 from '@/assets/SwervePage/vid0.mp4'
-import video2 from '@/assets/SwervePage/vid1.mp4'
-import video3 from '@/assets/SwervePage/vid2.mp4'
+import image1 from '@/assets/FLL_Page/img1.jpeg'
+import image3 from '@/assets/FLL_Page/img3.jpg'
+import image4 from '@/assets/FLL_Page/img4.jpeg'
+import image5 from '@/assets/FLL_Page/img5.jpeg'
+import image6 from '@/assets/FLL_Page/img6.jpeg'
+import image7 from '@/assets/FLL_Page/img7.jpeg'
 
 
-const slideshowImages = [team, image1, image3, image4, image2, image5, video1, video3, video2]
+const slideshowImages = [image1, image3, image4, image5, image6, image7]
 
 export default function FLL_Page() {
   return (
       <RobotPageTemplate
-          robot={<FLL_Robot position={[-1, -3.5, -1]} scale={13} rotation-y={0} />}
+          robot={<FLL_Robot position={[0, -11, 0]} scale={38} rotation-y={0} />}
       >
         <div className="relative z-10">
           {/* Season Recap Section */}
