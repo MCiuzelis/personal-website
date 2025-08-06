@@ -102,12 +102,12 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                                 src={media}
                                 muted
                                 playsInline
-                                className="aspect-[4/3] max-h-[75vh] w-auto mx-auto object-cover rounded-lg"                         />
+                                className="h-[75vh] w-auto mx-auto object-cover rounded-lg"                         />
                         ) : (
                             <img
                                 src={media}
                                 alt={`Slide ${index + 1}`}
-                                className="aspect-[4/3] max-h-[75vh] w-auto mx-auto object-cover rounded-lg"                          />
+                                className="h-[75vh] w-auto mx-auto object-cover rounded-lg"                          />
                         )}
                     </div>
                 ))}
