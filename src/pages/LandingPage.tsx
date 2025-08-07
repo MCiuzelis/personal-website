@@ -129,18 +129,20 @@ function Card({ url, cardIndex, ...props }: CardProps) {
   })
 
   return (
-      <Image
-          ref={ref}
-          url={url}
-          transparent
-          side={THREE.BackSide}
-          onPointerOver={pointerOver}
-          onPointerOut={pointerOut}
-          onClick={(e) => handleClick(e, cardIndex)}
-          {...props}
-      >
-        <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
-      </Image>
+      <group scale={[-1, 1, 1]}>
+        <Image
+            ref={ref}
+            url={url}
+            transparent
+            side={THREE.DoubleSide}
+            onPointerOver={pointerOver}
+            onPointerOut={pointerOut}
+            onClick={(e) => handleClick(e, cardIndex)}
+            {...props}
+        >
+          <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
+        </Image>
+      </group>
   )
 }
 
