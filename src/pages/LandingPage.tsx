@@ -133,7 +133,7 @@ function Card({ url, cardIndex, ...props }: CardProps) {
           ref={ref}
           url={url}
           transparent
-          side={THREE.DoubleSide}
+          side={THREE.BackSide}
           onPointerOver={pointerOver}
           onPointerOut={pointerOut}
           onClick={(e) => handleClick(e, cardIndex)}
