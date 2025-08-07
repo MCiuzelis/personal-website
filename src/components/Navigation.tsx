@@ -72,7 +72,7 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
               scroll to reveal more projects
             </span>
                     <span className={getOpacityClass(landedTrue)}>
-              press any card for more detail
+              hover on a project for more detail
             </span>
                   </>
               )}
