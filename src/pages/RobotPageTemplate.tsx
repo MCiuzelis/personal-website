@@ -33,7 +33,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
       ([entry]) => {
         setRobotVisible(entry.isIntersecting)
       },
-      { threshold: 0.1 }
+      { threshold: 0.00001 }
     )
 
     if (robotSectionRef.current) {
@@ -63,6 +63,9 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#101010'))}
+          // onWheel={(e) => {
+          //   if (!lockScroll) e.stopPropagation()
+          // }}
         >
           <Environment files="/old_depot_2k.hdr" background={false} />
           <primitive attach="background" object={new THREE.Color('#101010')} />
@@ -178,7 +181,7 @@ function AnimationTracker({
     const currentOffset = scroll.offset * 2
     onScroll(currentOffset)
 
-    if (currentOffset >= 1.3 && lastScroll.current < 1.3) {
+    if (currentOffset >= 1.1 && lastScroll.current < 1.1) {
       console.log('unlocking')
       onUnlock()
     }

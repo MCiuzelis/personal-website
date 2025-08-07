@@ -46,44 +46,49 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
 
   return (
       <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50 m-0 p-0">
-        <div className="bg-black relative px-4 py-6">
-          {/* Home button on the left */}
-          <div className="absolute left-[35%] top-1/2 -translate-y-1/2">
-            <button
-                onClick={() => navigate('/')}
-                className="apple-nav-text px-5"
-            >
-              Home
-            </button>
-          </div>
+        <div className="bg-black relative px-4 py-4">
 
-          {/* Contact button on the right */}
-          <div className="absolute right-[35%] top-1/2 -translate-y-1/2">
-            <button
-                onClick={() => console.log('Contact clicked')}
-                className="apple-nav-text px-5"
-            >
-              Contact
-            </button>
-          </div>
+          <div className="relative w-full flex items-center justify-center">
 
-          {/* Center text */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="relative min-w-max h-6 flex items-center justify-center">
+            {/* Left button - Home */}
+            <div
+                className="absolute"
+                style={{ right: '50%', transform: 'translateX(-105%)', marginRight: '5vw' }}
+            >
+              <button onClick={() => navigate('/')} className="apple-nav-text px-5">
+                Home
+              </button>
+            </div>
+
+            {/* Centered scroll text */}
+            <div className="min-w-max h-6 flex items-center justify-center">
               {pageType === 'robot' ? (
                   <span className={getOpacityClass(true)}>
-          scroll to explore the model
-        </span>
+            scroll to explore the model
+          </span>
               ) : (
                   <>
-          <span className={getOpacityClass(landed)}>
-            scroll to reveal more projects
-          </span>
+            <span className={getOpacityClass(landed)}>
+              scroll to reveal more projects
+            </span>
                     <span className={getOpacityClass(landedTrue)}>
-            press any card for more detail
-          </span>
+              press any card for more detail
+            </span>
                   </>
               )}
+            </div>
+
+            {/* Right button - Contact */}
+            <div
+                className="absolute"
+                style={{ left: '50%', transform: 'translateX(105%)', marginLeft: '5vw' }}
+            >
+              <button
+                  onClick={() => console.log('Contact clicked')}
+                  className="apple-nav-text px-5"
+              >
+                Contact
+              </button>
             </div>
           </div>
         </div>
