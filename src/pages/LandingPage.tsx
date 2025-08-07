@@ -9,12 +9,12 @@ import Navigation from '@/components/Navigation'
 
 // Import card images
 import card1 from '@/assets/ProjectThumbnails/main.jpg'
-import card2 from '@/assets/ProjectThumbnails/card2.jpg'
-import card3 from '@/assets/ProjectThumbnails/card3.jpg'
-import card4 from '@/assets/ProjectThumbnails/card4.jpg'
-import card5 from '@/assets/ProjectThumbnails/card5.jpg'
-import card6 from '@/assets/ProjectThumbnails/card6.jpg'
-import card7 from '@/assets/ProjectThumbnails/card7.jpg'
+import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpeg'
+import card3 from '@/assets/ProjectThumbnails/RubensTube.jpg'
+import card4 from '@/assets/ProjectThumbnails/engine.jpeg'
+import card5 from '@/assets/ProjectThumbnails/FLL.jpg'
+import card6 from '@/assets/ProjectThumbnails/FGC.jpg'
+import card7 from '@/assets/ProjectThumbnails/Swerve.jpg'
 import card8 from '@/assets/ProjectThumbnails/VLR.jpg'
 
 const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
@@ -34,7 +34,7 @@ const LandingPage = () => {
 
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
-        <fog attach="fog" args={['#000', 8.5, 12]} />
+        {/*<fog attach="fog" args={['#000', 8.5, 12]} />*/}
         <ScrollControls pages={4} infinite>
           <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange}>
             <Carousel onCardHover={setHoveredCard} />
@@ -70,7 +70,7 @@ function Rig({ onScrollChange, ...props }: RigProps) {
 
     state.events?.update?.()
     easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta)
-    state.camera.lookAt(0, 0, 1.25)
+    state.camera.lookAt(0, 0, 1)
   })
   return <group ref={ref} {...props} />
 }
@@ -121,7 +121,7 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
     // Navigate to different robot pages based on card index
-    const routes = ['/VLR', '/Swerve', 'FLL']
+    const routes = [null, 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
     navigate(routes[cardIndex])
   }
 

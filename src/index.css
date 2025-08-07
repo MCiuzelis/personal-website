@@ -199,3 +199,26 @@
     transform: translateY(10px) translateX(-10px) scale(0.9); 
   }
 }
+
+@keyframes text-glow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.glow-text {
+  /* brighter gradient stops for a stronger glow */
+  background: linear-gradient(
+          90deg,
+          rgba(255,255,255,0.7),
+          rgba(255,255,255,1),
+          rgba(255,255,255,0.7)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* shuttle left→right→left smoothly */
+  animation: text-glow 1.5s ease-in-out infinite alternate;
+}
+
+
