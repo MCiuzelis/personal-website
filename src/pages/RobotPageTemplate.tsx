@@ -91,7 +91,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
           <OrbitControls
             enableZoom={false}
-            enablePan={false}
+            enablePan={!lockScroll}
             minPolarAngle={0}
             maxPolarAngle={Math.PI / 1.25}
             makeDefault
