@@ -175,10 +175,10 @@ function AnimationTracker({
   useFrame(() => {
     if (!lockScroll) return
 
-    const currentOffset = scroll.offset
+    const currentOffset = scroll.offset * 2
     onScroll(currentOffset)
 
-    if (currentOffset >= 0.99 && lastScroll.current < 0.99) {
+    if (currentOffset >= 1.3 && lastScroll.current < 1.3) {
       console.log('unlocking')
       onUnlock()
     }

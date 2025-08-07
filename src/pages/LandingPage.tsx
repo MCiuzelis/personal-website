@@ -63,7 +63,7 @@ function Rig({ onScrollChange, ...props }: RigProps) {
     const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
     if (scrollDelta > 0.001) {
       onScrollChange?.(scrollDelta)
-      console.log("scrolled")
+      // console.log("scrolled")
       prevOffset.current = scroll.offset
     }
 

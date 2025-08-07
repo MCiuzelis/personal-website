@@ -44,12 +44,10 @@ export default function VLRPage() {
     }
   }, [hasPlayed])
 
-
-
   return (
       <div>
         <RobotPageTemplate
-            robot={<VLRRobot position={[1, -2, 1]} scale={23} rotation-y={0} />}
+            robot={<VLRRobot position={[1, -4, 1]} scale={21} rotation-y={0} />}
         >
         <div className="relative z-10">
           {/* Season Recap Section */}
