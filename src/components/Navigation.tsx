@@ -12,9 +12,13 @@ interface NavigationProps {
    * 'robot' - robot model page
    */
   pageType?: 'landing' | 'robot'
+  /**
+   * which card is currently hovered (only for landing page)
+   */
+  hoveredCard?: number | null
 }
 
-const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => {
+const Navigation = ({ scrollOffset, pageType = 'landing', hoveredCard }: NavigationProps) => {
   const navigate = useNavigate()
 
   const landed = scrollOffset === 0
@@ -71,8 +75,11 @@ const Navigation = ({ scrollOffset, pageType = 'landing' }: NavigationProps) => 
             <span className={getOpacityClass(landed)}>
               scroll to reveal more projects
             </span>
-                    <span className={getOpacityClass(landedTrue)}>
+                    <span className={getOpacityClass(landedTrue && (hoveredCard === null || hoveredCard === 0))}>
               hover on a project for more detail
+            </span>
+                    <span className={getOpacityClass(landedTrue && hoveredCard !== null && hoveredCard !== 0)}>
+              card {hoveredCard !== null ? hoveredCard + 1 : ''} is hovered
             </span>
                   </>
               )}

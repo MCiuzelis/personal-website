@@ -21,6 +21,7 @@ const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 
 const LandingPage = () => {
   const [hasScrolled, setHasScrolled] = useState(0)
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
 
   const handleScrollChange = (scrolled: number) => {
     setHasScrolled(scrolled)
@@ -29,14 +30,14 @@ const LandingPage = () => {
   return (
     <div className="h-screen w-full overflow-hidden relative bg-black">
       {/* Navigation */}
-      <Navigation pageType = 'landing' scrollOffset={hasScrolled} />
+      <Navigation pageType = 'landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
 
       {/* 3D Canvas */}
       <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
         <fog attach="fog" args={['#000', 8.5, 12]} />
         <ScrollControls pages={4} infinite>
           <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange}>
-            <Carousel />
+            <Carousel onCardHover={setHoveredCard} />
           </Rig>
         </ScrollControls>
       </Canvas>
@@ -74,7 +75,7 @@ function Rig({ onScrollChange, ...props }: RigProps) {
   return <group ref={ref} {...props} />
 }
 
-function Carousel({ radius = 1.34, count = 8 }) {
+function Carousel({ radius = 1.34, count = 8, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
   return Array.from({ length: count }, (_, i) => (
       <Card
           key={i}
@@ -82,6 +83,7 @@ function Carousel({ radius = 1.34, count = 8 }) {
           position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
           rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
           cardIndex={i}
+          onCardHover={onCardHover}
       />
   ))
 }
@@ -91,6 +93,7 @@ interface CardProps {
   position?: [number, number, number]
   rotation?: [number, number, number]
   cardIndex: number
+  onCardHover: (cardIndex: number | null) => void
 }
 
 interface ZoomableMaterial extends THREE.ShaderMaterial {
@@ -98,7 +101,7 @@ interface ZoomableMaterial extends THREE.ShaderMaterial {
   zoom: number
 }
 
-function Card({ url, cardIndex, ...props }: CardProps) {
+function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
   const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
   const [hovered, hover] = useState(false)
   const rotationAngle = useRef(0)
@@ -107,10 +110,12 @@ function Card({ url, cardIndex, ...props }: CardProps) {
   const pointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     hover(true)
+    onCardHover(cardIndex)
   }
 
   const pointerOut = (_e: ThreeEvent<PointerEvent>) => {
     hover(false)
+    onCardHover(null)
   }
 
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
