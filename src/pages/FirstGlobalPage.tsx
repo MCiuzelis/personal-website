@@ -82,7 +82,7 @@ const FirstGlobalPage: React.FC = () => {
             obs.disconnect()
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.01 }
     )
     obs.observe(heroRef.current)
     return () => obs.disconnect()
@@ -102,7 +102,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.01 }
     )
     obs.observe(videoWrapperRef2022.current)
     return () => obs.disconnect()
@@ -117,7 +117,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.01 }
     )
     obs.observe(videoWrapperRef2024.current)
     return () => obs.disconnect()
@@ -133,7 +133,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.01 }
     )
     obs.observe(mosaicRef2022.current)
     return () => obs.disconnect()
@@ -148,7 +148,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.01 }
     )
     obs.observe(mosaicRef2024.current)
     return () => obs.disconnect()
@@ -170,7 +170,7 @@ const FirstGlobalPage: React.FC = () => {
           el.currentTime = 0
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.01 }
     )
     observer.observe(target)
     return () => observer.disconnect()
@@ -191,7 +191,7 @@ const FirstGlobalPage: React.FC = () => {
           el.currentTime = 0
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.01 }
     )
     observer.observe(target)
     return () => observer.disconnect()
@@ -378,7 +378,7 @@ const FirstGlobalPage: React.FC = () => {
             </div>
 
             {/* Vertical video to the right */}
-            <div className="w-[min(30vw,40vh)] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900">
+            <div className="w-[24vw] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900">
               <video
                   src={mosaic8}
                   muted
@@ -396,7 +396,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[85vh] aspect-video">
+            <div className="h-[85vh] aspect-[1920/950]">
               <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2024}
