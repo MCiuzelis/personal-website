@@ -158,6 +158,22 @@ const FirstGlobalPage: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
+  // Reveal 2024 vertical mosaic video when in view
+  useEffect(() => {
+    if (!mosaicVideoRef2024.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMosaicVideoVisible2024(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.01 }
+    )
+    obs.observe(mosaicVideoRef2024.current)
+    return () => obs.disconnect()
+  }, [])
+
   useEffect(() => {
     if (!mosaicRef2024.current) return
     const obs = new IntersectionObserver(
