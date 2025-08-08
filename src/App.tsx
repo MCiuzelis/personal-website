@@ -10,6 +10,7 @@ import {PageWrapper} from './components/PageWrapper'
 import { AnimatePresence } from 'framer-motion'
 import SwervePage from "@/pages/SwervePage.tsx";
 import FLL_Page from "@/pages/FLL_Page.tsx";
+import FirstGlobalPage from "@/pages/FirstGlobalPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,11 @@ function AnimatedRoutes() {
           <Route path="/FLL" element={
             <PageWrapper>
               <FLL_Page />
+            </PageWrapper>
+          }/>
+          <Route path="/FirstGlobal" element={
+            <PageWrapper>
+              <FirstGlobalPage />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />
