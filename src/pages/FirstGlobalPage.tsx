@@ -6,6 +6,14 @@ import mosaic3 from '@/assets/FGC/mosaic3.jpeg'
 import mosaic4 from '@/assets/FGC/mosaic4.jpeg'
 import kitVideo from '@/assets/FGC/2022_KitCapture.mp4'
 
+import main2 from '@/assets/FGC/main2.jpg'
+import mosaic5 from '@/assets/FGC/mosaic5.jpg'
+import mosaic6 from '@/assets/FGC/mosaic6.jpg'
+import mosaic7 from '@/assets/FGC/horizontal.jpg'
+import mosaic8 from '@/assets/FGC/robotInAction.mp4'
+import kitVideo2 from '@/assets/FGC/2024_KitCapture.mp4'
+import Navigation from "@/components/Navigation.tsx";
+
 const FirstGlobalPage: React.FC = () => {
   // SEO setup
   useEffect(() => {
@@ -30,6 +38,7 @@ const FirstGlobalPage: React.FC = () => {
     }
     link.href = window.location.origin + '/FirstGlobal'
 
+
     // JSON-LD structured data
     const scriptId = 'ld-json-first-global'
     let ld = document.getElementById(scriptId)
@@ -47,17 +56,50 @@ const FirstGlobalPage: React.FC = () => {
     document.head.appendChild(script)
   }, [])
 
+
   // State for loading states
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [muted, setMuted] = useState(true)
-  const [heroLoaded, setHeroLoaded] = useState(false)
-  const [m1Loaded, setM1Loaded] = useState(false)
-  const [m2Loaded, setM2Loaded] = useState(false)
-  const [m3Loaded, setM3Loaded] = useState(false)
-  const [m4Loaded, setM4Loaded] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const mosaicRef = useRef<HTMLDivElement | null>(null)
   const [mosaicVisible, setMosaicVisible] = useState(false)
+
+  // State for visibility
+  const [heroVisible, setHeroVisible] = useState(false)
+  const heroRef = useRef<HTMLImageElement | null>(null)
+
+  useEffect(() => {
+    if (!heroRef.current) return
+    const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setHeroVisible(true)
+            obs.disconnect()
+          }
+        },
+        { threshold: 0.2 }
+    )
+    obs.observe(heroRef.current)
+    return () => obs.disconnect()
+  }, [])
+
+  const [videoVisible, setVideoVisible] = useState(false)
+  const videoWrapperRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!videoWrapperRef.current) return
+    const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVideoVisible(true)
+            obs.disconnect()
+          }
+        },
+        { threshold: 0.2 }
+    )
+    obs.observe(videoWrapperRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   // Reveal mosaic with sequential animation when in view
   useEffect(() => {
@@ -75,7 +117,7 @@ const FirstGlobalPage: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
-  // Autoplay video on scroll into view, replay when scrolled to again
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -100,18 +142,20 @@ const FirstGlobalPage: React.FC = () => {
   }, [muted])
   return (
     <>
-      <header className="bg-black px-8 pt-14">
+      <Navigation pageType="FGC" scrollOffset={0} />
+
+      <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="section-heading text-white mb-12 md:mb-6 text-center">2022 First Global Challenge</h1>
+          <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2022 First Global Challenge</h1>
           <section className="flex items-center justify-center mb-20">
-            <div className="w-[min(90vw,120vh)] aspect-video">
+            <div className="h-[80vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
-                  src={main}
-                  fetchPriority="high"
-                  decoding="async"
-                  onLoad={() => setHeroLoaded(true)}
-                  className={`block w-full h-full object-cover transition-opacity duration-700 ${heroLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    ref={heroRef}
+                    src={main}
+                    fetchPriority="high"
+                    decoding="async"
+                    className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
                 />
               </div>
             </div>
@@ -119,56 +163,206 @@ const FirstGlobalPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="bg-black px-8 pb-20 space-y-24 md:space-y-28">
+      <main className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
-          <div ref={mosaicRef} className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]">
-            <section aria-label="Robot development image 1" className={`rounded-xl overflow-hidden aspect-square ${mosaicVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: '0ms' }}>
-              <img src={mosaic1} alt="Robot development placeholder 1" loading="lazy" decoding="async" onLoad={() => setM1Loaded(true)} className={`block w-full h-full object-cover transition-opacity duration-700 ${m1Loaded ? 'opacity-100' : 'opacity-0'}`} />
+          <div
+              ref={mosaicRef}
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]"
+          >
+            {/* Top-left */}
+            <section aria-label="Robot development image 1" className="rounded-xl overflow-hidden aspect-square">
+              <img
+                  src={mosaic1}
+                  alt="Robot development 1"
+                  loading="lazy"
+                  decoding="async"
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible ? '0ms' : undefined }}
+              />
             </section>
-            <section aria-label="Robot development image 2" className={`rounded-xl overflow-hidden aspect-square ${mosaicVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: '150ms' }}>
-              <img src={mosaic2} alt="Robot development placeholder 2" loading="lazy" decoding="async" onLoad={() => setM2Loaded(true)} className={`block w-full h-full object-cover transition-opacity duration-700 ${m2Loaded ? 'opacity-100' : 'opacity-0'}`} />
+
+            {/* Top-right */}
+            <section aria-label="Robot development image 2" className="rounded-xl overflow-hidden aspect-square">
+              <img
+                  src={mosaic2}
+                  alt="Robot development 2"
+                  loading="lazy"
+                  decoding="async"
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible ? '150ms' : undefined }}
+              />
             </section>
-            <section aria-label="Robot development image 3" className={`rounded-xl overflow-hidden aspect-square ${mosaicVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: '300ms' }}>
-              <img src={mosaic3} alt="Robot development placeholder 3" loading="lazy" decoding="async" onLoad={() => setM3Loaded(true)} className={`block w-full h-full object-cover transition-opacity duration-700 ${m3Loaded ? 'opacity-100' : 'opacity-0'}`} />
+
+            {/* Bottom-right */}
+            <section aria-label="Robot development image 3" className="rounded-xl overflow-hidden aspect-square">
+              <img
+                  src={mosaic3}
+                  alt="Robot development 3"
+                  loading="lazy"
+                  decoding="async"
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible ? '300ms' : undefined }}
+              />
             </section>
-            <section aria-label="Robot development image 4" className={`rounded-xl overflow-hidden aspect-square ${mosaicVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: '450ms' }}>
-              <img src={mosaic4} alt="Robot development placeholder 4" loading="lazy" decoding="async" onLoad={() => setM4Loaded(true)} className={`block w-full h-full object-cover transition-opacity duration-700 ${m4Loaded ? 'opacity-100' : 'opacity-0'}`} />
+
+            {/* Bottom-left */}
+            <section aria-label="Robot development image 4" className="rounded-xl overflow-hidden aspect-square">
+              <img
+                  src={mosaic4}
+                  alt="Robot development 4"
+                  loading="lazy"
+                  decoding="async"
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible ? '450ms' : undefined }}
+              />
             </section>
           </div>
         </section>
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 md:mb-8 text-center">Kit capture video</h2>
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="w-[min(98vw,140vh)] aspect-video">
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+            <div className="h-[85vh] aspect-video">
+              <div ref={videoWrapperRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
-                  ref={videoRef}
-                  src={kitVideo}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay
-                  preload="auto"
-                  controls={false}
-                  onCanPlay={() => setVideoReady(true)}
-                  className={`block w-full h-full object-cover transition-opacity duration-700 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
+                    ref={videoRef}
+                    src={kitVideo}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    controls={false}
+                    onCanPlay={() => setVideoReady(true)}
+                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible ? 'animate-scale-fade-in' : ''}`}
                 />
-                <div className="absolute bottom-3 left-3">
-                  <button
+                {/* Mute button inside video */}
+                <button
                     onClick={() => setMuted((m) => !m)}
                     aria-pressed={!muted}
                     aria-label={muted ? 'Unmute video' : 'Mute video'}
-                    className="px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-                  >
-                    {muted ? 'Unmute' : 'Mute'}
-                  </button>
-                </div>
+                    className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                >
+                  {muted ? 'Unmute' : 'Mute'}
+                </button>
               </div>
             </div>
           </div>
         </section>
       </main>
+
+      {/* === 2024 First Global Challenge Section === */}
+      <section className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
+        {/* Hero section */}
+        <div className="max-w-screen-2xl mx-auto">
+          <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2024 First Global Challenge</h1>
+          <section className="flex items-center justify-center mb-20">
+            <div className="h-[80vh] aspect-video">
+              <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
+                <img
+                    src={main2}
+                    fetchPriority="high"
+                    decoding="async"
+                    className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
+                />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Robot development - custom grid + vertical video */}
+        <section className="max-w-screen-2xl mx-auto">
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
+          <div className="flex flex-col md:flex-row gap-4 items-start justify-center">
+            {/* Grid of images */}
+            <div
+                ref={mosaicRef}
+                className="grid grid-cols-2 gap-3 w-[min(60vw,70vh)]"
+            >
+              {/* Square 1 */}
+              <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square">
+                <img
+                    src={mosaic5}
+                    alt="Robot development 5"
+                    loading="lazy"
+                    decoding="async"
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible ? '0ms' : undefined }}
+                />
+              </section>
+
+              {/* Square 2 */}
+              <section aria-label="Robot development image 6" className="rounded-xl overflow-hidden aspect-square">
+                <img
+                    src={mosaic6}
+                    alt="Robot development 6"
+                    loading="lazy"
+                    decoding="async"
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible ? '150ms' : undefined }}
+                />
+              </section>
+
+              {/* Horizontal image spanning both columns */}
+              <section aria-label="Robot development image 7" className="rounded-xl overflow-hidden col-span-2 aspect-[2/1]">
+                <img
+                    src={mosaic7}
+                    alt="Robot development 7"
+                    loading="lazy"
+                    decoding="async"
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible ? '300ms' : undefined }}
+                />
+              </section>
+            </div>
+
+            {/* Vertical video to the right */}
+            <div className="w-[min(30vw,40vh)] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900">
+              <video
+                  src={mosaic8}
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  preload="auto"
+                  className="block w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Kit capture video */}
+        <section className="max-w-screen-2xl mx-auto">
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
+          <div className="flex items-center justify-center">
+            <div className="h-[85vh] aspect-video">
+              <div ref={videoWrapperRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+                <video
+                    ref={videoRef}
+                    src={kitVideo2}
+                    muted={muted}
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    controls={false}
+                    onCanPlay={() => setVideoReady(true)}
+                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible ? 'animate-scale-fade-in' : ''}`}
+                />
+                {/* Mute button */}
+                <button
+                    onClick={() => setMuted((m) => !m)}
+                    aria-pressed={!muted}
+                    aria-label={muted ? 'Unmute video' : 'Mute video'}
+                    className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                >
+                  {muted ? 'Unmute' : 'Mute'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
     </>
   )
 }

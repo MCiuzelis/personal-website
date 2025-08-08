@@ -222,3 +222,29 @@
 }
 
 
+@keyframes scale-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05); /* overshoot */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* IMPORTANT: animation-fill-mode: both ensures the 0% keyframe
+   is applied during the delay (no flash), and the final frame is kept */
+.animate-scale-fade-in {
+  animation-name: scale-fade-in;
+  animation-duration: 1000ms; /* a bit slower */
+  animation-timing-function: cubic-bezier(0.25, 1.25, 0.5, 1);
+  animation-fill-mode: both; /* <- this fixes the instant-flash problem */
+  animation-iteration-count: 1;
+}
+
+

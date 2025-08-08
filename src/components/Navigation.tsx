@@ -3,13 +3,13 @@ import * as React from 'react'
 
 interface NavigationProps {
   scrollOffset: number
-  pageType?: 'landing' | 'robot'
+  pageType: string
   hoveredCard?: number | null
 }
 
 const Navigation = ({
                       scrollOffset,
-                      pageType = 'landing',
+                      pageType,
                       hoveredCard,
                     }: NavigationProps) => {
   const navigate = useNavigate()
@@ -87,7 +87,7 @@ const Navigation = ({
 
             {/* Center */}
             <div className="min-w-max h-6 flex items-center justify-center">
-              {pageType === 'robot' ? (
+              {pageType == 'robot' ? (
                   <span className={getOpacityClass(true)}>
                 Scroll to explore the model
               </span>
