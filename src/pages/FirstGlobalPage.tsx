@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import heroImg from '@/assets/ProjectThumbnails/main.jpg'
-import mosaic1 from '@/assets/ProjectThumbnails/card1.jpg'
-import mosaic2 from '@/assets/ProjectThumbnails/card2.jpg'
-import mosaic3 from '@/assets/ProjectThumbnails/card3.jpg'
-import mosaic4 from '@/assets/ProjectThumbnails/card4.jpg'
-import kitVideo from '@/assets/SwervePage/vid0.mp4'
+import main from '@/assets/FGC/main.jpg'
+import mosaic1 from '@/assets/FGC/mosaic1.jpeg'
+import mosaic2 from '@/assets/FGC/mosaic2.jpeg'
+import mosaic3 from '@/assets/FGC/mosaic3.jpeg'
+import mosaic4 from '@/assets/FGC/mosaic4.jpeg'
+import kitVideo from '@/assets/FGC/2022_KitCapture.mp4'
 
 const FirstGlobalPage: React.FC = () => {
   // SEO setup
@@ -81,7 +81,7 @@ const FirstGlobalPage: React.FC = () => {
             <div className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[75vw] max-h-[85vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
-                  src={heroImg}
+                  src={main}
                   alt="2022 First Global Challenge hero placeholder image"
                   loading="lazy"
                   className="w-full h-full object-cover"
