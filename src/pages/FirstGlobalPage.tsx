@@ -51,6 +51,12 @@ const FirstGlobalPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [hasPlayed, setHasPlayed] = useState(false)
   const [muted, setMuted] = useState(true)
+  const [heroLoaded, setHeroLoaded] = useState(false)
+  const [m1Loaded, setM1Loaded] = useState(false)
+  const [m2Loaded, setM2Loaded] = useState(false)
+  const [m3Loaded, setM3Loaded] = useState(false)
+  const [m4Loaded, setM4Loaded] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,17 +80,19 @@ const FirstGlobalPage: React.FC = () => {
 
   return (
     <>
-      <header className="bg-black px-8 pt-12">
+      <header className="bg-black px-8 pt-6">
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="section-heading text-white mb-8 pt-8 text-center">2022 First Global Challenge</h1>
+          <h1 className="section-heading text-white mb-10 md:mb-12 text-center">2022 First Global Challenge</h1>
           <section className="flex items-center justify-center mb-16">
-            <div className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[75vw] max-h-[85vh] aspect-video">
+            <div className="w-[min(90vw,120vh)] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
                   src={main}
                   alt="2022 First Global Challenge hero placeholder image"
-                  loading="lazy"
-                  className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  decoding="async"
+                  onLoad={() => setHeroLoaded(true)}
+                  className={`w-full h-full object-cover transition-opacity duration-700 ${heroLoaded ? 'opacity-100' : 'opacity-0'}`}
                 />
               </div>
             </div>
@@ -94,27 +102,27 @@ const FirstGlobalPage: React.FC = () => {
 
       <main className="bg-black px-8 pb-20">
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot development</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <section aria-label="Robot development image 1" className="rounded-xl overflow-hidden">
-              <img src={mosaic1} alt="Robot development placeholder 1" loading="lazy" className="w-full h-full object-cover" />
+          <h2 className="section-heading text-white mb-10 md:mb-12 text-center">Robot development</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto w-[min(90vw,90vh)]">
+            <section aria-label="Robot development image 1" className="rounded-xl overflow-hidden aspect-square">
+              <img src={mosaic1} alt="Robot development placeholder 1" loading="lazy" decoding="async" onLoad={() => setM1Loaded(true)} className={`w-full h-full object-cover transition-opacity duration-700 ${m1Loaded ? 'opacity-100' : 'opacity-0'}`} />
             </section>
-            <section aria-label="Robot development image 2" className="rounded-xl overflow-hidden">
-              <img src={mosaic2} alt="Robot development placeholder 2" loading="lazy" className="w-full h-full object-cover" />
+            <section aria-label="Robot development image 2" className="rounded-xl overflow-hidden aspect-square">
+              <img src={mosaic2} alt="Robot development placeholder 2" loading="lazy" decoding="async" onLoad={() => setM2Loaded(true)} className={`w-full h-full object-cover transition-opacity duration-700 ${m2Loaded ? 'opacity-100' : 'opacity-0'}`} />
             </section>
-            <section aria-label="Robot development image 3" className="rounded-xl overflow-hidden">
-              <img src={mosaic3} alt="Robot development placeholder 3" loading="lazy" className="w-full h-full object-cover" />
+            <section aria-label="Robot development image 3" className="rounded-xl overflow-hidden aspect-square">
+              <img src={mosaic3} alt="Robot development placeholder 3" loading="lazy" decoding="async" onLoad={() => setM3Loaded(true)} className={`w-full h-full object-cover transition-opacity duration-700 ${m3Loaded ? 'opacity-100' : 'opacity-0'}`} />
             </section>
-            <section aria-label="Robot development image 4" className="rounded-xl overflow-hidden">
-              <img src={mosaic4} alt="Robot development placeholder 4" loading="lazy" className="w-full h-full object-cover" />
+            <section aria-label="Robot development image 4" className="rounded-xl overflow-hidden aspect-square">
+              <img src={mosaic4} alt="Robot development placeholder 4" loading="lazy" decoding="async" onLoad={() => setM4Loaded(true)} className={`w-full h-full object-cover transition-opacity duration-700 ${m4Loaded ? 'opacity-100' : 'opacity-0'}`} />
             </section>
           </div>
         </section>
 
         <section className="max-w-screen-2xl mx-auto mt-20">
-          <h2 className="section-heading text-white mb-8 pt-8 text-center">Kit capture video</h2>
+          <h2 className="section-heading text-white mb-10 md:mb-12 text-center">Kit capture video</h2>
           <div className="flex items-center justify-center mt-6">
-            <div className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[75vw] max-h-[85vh] aspect-video">
+            <div className="w-[min(90vw,120vh)] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <video
                   ref={videoRef}
@@ -122,8 +130,11 @@ const FirstGlobalPage: React.FC = () => {
                   muted
                   loop
                   playsInline
+                  autoPlay
+                  preload="auto"
                   controls={false}
-                  className="w-full h-full object-cover"
+                  onCanPlay={() => setVideoReady(true)}
+                  className={`w-full h-full object-cover transition-opacity duration-700 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
                 />
                 <div className="absolute bottom-3 right-3">
                   <button
