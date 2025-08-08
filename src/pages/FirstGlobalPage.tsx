@@ -96,15 +96,14 @@ const FirstGlobalPage: React.FC = () => {
   }, [])
   return (
     <>
-      <header className="bg-black px-8 pt-4">
+      <header className="bg-black px-8 pt-14">
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="section-heading text-white mb-12 md:mb-14 text-center">2022 First Global Challenge</h1>
-          <section className="flex items-center justify-center mb-16">
+          <h1 className="section-heading text-white mb-12 md:mb-6 text-center">2022 First Global Challenge</h1>
+          <section className="flex items-center justify-center mb-20">
             <div className="w-[min(90vw,120vh)] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
                   src={main}
-                  alt="2022 First Global Challenge hero placeholder image"
                   fetchPriority="high"
                   decoding="async"
                   onLoad={() => setHeroLoaded(true)}
@@ -118,7 +117,7 @@ const FirstGlobalPage: React.FC = () => {
 
       <main className="bg-black px-8 pb-20 space-y-24 md:space-y-28">
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-12 md:mb-14 text-center">Robot development</h2>
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
           <div ref={mosaicRef} className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]">
             <section aria-label="Robot development image 1" className={`rounded-xl overflow-hidden aspect-square ${mosaicVisible ? 'animate-scale-in' : ''}`} style={{ animationDelay: '0ms' }}>
               <img src={mosaic1} alt="Robot development placeholder 1" loading="lazy" decoding="async" onLoad={() => setM1Loaded(true)} className={`block w-full h-full object-cover transition-opacity duration-700 ${m1Loaded ? 'opacity-100' : 'opacity-0'}`} />
