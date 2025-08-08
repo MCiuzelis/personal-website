@@ -47,9 +47,8 @@ const FirstGlobalPage: React.FC = () => {
     document.head.appendChild(script)
   }, [])
 
-  // Autoplay on visibility (reused from Robot in Action)
+  // State for loading states
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [hasPlayed, setHasPlayed] = useState(false)
   const [muted, setMuted] = useState(true)
   const [heroLoaded, setHeroLoaded] = useState(false)
   const [m1Loaded, setM1Loaded] = useState(false)
@@ -59,25 +58,6 @@ const FirstGlobalPage: React.FC = () => {
   const [videoReady, setVideoReady] = useState(false)
   const mosaicRef = useRef<HTMLDivElement | null>(null)
   const [mosaicVisible, setMosaicVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasPlayed) {
-          videoRef.current?.play()
-          setHasPlayed(true)
-        }
-      },
-      { threshold: 0.8 }
-    )
-    if (videoRef.current) observer.observe(videoRef.current)
-    return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current)
-    }
-  }, [hasPlayed])
-
-  useEffect(() => {
-    if (videoRef.current) videoRef.current.muted = muted
-  }, [muted])
 
   // Reveal mosaic with sequential animation when in view
   useEffect(() => {
@@ -94,6 +74,30 @@ const FirstGlobalPage: React.FC = () => {
     obs.observe(mosaicRef.current)
     return () => obs.disconnect()
   }, [])
+
+  // Autoplay video on scroll into view, replay when scrolled to again
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (videoRef.current) {
+            videoRef.current.currentTime = 0
+            videoRef.current.play()
+          }
+        }
+      },
+      { threshold: 0.5 }
+    )
+    if (videoRef.current) observer.observe(videoRef.current)
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current)
+    }
+  }, [])
+
+  // Update video muted state
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted
+  }, [muted])
   return (
     <>
       <header className="bg-black px-8 pt-14">
@@ -135,8 +139,8 @@ const FirstGlobalPage: React.FC = () => {
         </section>
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-8 text-center">Kit capture video</h2>
-          <div className="flex items-center justify-center mt-4">
-            <div className="w-[min(96vw,130vh)] aspect-video">
+          <div className="flex items-center justify-center">
+            <div className="w-[min(98vw,140vh)] aspect-video">
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                   ref={videoRef}
@@ -148,7 +152,7 @@ const FirstGlobalPage: React.FC = () => {
                   preload="auto"
                   controls={false}
                   onCanPlay={() => setVideoReady(true)}
-                  className={`block w-full h-full object-cover rounded-xl transition-opacity duration-700 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
+                  className={`block w-full h-full object-cover transition-opacity duration-700 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
                 />
                 <div className="absolute bottom-3 left-3">
                   <button
