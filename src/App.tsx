@@ -11,7 +11,8 @@ import { AnimatePresence } from 'framer-motion'
 import SwervePage from "@/pages/SwervePage.tsx";
 import FLL_Page from "@/pages/FLL_Page.tsx";
 import FirstGlobalPage from "@/pages/FirstGlobalPage.tsx";
-
+import CombustionEngine from "@/pages/CombustionEngine.tsx";
+import KineticLaunchPlatform from "@/pages/KineticLaunchPlatform.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -65,6 +66,16 @@ function AnimatedRoutes() {
           <Route path="/FirstGlobal" element={
             <PageWrapper>
               <FirstGlobalPage />
+            </PageWrapper>
+          }/>
+          <Route path="/CombustionEngine" element={
+            <PageWrapper>
+              <CombustionEngine />
+            </PageWrapper>
+          }/>
+          <Route path="/KineticLaunchPlatform" element={
+            <PageWrapper>
+              <KineticLaunchPlatform />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />
