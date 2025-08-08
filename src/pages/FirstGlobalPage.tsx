@@ -58,11 +58,15 @@ const FirstGlobalPage: React.FC = () => {
 
 
   // State for loading states
-  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const videoRef2022 = useRef<HTMLVideoElement | null>(null)
+  const videoRef2024 = useRef<HTMLVideoElement | null>(null)
   const [muted, setMuted] = useState(true)
   const [videoReady, setVideoReady] = useState(false)
-  const mosaicRef = useRef<HTMLDivElement | null>(null)
-  const [mosaicVisible, setMosaicVisible] = useState(false)
+
+  const mosaicRef2022 = useRef<HTMLDivElement | null>(null)
+  const mosaicRef2024 = useRef<HTMLDivElement | null>(null)
+  const [mosaicVisible2022, setMosaicVisible2022] = useState(false)
+  const [mosaicVisible2024, setMosaicVisible2024] = useState(false)
 
   // State for visibility
   const [heroVisible, setHeroVisible] = useState(false)
@@ -83,37 +87,69 @@ const FirstGlobalPage: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
-  const [videoVisible, setVideoVisible] = useState(false)
-  const videoWrapperRef = useRef<HTMLDivElement | null>(null)
+  const [videoVisible2022, setVideoVisible2022] = useState(false)
+  const [videoVisible2024, setVideoVisible2024] = useState(false)
+  const videoWrapperRef2022 = useRef<HTMLDivElement | null>(null)
+  const videoWrapperRef2024 = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (!videoWrapperRef.current) return
-    const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setVideoVisible(true)
-            obs.disconnect()
-          }
-        },
-        { threshold: 0.2 }
-    )
-    obs.observe(videoWrapperRef.current)
-    return () => obs.disconnect()
-  }, [])
-
-  // Reveal mosaic with sequential animation when in view
-  useEffect(() => {
-    if (!mosaicRef.current) return
+    if (!videoWrapperRef2022.current) return
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setMosaicVisible(true)
+          setVideoVisible2022(true)
           obs.disconnect()
         }
       },
       { threshold: 0.2 }
     )
-    obs.observe(mosaicRef.current)
+    obs.observe(videoWrapperRef2022.current)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!videoWrapperRef2024.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoVisible2024(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.2 }
+    )
+    obs.observe(videoWrapperRef2024.current)
+    return () => obs.disconnect()
+  }, [])
+
+  // Reveal mosaics with sequential animation when in view (per section)
+  useEffect(() => {
+    if (!mosaicRef2022.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMosaicVisible2022(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.2 }
+    )
+    obs.observe(mosaicRef2022.current)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!mosaicRef2024.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMosaicVisible2024(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.2 }
+    )
+    obs.observe(mosaicRef2024.current)
     return () => obs.disconnect()
   }, [])
 
@@ -122,23 +158,41 @@ const FirstGlobalPage: React.FC = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          if (videoRef.current) {
-            videoRef.current.currentTime = 0
-            videoRef.current.play()
+          if (videoRef2022.current) {
+            videoRef2022.current.currentTime = 0
+            videoRef2022.current.play()
           }
         }
       },
       { threshold: 0.5 }
     )
-    if (videoRef.current) observer.observe(videoRef.current)
+    if (videoRef2022.current) observer.observe(videoRef2022.current)
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current)
+      if (videoRef2022.current) observer.unobserve(videoRef2022.current)
     }
   }, [])
 
-  // Update video muted state
   useEffect(() => {
-    if (videoRef.current) videoRef.current.muted = muted
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (videoRef2024.current) {
+            videoRef2024.current.currentTime = 0
+            videoRef2024.current.play()
+          }
+        }
+      },
+      { threshold: 0.5 }
+    )
+    if (videoRef2024.current) observer.observe(videoRef2024.current)
+    return () => {
+      if (videoRef2024.current) observer.unobserve(videoRef2024.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (videoRef2022.current) videoRef2022.current.muted = muted
+    if (videoRef2024.current) videoRef2024.current.muted = muted
   }, [muted])
   return (
     <>
@@ -153,7 +207,6 @@ const FirstGlobalPage: React.FC = () => {
                 <img
                     ref={heroRef}
                     src={main}
-                    fetchPriority="high"
                     decoding="async"
                     className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
                 />
@@ -167,7 +220,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
           <div
-              ref={mosaicRef}
+              ref={mosaicRef2022}
               className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]"
           >
             {/* Top-left */}
@@ -177,8 +230,8 @@ const FirstGlobalPage: React.FC = () => {
                   alt="Robot development 1"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                  style={{ animationDelay: mosaicVisible ? '0ms' : undefined }}
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible2022 ? '0ms' : undefined }}
               />
             </section>
 
@@ -189,8 +242,8 @@ const FirstGlobalPage: React.FC = () => {
                   alt="Robot development 2"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                  style={{ animationDelay: mosaicVisible ? '150ms' : undefined }}
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible2022 ? '150ms' : undefined }}
               />
             </section>
 
@@ -201,8 +254,8 @@ const FirstGlobalPage: React.FC = () => {
                   alt="Robot development 3"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                  style={{ animationDelay: mosaicVisible ? '300ms' : undefined }}
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible2022 ? '300ms' : undefined }}
               />
             </section>
 
@@ -213,8 +266,8 @@ const FirstGlobalPage: React.FC = () => {
                   alt="Robot development 4"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                  style={{ animationDelay: mosaicVisible ? '450ms' : undefined }}
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  style={{ animationDelay: mosaicVisible2022 ? '450ms' : undefined }}
               />
             </section>
           </div>
@@ -223,18 +276,18 @@ const FirstGlobalPage: React.FC = () => {
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
           <div className="flex items-center justify-center">
             <div className="h-[85vh] aspect-video">
-              <div ref={videoWrapperRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+              <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
-                    ref={videoRef}
+                    ref={videoRef2022}
                     src={kitVideo}
-                    muted
+                    muted={muted}
                     loop
                     playsInline
                     autoPlay
                     preload="auto"
                     controls={false}
                     onCanPlay={() => setVideoReady(true)}
-                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible2022 ? 'animate-scale-fade-in' : ''}`}
                 />
                 {/* Mute button inside video */}
                 <button
@@ -261,7 +314,6 @@ const FirstGlobalPage: React.FC = () => {
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
                     src={main2}
-                    fetchPriority="high"
                     decoding="async"
                     className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
                 />
@@ -276,7 +328,7 @@ const FirstGlobalPage: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-4 items-start justify-center">
             {/* Grid of images */}
             <div
-                ref={mosaicRef}
+                ref={mosaicRef2024}
                 className="grid grid-cols-2 gap-3 w-[min(60vw,70vh)]"
             >
               {/* Square 1 */}
@@ -286,8 +338,8 @@ const FirstGlobalPage: React.FC = () => {
                     alt="Robot development 5"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                    style={{ animationDelay: mosaicVisible ? '0ms' : undefined }}
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible2024 ? '0ms' : undefined }}
                 />
               </section>
 
@@ -298,8 +350,8 @@ const FirstGlobalPage: React.FC = () => {
                     alt="Robot development 6"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                    style={{ animationDelay: mosaicVisible ? '150ms' : undefined }}
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible2024 ? '150ms' : undefined }}
                 />
               </section>
 
@@ -310,8 +362,8 @@ const FirstGlobalPage: React.FC = () => {
                     alt="Robot development 7"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible ? 'animate-scale-fade-in' : ''}`}
-                    style={{ animationDelay: mosaicVisible ? '300ms' : undefined }}
+                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    style={{ animationDelay: mosaicVisible2024 ? '300ms' : undefined }}
                 />
               </section>
             </div>
@@ -325,7 +377,7 @@ const FirstGlobalPage: React.FC = () => {
                   playsInline
                   autoPlay
                   preload="auto"
-                  className="block w-full h-full object-cover"
+                  className="block w-full h-full object-cover opacity-0 animate-scale-fade-in"
               />
             </div>
           </div>
@@ -336,9 +388,9 @@ const FirstGlobalPage: React.FC = () => {
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
           <div className="flex items-center justify-center">
             <div className="h-[85vh] aspect-video">
-              <div ref={videoWrapperRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+              <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
-                    ref={videoRef}
+                    ref={videoRef2024}
                     src={kitVideo2}
                     muted={muted}
                     loop
@@ -347,7 +399,7 @@ const FirstGlobalPage: React.FC = () => {
                     preload="auto"
                     controls={false}
                     onCanPlay={() => setVideoReady(true)}
-                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible2024 ? 'animate-scale-fade-in' : ''}`}
                 />
                 {/* Mute button */}
                 <button
