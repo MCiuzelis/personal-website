@@ -72,6 +72,8 @@ const FirstGlobalPage: React.FC = () => {
   // State for visibility
   const [heroVisible, setHeroVisible] = useState(false)
   const heroRef = useRef<HTMLImageElement | null>(null)
+  const [heroVisible2024, setHeroVisible2024] = useState(false)
+  const heroRef2024 = useRef<HTMLImageElement | null>(null)
 
   useEffect(() => {
     if (!heroRef.current) return
@@ -88,10 +90,27 @@ const FirstGlobalPage: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!heroRef2024.current) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeroVisible2024(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.01 }
+    )
+    obs.observe(heroRef2024.current)
+    return () => obs.disconnect()
+  }, [])
+
   const [videoVisible2022, setVideoVisible2022] = useState(false)
   const [videoVisible2024, setVideoVisible2024] = useState(false)
   const videoWrapperRef2022 = useRef<HTMLDivElement | null>(null)
   const videoWrapperRef2024 = useRef<HTMLDivElement | null>(null)
+  const mosaicVideoRef2024 = useRef<HTMLVideoElement | null>(null)
+  const [mosaicVideoVisible2024, setMosaicVideoVisible2024] = useState(false)
 
   useEffect(() => {
     if (!videoWrapperRef2022.current) return
@@ -321,11 +340,12 @@ const FirstGlobalPage: React.FC = () => {
           <section className="flex items-center justify-center mb-20">
             <div className="h-[80vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
-                <img
-                    src={main2}
-                    decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
-                />
+                  <img
+                      ref={heroRef2024}
+                      src={main2}
+                      decoding="async"
+                      className={`block w-full h-full object-cover opacity-0 ${heroVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                  />
               </div>
             </div>
           </section>
@@ -380,13 +400,14 @@ const FirstGlobalPage: React.FC = () => {
             {/* Vertical video to the right */}
             <div className="w-[24vw] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900">
               <video
+                  ref={mosaicVideoRef2024}
                   src={mosaic8}
                   muted
                   loop
                   playsInline
                   autoPlay
                   preload="auto"
-                  className="block w-full h-full object-cover opacity-0 animate-scale-fade-in"
+                  className={`block w-full h-full object-cover opacity-0 ${mosaicVideoVisible2024 ? 'animate-scale-fade-in' : ''}`}
               />
             </div>
           </div>
