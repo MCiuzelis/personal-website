@@ -84,7 +84,7 @@ const FirstGlobalPage: React.FC = () => {
             obs.disconnect()
           }
         },
-        { threshold: 0.01 }
+        { threshold: 0.3 }
     )
     obs.observe(heroRef.current)
     return () => obs.disconnect()
@@ -99,7 +99,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(heroRef2024.current)
     return () => obs.disconnect()
@@ -121,7 +121,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(videoWrapperRef2022.current)
     return () => obs.disconnect()
@@ -136,7 +136,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(videoWrapperRef2024.current)
     return () => obs.disconnect()
@@ -152,7 +152,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(mosaicRef2022.current)
     return () => obs.disconnect()
@@ -168,7 +168,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(mosaicVideoRef2024.current)
     return () => obs.disconnect()
@@ -183,7 +183,7 @@ const FirstGlobalPage: React.FC = () => {
           obs.disconnect()
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     obs.observe(mosaicRef2024.current)
     return () => obs.disconnect()
@@ -205,7 +205,7 @@ const FirstGlobalPage: React.FC = () => {
           el.currentTime = 0
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     observer.observe(target)
     return () => observer.disconnect()
@@ -226,7 +226,7 @@ const FirstGlobalPage: React.FC = () => {
           el.currentTime = 0
         }
       },
-      { threshold: 0.01 }
+      { threshold: 0.3 }
     )
     observer.observe(target)
     return () => observer.disconnect()
@@ -262,7 +262,7 @@ const FirstGlobalPage: React.FC = () => {
 
       <main className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2022 Robot development</h2>
           <div
               ref={mosaicRef2022}
               className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]"
@@ -317,7 +317,7 @@ const FirstGlobalPage: React.FC = () => {
           </div>
         </section>
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2022 Kit capture video</h2>
           <div className="flex items-center justify-center">
             <div className="h-[85vh] aspect-video">
               <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
@@ -369,7 +369,7 @@ const FirstGlobalPage: React.FC = () => {
 
         {/* Robot development - custom grid + vertical video */}
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">Robot development</h2>
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2024 Robot development</h2>
           <div className="flex flex-col md:flex-row gap-4 items-start justify-center">
             {/* Grid of images */}
             <div
@@ -431,7 +431,7 @@ const FirstGlobalPage: React.FC = () => {
 
         {/* Kit capture video */}
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">Kit capture video</h2>
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2024 Kit capture video</h2>
           <div className="flex items-center justify-center">
             <div className="h-[85vh] aspect-[1920/950]">
               <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
