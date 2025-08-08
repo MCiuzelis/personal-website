@@ -60,7 +60,8 @@ const FirstGlobalPage: React.FC = () => {
   // State for loading states
   const videoRef2022 = useRef<HTMLVideoElement | null>(null)
   const videoRef2024 = useRef<HTMLVideoElement | null>(null)
-  const [muted, setMuted] = useState(true)
+  const [muted2022, setMuted2022] = useState(true)
+  const [muted2024, setMuted2024] = useState(true)
   const [videoReady, setVideoReady] = useState(false)
 
   const mosaicRef2022 = useRef<HTMLDivElement | null>(null)
@@ -155,45 +156,53 @@ const FirstGlobalPage: React.FC = () => {
 
 
   useEffect(() => {
+    const target = videoRef2022.current
+    if (!target) return
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const el = videoRef2022.current
+        if (!el) return
         if (entry.isIntersecting) {
-          if (videoRef2022.current) {
-            videoRef2022.current.currentTime = 0
-            videoRef2022.current.play()
-          }
+          el.currentTime = 0
+          el.play().catch(() => {})
+        } else {
+          el.pause()
+          el.currentTime = 0
         }
       },
       { threshold: 0.5 }
     )
-    if (videoRef2022.current) observer.observe(videoRef2022.current)
-    return () => {
-      if (videoRef2022.current) observer.unobserve(videoRef2022.current)
-    }
+    observer.observe(target)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
+    const target = videoRef2024.current
+    if (!target) return
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const el = videoRef2024.current
+        if (!el) return
         if (entry.isIntersecting) {
-          if (videoRef2024.current) {
-            videoRef2024.current.currentTime = 0
-            videoRef2024.current.play()
-          }
+          el.currentTime = 0
+          el.play().catch(() => {})
+        } else {
+          el.pause()
+          el.currentTime = 0
         }
       },
       { threshold: 0.5 }
     )
-    if (videoRef2024.current) observer.observe(videoRef2024.current)
-    return () => {
-      if (videoRef2024.current) observer.unobserve(videoRef2024.current)
-    }
+    observer.observe(target)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
-    if (videoRef2022.current) videoRef2022.current.muted = muted
-    if (videoRef2024.current) videoRef2024.current.muted = muted
-  }, [muted])
+    if (videoRef2022.current) videoRef2022.current.muted = muted2022
+  }, [muted2022])
+  useEffect(() => {
+    if (videoRef2024.current) videoRef2024.current.muted = muted2024
+  }, [muted2024])
   return (
     <>
       <Navigation pageType="FGC" scrollOffset={0} />
@@ -280,7 +289,7 @@ const FirstGlobalPage: React.FC = () => {
                 <video
                     ref={videoRef2022}
                     src={kitVideo}
-                    muted={muted}
+                    muted={muted2022}
                     loop
                     playsInline
                     autoPlay
@@ -291,12 +300,12 @@ const FirstGlobalPage: React.FC = () => {
                 />
                 {/* Mute button inside video */}
                 <button
-                    onClick={() => setMuted((m) => !m)}
-                    aria-pressed={!muted}
-                    aria-label={muted ? 'Unmute video' : 'Mute video'}
+                    onClick={() => setMuted2022((m) => !m)}
+                    aria-pressed={!muted2022}
+                    aria-label={muted2022 ? 'Unmute video' : 'Mute video'}
                     className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
                 >
-                  {muted ? 'Unmute' : 'Mute'}
+                  {muted2022 ? 'Unmute' : 'Mute'}
                 </button>
               </div>
             </div>
@@ -329,10 +338,10 @@ const FirstGlobalPage: React.FC = () => {
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}
-                className="grid grid-cols-2 gap-3 w-[min(60vw,70vh)]"
+                className="grid grid-cols-2 gap-2 w-[min(70vw,82vh)]"
             >
               {/* Square 1 */}
-              <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square">
+              <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square bg-black">
                 <img
                     src={mosaic5}
                     alt="Robot development 5"
@@ -344,7 +353,7 @@ const FirstGlobalPage: React.FC = () => {
               </section>
 
               {/* Square 2 */}
-              <section aria-label="Robot development image 6" className="rounded-xl overflow-hidden aspect-square">
+              <section aria-label="Robot development image 6" className="rounded-xl overflow-hidden aspect-square bg-black">
                 <img
                     src={mosaic6}
                     alt="Robot development 6"
@@ -356,7 +365,7 @@ const FirstGlobalPage: React.FC = () => {
               </section>
 
               {/* Horizontal image spanning both columns */}
-              <section aria-label="Robot development image 7" className="rounded-xl overflow-hidden col-span-2 aspect-[2/1]">
+              <section aria-label="Robot development image 7" className="rounded-xl overflow-hidden col-span-2 aspect-[2/1] bg-black">
                 <img
                     src={mosaic7}
                     alt="Robot development 7"
@@ -392,7 +401,7 @@ const FirstGlobalPage: React.FC = () => {
                 <video
                     ref={videoRef2024}
                     src={kitVideo2}
-                    muted={muted}
+                    muted={muted2024}
                     loop
                     playsInline
                     autoPlay
@@ -403,12 +412,12 @@ const FirstGlobalPage: React.FC = () => {
                 />
                 {/* Mute button */}
                 <button
-                    onClick={() => setMuted((m) => !m)}
-                    aria-pressed={!muted}
-                    aria-label={muted ? 'Unmute video' : 'Mute video'}
+                    onClick={() => setMuted2024((m) => !m)}
+                    aria-pressed={!muted2024}
+                    aria-label={muted2024 ? 'Unmute video' : 'Mute video'}
                     className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
                 >
-                  {muted ? 'Unmute' : 'Mute'}
+                  {muted2024 ? 'Unmute' : 'Mute'}
                 </button>
               </div>
             </div>
