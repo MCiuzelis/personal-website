@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FLL_Robot from '@/components/FLL_Robot.tsx'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
@@ -13,6 +13,18 @@ import image7 from '@/assets/FLL_Page/img7.jpeg'
 const slideshowImages = [image1, image3, image4, image5, image6, image7]
 
 export default function FLL_Page() {
+  useEffect(() => {
+    const title = 'FIRST LEGO League Robot Project'
+    document.title = title
+    const desc = 'FLL robot showcase with 3D model, season recap, and contributions.'
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
+    meta.content = desc
+
+    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
+    link.href = window.location.origin + '/FLL'
+  }, [])
   return (
       <RobotPageTemplate
           robot={<FLL_Robot position={[0, -11, 0]} scale={38} rotation-y={0} />}

@@ -87,24 +87,24 @@ const Navigation = ({
 
             {/* Center */}
             <div className="min-w-max h-6 flex items-center justify-center">
-              {pageType == 'robot' ? (
-                  <span className={getOpacityClass(true)}>
-                Scroll to explore the model
-              </span>
+              {pageType === 'robot' ? (
+                <span className={getOpacityClass(true)}>Scroll to explore the model</span>
+              ) : pageType === 'other' ? (
+                <span className={getOpacityClass(true)}>Scroll to learn more</span>
               ) : (
-                  <>
-                <span className={getOpacityClass(landed)}>
-                  Scroll to reveal more projects
-                </span>
-                    <span className={getOpacityClass(
-                        landedTrue && (hoveredCard === null || hoveredCard === 0)
-                    )}>
-                  Hover on a project for more detail
-                </span>
-                    <span className="relative min-w-max h-6 flex items-center justify-center">
-                  {renderHoverMessages()}
-                </span>
-                  </>
+                <>
+                  <span className={getOpacityClass(landed)}>Scroll to reveal more projects</span>
+                  <span
+                    className={getOpacityClass(
+                      landedTrue && (hoveredCard === null || hoveredCard === 0)
+                    )}
+                  >
+                    Hover on a project for more detail
+                  </span>
+                  <span className="relative min-w-max h-6 flex items-center justify-center">
+                    {renderHoverMessages()}
+                  </span>
+                </>
               )}
             </div>
 

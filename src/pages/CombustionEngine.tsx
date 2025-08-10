@@ -105,7 +105,7 @@ const CombustionEngine: React.FC = () => {
 
   return (
     <>
-      <Navigation pageType="engine" scrollOffset={0} />
+      <Navigation pageType="other" scrollOffset={0} />
 
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto text-center">
@@ -117,7 +117,7 @@ const CombustionEngine: React.FC = () => {
               { src: img3, alt: 'Combustion engine photo 3' },
               { src: img4, alt: 'Combustion engine photo 4' },
             ]}
-            className="mx-auto w-[44vw] mt-6 pb-10"
+            className="mx-auto w-[min(70vw,85vh)] mt-6 pb-10"
             ariaLabelPrefix="Combustion engine image"
           />
         </div>

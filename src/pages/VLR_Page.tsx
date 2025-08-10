@@ -22,6 +22,21 @@ export default function VLRPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [hasPlayed, setHasPlayed] = useState(false)
 
+  // SEO
+  useEffect(() => {
+    const title = 'VLR Robot Project'
+    document.title = title
+    const desc = 'VLR robot showcase with 3D model, season recap, and contributions.'
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
+    meta.content = desc
+
+    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
+    link.href = window.location.origin + '/VLR'
+  }, [])
+
+
   useEffect(() => {
     const observer = new IntersectionObserver(
         ([entry]) => {

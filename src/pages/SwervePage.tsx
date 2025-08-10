@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SwerveRobot from '@/components/SwerveRobot'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
@@ -16,6 +16,18 @@ import video3 from '@/assets/SwervePage/vid2.mp4'
 const slideshowImages = [team, image1, image3, image4, image2, image5, video1, video3, video2]
 
 export default function SwervePage() {
+  useEffect(() => {
+    const title = 'Swerve Drive Robot Project'
+    document.title = title
+    const desc = 'Swerve robot 3D model, season recap, and my contributions.'
+    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
+    meta.content = desc
+
+    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
+    link.href = window.location.origin + '/Swerve'
+  }, [])
   return (
       <RobotPageTemplate
           robot={<SwerveRobot position={[-1, -3.5, -1]} scale={13} rotation-y={0} />}
