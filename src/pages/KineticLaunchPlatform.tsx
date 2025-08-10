@@ -25,28 +25,30 @@ const KineticLaunchPlatform: React.FC = () => {
     <>
       <Navigation pageType="kinetic" scrollOffset={0} />
 
-      <header className="bg-black px-8 pt-20">
-        <div className="max-w-screen-2xl mx-auto text-center">
-          <h1 className="section-heading text-white mb-12">Kinetic Model Launch Platform</h1>
-          <ThreeImageMosaic
-            images={[
-              { src: img1, alt: 'Kinetic model launch platform photo 1' },
-              { src: img2, alt: 'Kinetic model launch platform photo 2' },
-              { src: img3, alt: 'Kinetic model launch platform photo 3' },
-            ]}
-            className="mx-auto w-[85vmin]"
-            ariaLabelPrefix="Kinetic launch platform image"
-          />
-        </div>
-      </header>
+        <header className="bg-black px-8 pt-20">
+            <div className="max-w-screen-2xl mx-auto text-center">
+                <h1 className="section-heading text-white mb-20">
+                    Kinetic Model Launch Platform
+                </h1>
+                <ThreeImageMosaic
+                    images={[
+                        { src: img1, alt: 'Kinetic model launch platform photo 1' },
+                        { src: img2, alt: 'Kinetic model launch platform photo 2' },
+                        { src: img3, alt: 'Kinetic model launch platform photo 3' },
+                    ]}
+                    className="mx-auto w-[65vw] mt-6"
+                    ariaLabelPrefix="Kinetic launch platform image"
+                />
+            </div>
+        </header>
 
-      <main className="bg-black px-8 pb-24 pt-16">
-        <section className="max-w-screen-2xl mx-auto">
-          <p className="text-white text-center text-2xl md:text-4xl lg:text-5xl font-semibold">
-            still in development, more information coming soon
-          </p>
-        </section>
-      </main>
+        <main className="bg-black px-8 pb-24 pt-20">
+            <section className="max-w-screen-2xl mx-auto">
+                <p className="section-heading text-white text-center">
+                    Still in development, more information coming soon...
+                </p>
+            </section>
+        </main>
     </>
   )
 }

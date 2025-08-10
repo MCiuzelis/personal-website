@@ -117,7 +117,7 @@ const CombustionEngine: React.FC = () => {
               { src: img3, alt: 'Combustion engine photo 3' },
               { src: img4, alt: 'Combustion engine photo 4' },
             ]}
-            className="mx-auto w-[85vmin]"
+            className="mx-auto w-[44vw] mt-6 pb-10"
             ariaLabelPrefix="Combustion engine image"
           />
         </div>
