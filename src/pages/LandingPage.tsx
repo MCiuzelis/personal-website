@@ -9,7 +9,7 @@ import Navigation from '@/components/Navigation'
 
 // Import card images
 import card1 from '@/assets/ProjectThumbnails/main.jpg'
-import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpeg'
+import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
 import card3 from '@/assets/ProjectThumbnails/RubensTube.jpg'
 import card4 from '@/assets/ProjectThumbnails/engine.jpeg'
 import card5 from '@/assets/ProjectThumbnails/FLL.jpg'

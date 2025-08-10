@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import FourImageMosaic from '@/components/FourImageMosaic'
 
-import img1 from '@/assets/EnginePage/IMG_2408.jpeg'
-import img2 from '@/assets/EnginePage/IMG_2409.jpeg'
-import img3 from '@/assets/EnginePage/IMG_2410.jpeg'
-import img4 from '@/assets/EnginePage/IMG_2411.jpeg'
+import img1 from '@/assets/EnginePage/engine1.png'
+import img2 from '@/assets/EnginePage/engine2.png'
+import img3 from '@/assets/EnginePage/engine3.jpeg'
+import img4 from '@/assets/EnginePage/engine4.jpeg'
 
-import video1 from '@/assets/Ruben\'sTube/video.mp4'
+import video1 from '@/assets/EnginePage/engineInAction.mp4'
 import video2 from '@/assets/VLR_Page/RobotInAction.mp4'
 
 const CombustionEngine: React.FC = () => {
@@ -123,11 +123,11 @@ const CombustionEngine: React.FC = () => {
         </div>
       </header>
 
-      <main className="bg-black px-8 pb-24 pt-16 space-y-24">
+      <main className="bg-black px-8 pb-10 pt-16 space-y-24">
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 text-center">Demo video 1</h2>
+          <h2 className="section-heading text-white mb-6 text-center">Engine in action</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[85vh] aspect-video">
+            <div className="pt-6 h-[90vh] aspect-video">
               <div ref={wrap1} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                   ref={v1}
@@ -146,34 +146,6 @@ const CombustionEngine: React.FC = () => {
                   className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
                 >
                   {muted1 ? 'Unmute' : 'Mute'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 text-center">Demo video 2</h2>
-          <div className="flex items-center justify-center">
-            <div className="h-[85vh] aspect-video">
-              <div ref={wrap2} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
-                <video
-                  ref={v2}
-                  src={video2}
-                  muted={muted2}
-                  loop
-                  playsInline
-                  autoPlay
-                  preload="auto"
-                  className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible2 ? 'animate-scale-fade-in' : ''}`}
-                />
-                <button
-                  onClick={() => setMuted2(m => !m)}
-                  aria-pressed={!muted2}
-                  aria-label={muted2 ? 'Unmute video' : 'Mute video'}
-                  className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-                >
-                  {muted2 ? 'Unmute' : 'Mute'}
                 </button>
               </div>
             </div>
