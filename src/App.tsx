@@ -13,6 +13,7 @@ import FLL_Page from "@/pages/FLL_Page.tsx";
 import FirstGlobalPage from "@/pages/FirstGlobalPage.tsx";
 import CombustionEngine from "@/pages/CombustionEngine.tsx";
 import KineticLaunchPlatform from "@/pages/KineticLaunchPlatform.tsx";
+import RubensTube from "@/pages/RubensTube.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -76,6 +77,11 @@ function AnimatedRoutes() {
           <Route path="/KineticLaunchPlatform" element={
             <PageWrapper>
               <KineticLaunchPlatform />
+            </PageWrapper>
+          }/>
+          <Route path="/RubensTube" element={
+            <PageWrapper>
+              <RubensTube />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />

@@ -21,6 +21,9 @@ const slideshowImages = [image1, image2, image3, image4, image5, image6, image7,
 export default function VLRPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [hasPlayed, setHasPlayed] = useState(false)
+  const wrapRef = useRef<HTMLDivElement | null>(null)
+  const [visible, setVisible] = useState(false)
+  const [muted, setMuted] = useState(true)
 
   // SEO
   useEffect(() => {
@@ -36,6 +39,24 @@ export default function VLRPage() {
     link.href = window.location.origin + '/VLR'
   }, [])
 
+  // reveal animation for video container
+  useEffect(() => {
+    const node = wrapRef.current
+    if (!node) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setVisible(true)
+        obs.disconnect()
+      }
+    }, { threshold: 0.3 })
+    obs.observe(node)
+    return () => obs.disconnect()
+  }, [])
+
+  // sync muted property
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted
+  }, [muted])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -131,17 +152,24 @@ export default function VLRPage() {
             <div className="max-w-screen-2xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
               <div className="flex items-center justify-center mt-6">
-                <div className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[80vw] xl:w-[75vw] max-h-[85vh] aspect-video">
-                  <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
+                <div className="pt-6 h-[90vh] aspect-video">
+                  <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                     <video
-                        ref={videoRef}
-                        src={RobotInAction}
-                        muted
-                        loop
-                        playsInline
-                        controls={false}
-                        className="w-full h-full object-cover"
+                      ref={videoRef}
+                      src={RobotInAction}
+                      muted={muted}
+                      loop
+                      playsInline
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
+                    <button
+                      onClick={() => setMuted(m => !m)}
+                      aria-pressed={!muted}
+                      aria-label={muted ? 'Unmute video' : 'Mute video'}
+                      className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                    >
+                      {muted ? 'Unmute' : 'Mute'}
+                    </button>
                   </div>
                 </div>
               </div>
