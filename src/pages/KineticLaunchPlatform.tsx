@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import Navigation from '@/components/Navigation'
-import FourImageMosaic from '@/components/FourImageMosaic'
+import ThreeImageMosaic from '@/components/ThreeImageMosaic'
 
-import imgA from '@/assets/ProjectThumbnails/spinLaunch.jpeg'
-import imgB from '@/assets/ProjectThumbnails/card2.jpg'
-import imgC from '@/assets/ProjectThumbnails/card3.jpg'
-import imgD from '@/assets/ProjectThumbnails/card4.jpg'
+import img1 from '@/assets/KineticLaunchPlatform/image1.jpg'
+import img2 from '@/assets/KineticLaunchPlatform/image2.jpg'
+import img3 from '@/assets/KineticLaunchPlatform/image3.jpg'
 
 const KineticLaunchPlatform: React.FC = () => {
   // SEO
@@ -29,14 +28,13 @@ const KineticLaunchPlatform: React.FC = () => {
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto text-center">
           <h1 className="section-heading text-white mb-12">Kinetic Model Launch Platform</h1>
-          <FourImageMosaic
+          <ThreeImageMosaic
             images={[
-              { src: imgA, alt: 'Kinetic launch platform image 1' },
-              { src: imgB, alt: 'Kinetic launch platform image 2' },
-              { src: imgC, alt: 'Kinetic launch platform image 3' },
-              { src: imgD, alt: 'Kinetic launch platform image 4' },
+              { src: img1, alt: 'Kinetic model launch platform photo 1' },
+              { src: img2, alt: 'Kinetic model launch platform photo 2' },
+              { src: img3, alt: 'Kinetic model launch platform photo 3' },
             ]}
-            className="mx-auto w-[min(82vw,82vh)]"
+            className="mx-auto w-[85vmin]"
             ariaLabelPrefix="Kinetic launch platform image"
           />
         </div>
