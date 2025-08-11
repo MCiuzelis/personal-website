@@ -47,19 +47,15 @@ export default function FLL_Page() {
               <div className="grid grid-cols-3 gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical Engineering</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      As the lead mechanical engineer, I designed and implemented the core structural
-                      components of our VLR robot system.
+                      I created a modular and compact robot base with an internal 4 output gearbox helping our robot to
+                      achieve 4 different independent functions during a run with only 2 motors.
                     </p>
                     <p>
-                      Developed the modular chassis architecture and optimized the drivetrain for
-                      maximum efficiency and reliability.
-                    </p>
-                    <p>
-                      Achieved a 40% improvement in overall system reliability while reducing
-                      weight by 15% compared to previous designs.
+                      Together with Julius Augustaitis I developed 4 robot attachments to score almost 400 points in the
+                      Cargo Connect FLL season.
                     </p>
                   </div>
                 </div>
@@ -71,19 +67,13 @@ export default function FLL_Page() {
 
                 {/* Electrical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Electrical Systems</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Other</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      Integrated advanced sensor systems for autonomous navigation and
-                      environmental awareness capabilities.
+                      I programmed the robot with EV3 python - a way more stable, robust and capable framework compared to the stadard EV3 block environment.
                     </p>
                     <p>
-                      Designed the power distribution system and implemented fail-safe
-                      mechanisms for critical components.
-                    </p>
-                    <p>
-                      Optimized the control algorithms for precise motor control and
-                      real-time sensor data processing.
+                      I rebuilt the robot piece by piece in CAD to create stunning animations and better convey the robot's construction.
                     </p>
                   </div>
                 </div>

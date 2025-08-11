@@ -61,54 +61,66 @@ const RubensTube: React.FC = () => {
   }, [])
 
   return (
-    <>
-      <Navigation pageType="other" scrollOffset={0} />
+      <>
+        <Navigation pageType="other" scrollOffset={0} />
 
-      <header className="bg-black px-8 pt-20">
-        <div className="max-w-screen-2xl mx-auto text-center">
-          <h1 className="section-heading text-white mb-12">Ruben's Tube</h1>
-          <div ref={imgWrapRef} className="mx-auto w-[min(70vw,85vh)] rounded-xl overflow-hidden">
+        <header className="bg-black px-8 pt-20">
+          {/* Keep title + description inside the constrained container */}
+          <div className="max-w-screen-2xl mx-auto text-center">
+            <h1 className="section-heading text-white mb-0">Ruben's Tube</h1>
+            <p className="text-gray-300 text-base max-w-xl mx-auto mt-8 mb-10">
+              A fascinating physics demonstration and music project meant to visualize audio waveforms with flames.
+            </p>
+          </div>
+
+          {/* Move the image wrapper outside the max-w container so viewport-based width (w-[88vw]) centers properly
+            and the image keeps its intended size. */}
+          <div
+              ref={imgWrapRef}
+              className="mx-auto w-[88vw] mt-6 mb-10 rounded-xl overflow-hidden"
+          >
             <img
-              src={setupImg}
-              alt="Ruben's Tube setup photo"
-              loading="lazy"
-              decoding="async"
-              className={`block w-full h-auto opacity-0 ${imgVisible ? 'animate-scale-fade-in' : ''}`}
+                src={setupImg}
+                alt="Ruben's Tube setup photo"
+                loading="lazy"
+                decoding="async"
+                className={`block w-full h-auto max-h-[90vh] object-contain opacity-0 ${
+                    imgVisible ? 'animate-scale-fade-in' : ''
+                }`}
             />
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="bg-black px-8 pb-10 pt-16 space-y-24">
-        <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 text-center">In action</h2>
-          <div className="flex items-center justify-center">
-            <div className="pt-6 h-[90vh] aspect-video">
-              <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
-                <video
-                  ref={videoRef}
-                  src={tubeVideo}
-                  muted={muted}
-                  loop
-                  playsInline
-                  autoPlay
-                  preload="auto"
-                  className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
-                />
-                <button
-                  onClick={() => setMuted(m => !m)}
-                  aria-pressed={!muted}
-                  aria-label={muted ? 'Unmute video' : 'Mute video'}
-                  className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-                >
-                  {muted ? 'Unmute' : 'Mute'}
-                </button>
+        <main className="bg-black px-8 pb-10 pt-16 space-y-24">
+          <section className="max-w-screen-2xl mx-auto">
+            <h2 className="section-heading text-white mb-6 text-center">Project demonstration</h2>
+            <div className="flex items-center justify-center">
+              <div className="pt-6 h-[90vh] aspect-video">
+                <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+                  <video
+                      ref={videoRef}
+                      src={tubeVideo}
+                      muted={muted}
+                      loop
+                      playsInline
+                      autoPlay
+                      preload="auto"
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                  />
+                  <button
+                      onClick={() => setMuted(m => !m)}
+                      aria-pressed={!muted}
+                      aria-label={muted ? 'Unmute video' : 'Mute video'}
+                      className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
+                  >
+                    {muted ? 'Unmute' : 'Mute'}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-    </>
+          </section>
+        </main>
+      </>
   )
 }
 

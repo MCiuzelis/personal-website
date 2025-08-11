@@ -87,7 +87,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           />
 
           {/* Robot Component passed in as prop */}
-          {robotVisible && React.cloneElement(robot as React.ReactElement<any>, {
+          {robotVisible && React.cloneElement(robot as React.ReactElement, {
             scrollValue: animationProgress,
           })}
 
@@ -105,7 +105,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           <Perf
             style={{
               position: 'absolute',
-              top: '1rem',
+              top: '4.5rem',
               right: '1rem',
               pointerEvents: 'none',
               zIndex: 9999,

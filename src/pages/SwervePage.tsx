@@ -50,19 +50,18 @@ export default function SwervePage() {
               <div className="grid grid-cols-3 gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical Engineering</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      As the lead mechanical engineer, I designed and implemented the core structural
-                      components of our VLR robot system.
+                      As the lead mechanical engineer, I modeled, tested, broke and remodeled the swerve drive unit, perfecting and optimising it
+                      throughout 2 FTC seasons.
                     </p>
                     <p>
-                      Developed the modular chassis architecture and optimized the drivetrain for
-                      maximum efficiency and reliability.
+                      During the final standalone test the 3d printed swerve modules endured over 1500 cycles of lifting a 5kg bucket of water up and down
+                      2.5 meters, travelling 3 km and running for over 10h at maximum load with minimal gear degradation.
                     </p>
                     <p>
-                      Achieved a 40% improvement in overall system reliability while reducing
-                      weight by 15% compared to previous designs.
+                      Modeled and manufactured 6 major chassis revisions, decreasing weight and increasing performance every time.
                     </p>
                   </div>
                 </div>
@@ -74,19 +73,17 @@ export default function SwervePage() {
 
                 {/* Electrical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Electrical Systems</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      Integrated advanced sensor systems for autonomous navigation and
-                      environmental awareness capabilities.
+                      Coded all the kinematics for the differential swerve drive and optimised the algorithm for the quickest response.
                     </p>
                     <p>
-                      Designed the power distribution system and implemented fail-safe
-                      mechanisms for critical components.
+                      Tuned all low - level joint PID controllers, and simple autonomous paths.
                     </p>
                     <p>
-                      Optimized the control algorithms for precise motor control and
-                      real-time sensor data processing.
+                      Together with Rokas Kirdulis learned by trying and failing how to train a rudimentary Tensorflow like object detection
+                      model and quantizing it to run on the REV Control Hub.
                     </p>
                   </div>
                 </div>

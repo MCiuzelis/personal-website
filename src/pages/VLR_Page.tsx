@@ -99,23 +99,23 @@ export default function VLRPage() {
           {/* My Contribution Section */}
           <section className="min-h-screen px-8 py-16" style={{ backgroundColor: '#101010' }}>
             <div className="max-w-6xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution to the team</h2>
               <div className="grid grid-cols-3 gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical Engineering</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      As the lead mechanical engineer, I designed and implemented the core structural 
-                      components of our VLR robot system.
+                      As the lead mechanical engineer I created most of the robot's CAD model with 12 iterations of the robot throughout the season.
                     </p>
                     <p>
-                      Developed the modular chassis architecture and optimized the drivetrain for 
-                      maximum efficiency and reliability.
+                      During the offseason created a full test chassis to test the innovative approach of using bare 6000 rpm drivetrain motors with a single stage belt reduction for weight saving.
                     </p>
                     <p>
-                      Achieved a 40% improvement in overall system reliability while reducing 
-                      weight by 15% compared to previous designs.
+                      Optimised parts for 3d printing and manufactured most of the robot's parts with my own 3d printer.
+                    </p>
+                    <p>
+                      Prototyped 4 different hang version and helping to teach the team's rookies mechanical design skills.
                     </p>
                   </div>
                 </div>
@@ -127,19 +127,14 @@ export default function VLRPage() {
                 
                 {/* Electrical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Electrical Systems</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      Integrated advanced sensor systems for autonomous navigation and 
-                      environmental awareness capabilities.
+                      Programmed and tuned most of the low - level parts, like motion profiles and pidfva controllers for the robot's arm, leaving the high level level parts, like the vision system
+                      implementation and command system implementation for to the team's lead programmer Nojus Adomatais.
                     </p>
                     <p>
-                      Designed the power distribution system and implemented fail-safe 
-                      mechanisms for critical components.
-                    </p>
-                    <p>
-                      Optimized the control algorithms for precise motor control and 
-                      real-time sensor data processing.
+                      Spent countless hours tuning autonomous paths and parallelizing arm movements during autonomous operation.
                     </p>
                   </div>
                 </div>
@@ -148,11 +143,11 @@ export default function VLRPage() {
           </section>
 
           {/* Robot in Action Section */}
-          <section className="min-h-screen bg-black px-8 py-12">
+          <section className="min-h-screen bg-black px-8 py-6">
             <div className="max-w-screen-2xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
               <div className="flex items-center justify-center mt-6">
-                <div className="pt-6 h-[90vh] aspect-video">
+                <div className="pt-1 h-[90vh] aspect-video">
                   <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                     <video
                       ref={videoRef}
