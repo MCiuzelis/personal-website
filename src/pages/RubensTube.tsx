@@ -77,7 +77,7 @@ const RubensTube: React.FC = () => {
             and the image keeps its intended size. */}
           <div
               ref={imgWrapRef}
-              className="mx-auto w-[88vw] mt-6 mb-10 rounded-xl overflow-hidden"
+              className="mx-auto w-[88vw] mt-6 pb-10 rounded-xl overflow-hidden"
           >
             <img
                 src={setupImg}

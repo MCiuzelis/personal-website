@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navigation from '@/components/Navigation'
 
-
 import img1 from '@/assets/EnginePage/engine1.png'
-import img2 from '@/assets/EnginePage/engine2.png'
+import img2 from '@/assets/EnginePage/engine4.jpeg'
 import img3 from '@/assets/EnginePage/engine3.jpeg'
-
 
 import video1 from '@/assets/EnginePage/engineInAction.mp4'
 
@@ -35,11 +33,9 @@ const CombustionEngine: React.FC = () => {
 
   // Video controls
   const v1 = useRef<HTMLVideoElement | null>(null)
-  
   const [muted1, setMuted1] = useState(true)
-  
-
   const wrap1 = useRef<HTMLDivElement | null>(null)
+  const [visible1, setVisible1] = useState(false)
 
   useEffect(() => {
     const node = wrap1.current
@@ -80,14 +76,32 @@ const CombustionEngine: React.FC = () => {
 
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto text-center">
-          <h1 className="section-heading text-white mb-3">Combustion Engine</h1>
-          <p className="text-muted-foreground max-w-3xl mx-auto mb-10 animate-fade-in">
+          {/* Increased margin-bottom from mb-3 to mb-8 */}
+          <h1 className="section-heading text-white">Combustion Engine</h1>
+
+          <p className="text-gray-300 text-base max-w-l mx-auto mt-6 mb-10">
             A compact combustion engine prototype showcasing design, machining, and tuning.
           </p>
-          <div className="mx-auto w-[min(70vw,85vh)] mt-6 pb-10 grid grid-cols-1 md:grid-cols-3 gap-3">
-            <img src={img1} alt="Combustion engine photo 1" className="rounded-xl w-full h-full object-cover opacity-0 animate-scale-fade-in" />
-            <img src={img2} alt="Combustion engine photo 2" className="rounded-xl w-full h-full object-cover opacity-0 animate-scale-fade-in" style={{ animationDelay: '150ms' }} />
-            <img src={img3} alt="Combustion engine photo 3" className="rounded-xl w-full h-full object-cover opacity-0 animate-scale-fade-in" style={{ animationDelay: '300ms' }} />
+
+          {/* Made images bigger by increasing container width and gap */}
+          <div className="mx-auto mt-6 pb-10 grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
+            <img
+                src={img1}
+                alt="Combustion engine photo 1"
+                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
+            />
+            <img
+                src={img2}
+                alt="Combustion engine photo 2"
+                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
+                style={{ animationDelay: '150ms' }}
+            />
+            <img
+                src={img3}
+                alt="Combustion engine photo 3"
+                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
+                style={{ animationDelay: '300ms' }}
+            />
           </div>
         </div>
       </header>

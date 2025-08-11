@@ -260,7 +260,7 @@ const FirstGlobalPage: React.FC = () => {
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto">
           <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2022 First Global Challenge</h1>
-          <section className="flex items-center justify-center mb-20">
+          <section className="flex items-center justify-center pb-20">
             <div className="h-[80vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
