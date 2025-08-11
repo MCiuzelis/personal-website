@@ -14,6 +14,7 @@ import FirstGlobalPage from "@/pages/FirstGlobalPage.tsx";
 import CombustionEngine from "@/pages/CombustionEngine.tsx";
 import KineticLaunchPlatform from "@/pages/KineticLaunchPlatform.tsx";
 import RubensTube from "@/pages/RubensTube.tsx";
+import Contact from "@/pages/Contact.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -82,6 +83,11 @@ function AnimatedRoutes() {
           <Route path="/RubensTube" element={
             <PageWrapper>
               <RubensTube />
+            </PageWrapper>
+          }/>
+          <Route path="/contact" element={
+            <PageWrapper>
+              <Contact />
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />

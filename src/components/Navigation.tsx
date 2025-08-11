@@ -113,7 +113,7 @@ const Navigation = ({
                 className="absolute"
                 style={{ left: '50%', transform: 'translateX(105%)', marginLeft: '4vw' }}
             >
-              <button onClick={() => console.log('Contact clicked')} className="apple-nav-text px-5">
+              <button onClick={() => navigate('/contact')} className="apple-nav-text px-5">
                 Contact
               </button>
             </div>
