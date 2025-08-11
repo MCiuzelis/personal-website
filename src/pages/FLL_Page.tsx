@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FLL_Robot from '@/components/FLL_Robot.tsx'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
@@ -8,7 +8,7 @@ import image4 from '@/assets/FLL_Page/img4.jpeg'
 import image5 from '@/assets/FLL_Page/img5.jpeg'
 import image6 from '@/assets/FLL_Page/img6.jpeg'
 import image7 from '@/assets/FLL_Page/img7.jpeg'
-
+import FLLVideo from '@/assets/FLL_Page/FLL_RobotInAction.mp4'
 
 const slideshowImages = [image1, image3, image4, image5, image6, image7]
 
@@ -25,6 +25,39 @@ export default function FLL_Page() {
     if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
     link.href = window.location.origin + '/FLL'
   }, [])
+
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const wrapRef = useRef<HTMLDivElement | null>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const node = wrapRef.current
+    if (!node) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setVisible(true)
+        obs.disconnect()
+      }
+    }, { threshold: 0.3 })
+    obs.observe(node)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        el.currentTime = 0
+        el.play().catch(() => {})
+      } else {
+        el.pause(); el.currentTime = 0
+      }
+    }, { threshold: 0.3 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
       <RobotPageTemplate
           robot={<FLL_Robot position={[0, -11, 0]} scale={38} rotation-y={0} />}
@@ -36,6 +69,29 @@ export default function FLL_Page() {
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
               <div className="flex items-center justify-center mt-6">
                 <ImageSlideshow images={slideshowImages} />
+              </div>
+            </div>
+          </section>
+
+          {/* Robot in Action Section */}
+          <section className="min-h-screen bg-black px-8 py-6">
+            <div className="max-w-screen-2xl mx-auto">
+              <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
+              <div className="flex items-center justify-center mt-6">
+                <div className="pt-1 h-[90vh] aspect-video">
+                  <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+                    <video
+                      ref={videoRef}
+                      src={FLLVideo}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      preload="auto"
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </section>

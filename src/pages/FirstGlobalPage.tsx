@@ -175,6 +175,21 @@ const FirstGlobalPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
+    const el = mosaicVideoRef2024.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        el.currentTime = 0
+        el.play().catch(() => {})
+      } else {
+        el.pause(); el.currentTime = 0
+      }
+    }, { threshold: 0.3 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
     if (!mosaicRef2024.current) return
     const obs = new IntersectionObserver(
       ([entry]) => {

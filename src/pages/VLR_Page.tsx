@@ -20,7 +20,7 @@ const slideshowImages = [image1, image2, image3, image4, image5, image6, image7,
 
 export default function VLRPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [hasPlayed, setHasPlayed] = useState(false)
+  
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [visible, setVisible] = useState(false)
   const [muted, setMuted] = useState(true)
@@ -59,26 +59,19 @@ export default function VLRPage() {
   }, [muted])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && !hasPlayed) {
-            videoRef.current?.play()
-            setHasPlayed(true)
-          }
-        },
-        { threshold: 0.8 } // Play when 80% of the video is visible
-    )
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current)
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current)
+    const el = videoRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        el.currentTime = 0
+        el.play().catch(() => {})
+      } else {
+        el.pause(); el.currentTime = 0
       }
-    }
-  }, [hasPlayed])
+    }, { threshold: 0.3 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
   return (
       <div>
@@ -155,6 +148,8 @@ export default function VLRPage() {
                       muted={muted}
                       loop
                       playsInline
+                      autoPlay
+                      preload="auto"
                       className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
                     <button
