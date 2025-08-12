@@ -106,7 +106,7 @@ export default function Contact() {
 
   return (
       <div className="relative min-h-screen" style={{ backgroundColor: '#000' }}>
-        <Navigation scrollOffset={scrollOffset} pageType="other" />
+        <Navigation scrollOffset={scrollOffset} pageType="contact" />
 
         <header className="bg-black px-8 pt-20">
           <div className="max-w-screen-2xl mx-auto text-center">
@@ -122,7 +122,7 @@ export default function Contact() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                <section className="rounded-xl p-6" style={{ backgroundColor: '#101010' }}>
+                <section className="rounded-xl p-6 animate-enter" style={{ backgroundColor: '#101010' }}>
                   <h2 className="sr-only">Your email</h2>
                   <FormField
                       control={form.control}
@@ -139,7 +139,7 @@ export default function Contact() {
                   />
                 </section>
 
-                <section className="rounded-xl p-6" style={{ backgroundColor: '#101010' }}>
+                <section className="rounded-xl p-6 animate-enter" style={{ backgroundColor: '#101010' }}>
                   <h2 className="sr-only">Your message</h2>
                   <FormField
                       control={form.control}
@@ -156,7 +156,7 @@ export default function Contact() {
                   />
                 </section>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end animate-enter">
                   <Button type="submit" disabled={isSending}>
                     {isSending ? (
                         <>

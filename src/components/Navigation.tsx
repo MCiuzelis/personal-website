@@ -76,18 +76,24 @@ const Navigation = ({
         <div className="bg-black px-4 py-4 relative">
           <div className="relative w-full flex items-center justify-center">
             {/* Left - Home */}
-            <div
-                className="absolute"
-                style={{ right: '50%', transform: 'translateX(-105%)', marginRight: '5vw' }}
-            >
-              <button onClick={() => navigate('/')} className="apple-nav-text px-5">
-                Home
-              </button>
-            </div>
+            {pageType !== 'contact' && (
+              <div
+                  className="absolute"
+                  style={{ right: '50%', transform: 'translateX(-105%)', marginRight: '5vw' }}
+              >
+                <button onClick={() => navigate('/')} className="apple-nav-text px-5">
+                  Home
+                </button>
+              </div>
+            )}
 
             {/* Center */}
             <div className="min-w-max h-6 flex items-center justify-center">
-              {pageType === 'robot' ? (
+              {pageType === 'contact' ? (
+                <button onClick={() => navigate('/')} className="apple-nav-text px-5">
+                  Home
+                </button>
+              ) : pageType === 'robot' ? (
                 <span className={getOpacityClass(true)}>Scroll to explore the model</span>
               ) : pageType === 'other' ? (
                 <span className={getOpacityClass(true)}>Scroll to learn more</span>
@@ -109,14 +115,16 @@ const Navigation = ({
             </div>
 
             {/* Right - Contact */}
-            <div
-                className="absolute"
-                style={{ left: '50%', transform: 'translateX(105%)', marginLeft: '4vw' }}
-            >
-              <button onClick={() => navigate('/contact')} className="apple-nav-text px-5">
-                Contact
-              </button>
-            </div>
+            {pageType !== 'contact' && (
+              <div
+                  className="absolute"
+                  style={{ left: '50%', transform: 'translateX(105%)', marginLeft: '4vw' }}
+              >
+                <button onClick={() => navigate('/contact')} className="apple-nav-text px-5">
+                  Contact
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </nav>
