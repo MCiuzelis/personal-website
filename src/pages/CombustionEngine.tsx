@@ -61,7 +61,7 @@ const CombustionEngine: React.FC = () => {
       } else {
         el.pause(); el.currentTime = 0
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.01 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
@@ -75,33 +75,29 @@ const CombustionEngine: React.FC = () => {
       <Navigation pageType="other" scrollOffset={0} />
 
       <header className="bg-black px-8 pt-20">
-        <div className="max-w-screen-2xl mx-auto text-center">
-          {/* Increased margin-bottom from mb-3 to mb-8 */}
+        <div className="max-w-screen-2xl mx-auto text-center pb-20">
           <h1 className="section-heading text-white">Combustion Engine</h1>
 
           <p className="text-gray-300 text-base max-w-l mx-auto mt-6 mb-10">
-            A compact combustion engine prototype showcasing design, machining, and tuning.
+            A small servo actuates the throttle valve of an 8hp go cart combustion engine to mimic the changing pitch of music.
           </p>
 
-          {/* Made images bigger by increasing container width and gap */}
-          <div className="mx-auto mt-6 pb-10 grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
-            <img
-                src={img1}
-                alt="Combustion engine photo 1"
-                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
-            />
-            <img
-                src={img2}
-                alt="Combustion engine photo 2"
-                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
-                style={{ animationDelay: '150ms' }}
-            />
-            <img
-                src={img3}
-                alt="Combustion engine photo 3"
-                className="rounded-xl h-[80vh] min-w-[450px] object-cover opacity-0 animate-scale-fade-in"
-                style={{ animationDelay: '300ms' }}
-            />
+          <div className="mx-auto mt-6 pb-10 flex justify-center gap-4 max-w-[2500px]">
+            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+              <img
+                  src={img1}
+                  alt="Combustion engine photo 1"
+                  className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
+              />
+            </div>
+            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+              <img
+                  src={img2}
+                  alt="Combustion engine photo 2"
+                  className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
+                  style={{ animationDelay: '150ms' }}
+              />
+            </div>
           </div>
         </div>
       </header>
