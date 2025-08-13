@@ -13,7 +13,7 @@ interface RobotProps extends React.ComponentProps<'group'> {
 }
 
 export default function VLR_Robot({ scrollValue = 0, scale: finalScale = 1, ...props }: RobotProps) {
-    const { nodes, materials } = useGLTF('/src/assets/CAD_models/VLR_Robot.glb') as GLTF & {
+    const { nodes, materials } = useGLTF('/CAD_models/VLR_Robot.glb') as GLTF & {
         nodes: Record<string, THREE.Mesh>
         materials: Record<string, THREE.Material>
     }
@@ -305,4 +305,4 @@ export default function VLR_Robot({ scrollValue = 0, scale: finalScale = 1, ...p
     )
 }
 
-useGLTF.preload('/src/assets/CAD_models/VLR_Robot.glb')
+useGLTF.preload('/CAD_models/VLR_Robot.glb')
