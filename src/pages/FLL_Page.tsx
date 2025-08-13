@@ -14,9 +14,9 @@ const slideshowImages = [image1, image3, image4, image5, image6, image7]
 
 export default function FLL_Page() {
   useEffect(() => {
-    const title = 'FIRST LEGO League Robot Project'
+    const title = 'FIRST LEGO League Robot'
     document.title = title
-    const desc = 'FLL robot showcase with 3D model, season recap, and contributions.'
+    const desc = 'FIRST LEGO League robot showcase with 3d model and animations'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
     meta.content = desc

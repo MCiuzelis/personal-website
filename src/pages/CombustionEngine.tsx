@@ -11,9 +11,9 @@ import video1 from '@/assets/EnginePage/engineInAction.mp4'
 const CombustionEngine: React.FC = () => {
   // SEO
   useEffect(() => {
-    const title = 'Combustion Engine Project'
+    const title = 'Music playing combustion engine'
     document.title = title
-    const desc = 'Combustion engine project showcase with image mosaic and demo videos.'
+    const desc = "How I used a go cart's engine to mimic any melody"
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) {
       meta = document.createElement('meta')

@@ -27,9 +27,9 @@ export default function VLRPage() {
 
   // SEO
   useEffect(() => {
-    const title = 'VLR Robot Project'
+    const title = '2024 - 2025 FTC season'
     document.title = title
-    const desc = 'VLR robot showcase with 3D model, season recap, and contributions.'
+    const desc = 'My robotics journey at Vilnius lyceum robotics and mecanum robot development in the 2024 - 2025 FTC season'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
     meta.content = desc

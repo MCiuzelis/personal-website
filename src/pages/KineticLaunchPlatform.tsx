@@ -11,7 +11,7 @@ const KineticLaunchPlatform: React.FC = () => {
   useEffect(() => {
     const title = 'Kinetic Model Launch Platform'
     document.title = title
-    const desc = 'Kinetic model launch platform project with image mosaic. More info coming soon.'
+    const desc = 'Fully and rapidly reusable centrifugal model rocket launch platform, more details coming soon'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
     meta.content = desc

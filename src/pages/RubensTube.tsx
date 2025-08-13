@@ -8,7 +8,7 @@ const RubensTube: React.FC = () => {
   useEffect(() => {
     const title = "Ruben's Tube Project"
     document.title = title
-    const desc = "Ruben's Tube (flame speaker) setup and demonstration video."
+    const desc = "A fascinating physics demonstration and music project meant to visualize audio waveforms with flames."
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
     meta.content = desc

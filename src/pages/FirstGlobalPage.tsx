@@ -17,10 +17,10 @@ import Navigation from "@/components/Navigation.tsx";
 const FirstGlobalPage: React.FC = () => {
   // SEO setup
   useEffect(() => {
-    const title = '2022 First Global Challenge'
+    const title = '2022, 2024 First Global Challenge'
     document.title = title
 
-    const desc = 'Explore the 2022 First Global Challenge: hero gallery, robot development mosaic, and kit capture video.'
+    const desc = '2022 and 2024 First Global Challenge season recap'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) {
       meta = document.createElement('meta')
@@ -41,7 +41,7 @@ const FirstGlobalPage: React.FC = () => {
 
     // JSON-LD structured data
     const scriptId = 'ld-json-first-global'
-    let ld = document.getElementById(scriptId)
+    const ld = document.getElementById(scriptId)
     if (ld) ld.remove()
     const script = document.createElement('script')
     script.type = 'application/ld+json'

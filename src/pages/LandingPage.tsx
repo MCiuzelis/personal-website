@@ -24,7 +24,7 @@ const LandingPage = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
 
   useEffect(() => {
-    const title = 'Engineering Projects Portfolio'
+    const title = "Matas' project showcase"
     document.title = title
     const desc = 'Explore kinetic launch platform, combustion engine, and robotics projects.'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')

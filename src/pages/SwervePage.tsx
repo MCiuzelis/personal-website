@@ -17,7 +17,7 @@ const slideshowImages = [team, image1, image3, image4, image2, image5, video1, v
 
 export default function SwervePage() {
   useEffect(() => {
-    const title = 'Swerve Drive Robot Project'
+    const title = '2023 - 2024 FTC Swerve season'
     document.title = title
     const desc = 'Swerve robot 3D model, season recap, and my contributions.'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
