@@ -3,8 +3,8 @@ import Navigation from '@/components/Navigation'
 import ThreeImageMosaic from '@/components/ThreeImageMosaic'
 
 import img1 from '@/assets/KineticLaunchPlatform/image1.jpg'
-import img2 from '@/assets/KineticLaunchPlatform/image2.jpg'
-import img3 from '@/assets/KineticLaunchPlatform/image3.jpg'
+import img2 from '@/assets/KineticLaunchPlatform/image2.jpeg'
+import img3 from '@/assets/KineticLaunchPlatform/image3.jpeg'
 
 const KineticLaunchPlatform: React.FC = () => {
   // SEO

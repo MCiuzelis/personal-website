@@ -3,7 +3,7 @@ import FLL_Robot from '@/components/FLL_Robot.tsx'
 import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
 import image1 from '@/assets/FLL_Page/img1.jpeg'
-import image3 from '@/assets/FLL_Page/img3.jpg'
+import image3 from '@/assets/FLL_Page/img3.jpeg'
 import image4 from '@/assets/FLL_Page/img4.jpeg'
 import image5 from '@/assets/FLL_Page/img5.jpeg'
 import image6 from '@/assets/FLL_Page/img6.jpeg'

@@ -3,7 +3,6 @@ import Navigation from '@/components/Navigation'
 
 import img1 from '@/assets/EnginePage/engine1.png'
 import img2 from '@/assets/EnginePage/engine4.jpeg'
-import img3 from '@/assets/EnginePage/engine3.jpeg'
 
 import video1 from '@/assets/EnginePage/engineInAction.mp4'
 

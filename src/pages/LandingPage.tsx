@@ -13,7 +13,7 @@ import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
 import card3 from '@/assets/ProjectThumbnails/RubensTube.jpg'
 import card4 from '@/assets/ProjectThumbnails/engine.jpeg'
 import card5 from '@/assets/ProjectThumbnails/FLL.jpg'
-import card6 from '@/assets/ProjectThumbnails/FGC.jpg'
+import card6 from '@/assets/ProjectThumbnails/FGC.jpeg'
 import card7 from '@/assets/ProjectThumbnails/Swerve.jpg'
 import card8 from '@/assets/ProjectThumbnails/VLR.jpg'
 
