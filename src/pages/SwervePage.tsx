@@ -47,7 +47,7 @@ export default function SwervePage() {
           <section className="min-h-screen px-8 py-16" style={{ backgroundColor: '#101010' }}>
             <div className="max-w-6xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>
-              <div className="grid grid-cols-3 gap-12 mt-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
                   <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
@@ -67,8 +67,13 @@ export default function SwervePage() {
                 </div>
 
                 {/* Vertical Separator */}
-                <div className="flex justify-center">
+                <div className="hidden md:flex justify-center">
                   <div className="w-0.5 h-80 bg-gradient-to-b from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
+                </div>
+                
+                {/* Mobile Separator */}
+                <div className="md:hidden flex justify-center py-6">
+                  <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
                 </div>
 
                 {/* Electrical Section */}

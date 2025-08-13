@@ -95,7 +95,7 @@ const RubensTube: React.FC = () => {
           <section className="max-w-screen-2xl mx-auto">
             <h2 className="section-heading text-white mb-6 text-center">Project demonstration</h2>
             <div className="flex items-center justify-center">
-              <div className="pt-6 h-[90vh] aspect-video">
+              <div className="pt-6 h-[50vh] md:h-[90vh] aspect-video">
                 <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                   <video
                       ref={videoRef}

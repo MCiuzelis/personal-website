@@ -7,6 +7,7 @@ import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
 import { useAssetPreloader } from '@/hooks/useAssetPreloader'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 // Import card images
 import card1 from '@/assets/ProjectThumbnails/main.jpg'
@@ -23,6 +24,8 @@ const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 const LandingPage = () => {
   const [hasScrolled, setHasScrolled] = useState(0)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
+  const [mobileCardIndex, setMobileCardIndex] = useState(0)
+  const isMobile = useIsMobile()
 
   // Preload critical assets in background
   useAssetPreloader({
@@ -54,6 +57,35 @@ const LandingPage = () => {
 
   const handleScrollChange = (scrolled: number) => {
     setHasScrolled(scrolled)
+  }
+
+  if (isMobile) {
+    return (
+      <div className="h-screen w-full overflow-hidden relative bg-black">
+        {/* Navigation */}
+        <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
+        
+        {/* Mobile Card View */}
+        <div className="flex flex-col h-full pt-16">
+          <div className="flex-1 flex items-center justify-center px-4">
+            <MobileCard 
+              cardIndex={mobileCardIndex}
+              onCardChange={setMobileCardIndex}
+              onCardHover={setHoveredCard}
+            />
+          </div>
+          
+          {/* Mobile Navigation */}
+          <div className="pb-8 px-6">
+            <MobileCardNavigation 
+              currentIndex={mobileCardIndex}
+              totalCards={8}
+              onIndexChange={setMobileCardIndex}
+            />
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -181,5 +213,105 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
 }
 
 
+
+// Mobile Components
+interface MobileCardProps {
+  cardIndex: number
+  onCardChange: (index: number) => void
+  onCardHover: (index: number | null) => void
+}
+
+function MobileCard({ cardIndex, onCardChange, onCardHover }: MobileCardProps) {
+  const navigate = useNavigate()
+  const [startX, setStartX] = useState(0)
+  const routes = [null, 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setStartX(e.touches[0].clientX)
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const endX = e.changedTouches[0].clientX
+    const diff = startX - endX
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && cardIndex < 7) {
+        onCardChange(cardIndex + 1)
+      } else if (diff < 0 && cardIndex > 0) {
+        onCardChange(cardIndex - 1)
+      }
+    }
+  }
+
+  const handleCardClick = () => {
+    if (routes[cardIndex]) {
+      navigate(routes[cardIndex])
+    }
+  }
+
+  return (
+    <div className="w-full max-w-sm mx-auto">
+      <div
+        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl cursor-pointer"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onClick={handleCardClick}
+        onMouseEnter={() => onCardHover(cardIndex)}
+        onMouseLeave={() => onCardHover(null)}
+      >
+        <img
+          src={cardImages[cardIndex]}
+          alt={`Project ${cardIndex + 1}`}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      </div>
+    </div>
+  )
+}
+
+interface MobileCardNavigationProps {
+  currentIndex: number
+  totalCards: number
+  onIndexChange: (index: number) => void
+}
+
+function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: MobileCardNavigationProps) {
+  return (
+    <div className="flex items-center justify-center space-x-3">
+      <button
+        onClick={() => onIndexChange(Math.max(0, currentIndex - 1))}
+        disabled={currentIndex === 0}
+        className="p-3 rounded-full bg-white/10 text-white disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      
+      <div className="flex space-x-2">
+        {Array.from({ length: totalCards }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => onIndexChange(i)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              i === currentIndex ? 'bg-white scale-125' : 'bg-white/30'
+            }`}
+          />
+        ))}
+      </div>
+      
+      <button
+        onClick={() => onIndexChange(Math.min(totalCards - 1, currentIndex + 1))}
+        disabled={currentIndex === totalCards - 1}
+        className="p-3 rounded-full bg-white/10 text-white disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  )
+}
 
 export default LandingPage

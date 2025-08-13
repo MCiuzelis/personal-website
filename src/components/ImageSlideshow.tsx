@@ -102,24 +102,26 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                                 src={media}
                                 muted
                                 playsInline
-                                className="h-[75vh] w-auto mx-auto object-cover rounded-lg"                         />
+                                className="h-[50vh] md:h-[75vh] w-auto mx-auto object-cover rounded-lg"
+                            />
                         ) : (
                             <img
                                 src={media}
                                 alt={`Slide ${index + 1}`}
-                                className="h-[75vh] w-auto mx-auto object-cover rounded-lg"                          />
+                                className="h-[50vh] md:h-[75vh] w-auto mx-auto object-cover rounded-lg"
+                            />
                         )}
                     </div>
                 ))}
             </div>
 
             {/* Dot indicators in a glassy pill container */}
-            <div className="mt-8 flex justify-center">
-                <div className="backdrop-blur-md bg-white/20 rounded-full px-4 py-3 flex space-x-3 shadow-md">
+            <div className="mt-4 md:mt-8 flex justify-center">
+                <div className="backdrop-blur-md bg-white/20 rounded-full px-3 md:px-4 py-2 md:py-3 flex space-x-2 md:space-x-3 shadow-md">
                     {images.map((_, index) => (
                         <button
                             key={index}
-                            className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
+                            className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-colors duration-300 ${
                                 index === currentIndex ? 'bg-white' : 'bg-white/50'
                             }`}
                             onClick={() => {

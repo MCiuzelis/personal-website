@@ -261,7 +261,7 @@ const FirstGlobalPage: React.FC = () => {
         <div className="max-w-screen-2xl mx-auto">
           <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2022 First Global Challenge</h1>
           <section className="flex items-center justify-center pb-20">
-            <div className="h-[80vh] aspect-video">
+            <div className="h-[50vh] md:h-[80vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                 <img
                     ref={heroRef}
@@ -334,7 +334,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2022 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[85vh] aspect-video">
+            <div className="h-[50vh] md:h-[85vh] aspect-video">
               <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2022}
@@ -369,7 +369,7 @@ const FirstGlobalPage: React.FC = () => {
         <div className="max-w-screen-2xl mx-auto">
           <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2024 First Global Challenge</h1>
           <section className="flex items-center justify-center mb-20">
-            <div className="h-[80vh] aspect-video">
+            <div className="h-[50vh] md:h-[80vh] aspect-video">
               <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
                   <img
                       ref={heroRef2024}
@@ -389,7 +389,7 @@ const FirstGlobalPage: React.FC = () => {
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}
-                className="grid grid-cols-2 gap-2 w-[min(70vw,82vh)]"
+                className="grid grid-cols-2 gap-2 w-full md:w-[min(70vw,82vh)]"
             >
               {/* Square 1 */}
               <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square bg-black">
@@ -429,7 +429,7 @@ const FirstGlobalPage: React.FC = () => {
             </div>
 
             {/* Vertical video to the right */}
-            <div className="w-[24vw] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900">
+            <div className="w-full md:w-[24vw] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900 mx-auto">
               <video
                   ref={mosaicVideoRef2024}
                   src={mosaic8}
@@ -448,7 +448,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2024 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[85vh] aspect-[1920/950]">
+            <div className="h-[50vh] md:h-[85vh] aspect-[1920/950]">
               <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2024}

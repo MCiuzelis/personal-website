@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import * as React from 'react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface NavigationProps {
   scrollOffset: number
@@ -13,6 +14,7 @@ const Navigation = ({
                       hoveredCard,
                     }: NavigationProps) => {
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
 
   const messages = [
     null,
@@ -70,6 +72,45 @@ const Navigation = ({
       }
     }
   }, [])
+
+  if (isMobile) {
+    return (
+      <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50">
+        <div className="bg-black px-4 py-3 relative">
+          <div className="flex items-center justify-between">
+            {/* Home Button */}
+            {pageType !== 'contact' && (
+              <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+                Home
+              </button>
+            )}
+            
+            {/* Center Text */}
+            <div className="flex-1 text-center px-4">
+              {pageType === 'contact' ? (
+                <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+                  Home
+                </button>
+              ) : pageType === 'robot' ? (
+                <span className="apple-nav-text text-xs">Explore the model</span>
+              ) : pageType === 'other' ? (
+                <span className="apple-nav-text text-xs">Learn more</span>
+              ) : pageType === 'landing' ? (
+                <span className="apple-nav-text text-xs">Swipe to browse projects</span>
+              ) : null}
+            </div>
+            
+            {/* Contact Button */}
+            {pageType !== 'contact' && (
+              <button onClick={() => navigate('/contact')} className="apple-nav-text text-sm">
+                Contact
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+    )
+  }
 
   return (
       <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50">
