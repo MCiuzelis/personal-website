@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navigation from '@/components/Navigation'
+import { LazyVideo } from '@/components/LazyVideo'
 
 import img1 from '@/assets/EnginePage/engine1.png'
 import img2 from '@/assets/EnginePage/engine4.jpeg'
@@ -107,14 +108,12 @@ const CombustionEngine: React.FC = () => {
           <div className="flex items-center justify-center">
             <div className="pt-6 h-[90vh] aspect-video">
               <div ref={wrap1} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
-                <video
-                  ref={v1}
+                <LazyVideo
                   src={video1}
                   muted={muted1}
                   loop
                   playsInline
                   autoPlay
-                  preload="auto"
                   className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
                 />
                 <button

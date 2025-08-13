@@ -6,6 +6,7 @@ import { Image, Environment, ScrollControls, useScroll } from '@react-three/drei
 import { easing } from 'maath'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
+import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 
 // Import card images
 import card1 from '@/assets/ProjectThumbnails/main.jpg'
@@ -22,6 +23,21 @@ const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
 const LandingPage = () => {
   const [hasScrolled, setHasScrolled] = useState(0)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
+
+  // Preload critical assets in background
+  useAssetPreloader({
+    models: [
+      '/CAD_models/VLR_Robot.glb',
+      '/CAD_models/SwerveRobot.glb', 
+      '/CAD_models/FLL_Robot.glb'
+    ],
+    videos: [
+      '/src/assets/VLR_Page/RobotInAction.mp4',
+      '/src/assets/SwervePage/vid0.mp4',
+      '/src/assets/FLL_Page/FLL_RobotInAction.mp4'
+    ],
+    priority: 'low'
+  })
 
   useEffect(() => {
     const title = "Matas' project showcase"

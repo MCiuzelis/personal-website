@@ -3,18 +3,22 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
+import { lazy, Suspense } from 'react';
 import LandingPage from "./pages/LandingPage";
-import VLR_Page from "./pages/VLR_Page.tsx";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
+import { LoadingSpinner } from './components/LoadingSpinner'
 import { AnimatePresence } from 'framer-motion'
-import SwervePage from "@/pages/SwervePage.tsx";
-import FLL_Page from "@/pages/FLL_Page.tsx";
-import FirstGlobalPage from "@/pages/FirstGlobalPage.tsx";
-import CombustionEngine from "@/pages/CombustionEngine.tsx";
-import KineticLaunchPlatform from "@/pages/KineticLaunchPlatform.tsx";
-import RubensTube from "@/pages/RubensTube.tsx";
-import Contact from "@/pages/Contact.tsx";
+
+// Lazy load pages for better performance
+const VLR_Page = lazy(() => import("./pages/VLR_Page"));
+const SwervePage = lazy(() => import("./pages/SwervePage"));
+const FLL_Page = lazy(() => import("./pages/FLL_Page"));
+const FirstGlobalPage = lazy(() => import("./pages/FirstGlobalPage"));
+const CombustionEngine = lazy(() => import("./pages/CombustionEngine"));
+const KineticLaunchPlatform = lazy(() => import("./pages/KineticLaunchPlatform"));
+const RubensTube = lazy(() => import("./pages/RubensTube"));
+const Contact = lazy(() => import("./pages/Contact"));
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -52,42 +56,58 @@ function AnimatedRoutes() {
           }/>
           <Route path="/VLR" element={
             <PageWrapper>
-              <VLR_Page />
+              <Suspense fallback={<LoadingSpinner />}>
+                <VLR_Page />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/Swerve" element={
             <PageWrapper>
-              <SwervePage />
+              <Suspense fallback={<LoadingSpinner />}>
+                <SwervePage />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/FLL" element={
             <PageWrapper>
-              <FLL_Page />
+              <Suspense fallback={<LoadingSpinner />}>
+                <FLL_Page />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/FirstGlobal" element={
             <PageWrapper>
-              <FirstGlobalPage />
+              <Suspense fallback={<LoadingSpinner />}>
+                <FirstGlobalPage />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/CombustionEngine" element={
             <PageWrapper>
-              <CombustionEngine />
+              <Suspense fallback={<LoadingSpinner />}>
+                <CombustionEngine />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/KineticLaunchPlatform" element={
             <PageWrapper>
-              <KineticLaunchPlatform />
+              <Suspense fallback={<LoadingSpinner />}>
+                <KineticLaunchPlatform />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/RubensTube" element={
             <PageWrapper>
-              <RubensTube />
+              <Suspense fallback={<LoadingSpinner />}>
+                <RubensTube />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="/contact" element={
             <PageWrapper>
-              <Contact />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Contact />
+              </Suspense>
             </PageWrapper>
           }/>
           <Route path="*" element={<NotFound />} />

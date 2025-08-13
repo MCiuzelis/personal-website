@@ -4,6 +4,7 @@ import RobotPageTemplate from './RobotPageTemplate'
 import ImageSlideshow from '@/components/ImageSlideshow'
 import RobotInAction from '@/assets/VLR_Page/RobotInAction.mp4'
 import { useEffect, useRef, useState } from 'react'
+import { LazyVideo } from '@/components/LazyVideo'
 import image1 from '@/assets/VLR_Page/Slideshow/img1.jpeg'
 import image2 from '@/assets/VLR_Page/Slideshow/img2.jpeg'
 import image3 from '@/assets/VLR_Page/Slideshow/img3.jpeg'
@@ -142,14 +143,12 @@ export default function VLRPage() {
               <div className="flex items-center justify-center mt-6">
                 <div className="pt-1 h-[90vh] aspect-video">
                   <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
-                    <video
-                      ref={videoRef}
+                    <LazyVideo
                       src={RobotInAction}
                       muted={muted}
                       loop
                       playsInline
                       autoPlay
-                      preload="auto"
                       className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
                     <button
