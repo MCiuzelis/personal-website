@@ -7,6 +7,11 @@ export const CanvasLoader = () => {
   const { progress } = useProgress()
   const meshRef = useRef<THREE.Mesh>(null!)
   const groupRef = useRef<THREE.Group>(null!)
+  
+  // Ensure progress bar and text are synchronized
+  const displayProgress = progress >= 99.5 ? 100 : Math.round(progress)
+  const barProgress = progress >= 99.5 ? 100 : progress
+  const isComplete = progress >= 100
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -20,7 +25,11 @@ export const CanvasLoader = () => {
 
   return (
     <Html center>
-      <div className="flex flex-col items-center justify-center">
+      <div 
+        className={`flex flex-col items-center justify-center transition-opacity duration-500 ${
+          isComplete ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
         {/* 3D Rotating Cube using CSS */}
         <div className="relative w-16 h-16 mb-6" style={{ perspective: '200px' }}>
           <div 
@@ -50,13 +59,13 @@ export const CanvasLoader = () => {
         <div className="w-48 h-1 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
           <div 
             className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${progress}%` }}
+            style={{ width: `${barProgress}%` }}
           />
         </div>
         
         {/* Loading text */}
         <div className="mt-4 text-white/80 text-sm font-medium">
-          Loading 3D Model... {Math.round(progress)}%
+          Loading 3D Model... {displayProgress}%
         </div>
       </div>
     </Html>
