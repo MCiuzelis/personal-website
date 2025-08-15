@@ -11,7 +11,7 @@ const KineticLaunchPlatform: React.FC = () => {
   useEffect(() => {
     const title = 'Kinetic Model Launch Platform'
     document.title = title
-    const desc = 'Fully and rapidly reusable centrifugal model rocket launch platform, more details coming soon'
+    const desc = 'A fully and rapidly reusable model rocket launch system'
     let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
     meta.content = desc
@@ -31,8 +31,8 @@ const KineticLaunchPlatform: React.FC = () => {
                     Kinetic Model Launch Platform
                 </h1>
                 
-                <p className="text-gray-300 text-base max-w-xl mx-auto mt-8 mb-10">
-                    A fully and rapidly reusable centrifugal model rocket launch platform designed for efficient and repeated launches with minimal setup time.
+                <p className="text-gray-300 text-base max-w-2xl mx-auto mt-8 mb-10">
+                    Together with Rokas Kirdulis we are designing a fully and rapidly reusable model rocket launch system, still in development, more details coming soon...
                 </p>
                 
                 <ThreeImageMosaic
@@ -41,19 +41,11 @@ const KineticLaunchPlatform: React.FC = () => {
                         { src: img2, alt: 'Kinetic model launch platform photo 2' },
                         { src: img3, alt: 'Kinetic model launch platform photo 3' },
                     ]}
-                    className="mx-auto w-[55vw] mt-6"
+                    className="mx-auto w-[52vw] mt-6"
                     ariaLabelPrefix="Kinetic launch platform image"
                 />
             </div>
         </header>
-
-        <main className="bg-black px-8 pb-24 pt-20">
-            <section className="max-w-screen-2xl mx-auto">
-                <p className="section-heading text-white text-center">
-                    Still in development, more information coming soon...
-                </p>
-            </section>
-        </main>
     </>
   )
 }
