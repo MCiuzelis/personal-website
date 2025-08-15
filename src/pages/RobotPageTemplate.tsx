@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import {
   Environment,
@@ -12,6 +12,7 @@ import {
 import { Perf } from 'r3f-perf'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
+import { CanvasLoader } from '@/components/CanvasLoader'
 
 interface RobotPageTemplateProps {
   robot: React.ReactNode
@@ -87,9 +88,11 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           />
 
           {/* Robot Component passed in as prop */}
-          {robotVisible && React.cloneElement(robot as React.ReactElement, {
-            scrollValue: animationProgress,
-          })}
+          <Suspense fallback={<CanvasLoader />}>
+            {robotVisible && React.cloneElement(robot as React.ReactElement, {
+              scrollValue: animationProgress,
+            })}
+          </Suspense>
 
           <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
           <OrbitControls

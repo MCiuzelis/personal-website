@@ -18,8 +18,24 @@ export const useAssetPreloader = ({ videos = [], models = [], images = [], prior
         // Don't append to DOM, just trigger loading
       })
 
-      // Preload 3D models
+      // Preload 3D models more aggressively
       models.forEach(src => {
+        // Use XMLHttpRequest for more aggressive preloading
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', src, true)
+        xhr.responseType = 'blob'
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // Cache the blob URL for faster loading
+            const blob = xhr.response
+            const url = URL.createObjectURL(blob)
+            // Store in a cache map if needed
+            console.log(`Preloaded 3D model: ${src}`)
+          }
+        }
+        xhr.send()
+        
+        // Also use link prefetch as fallback
         const link = document.createElement('link')
         link.rel = 'prefetch'
         link.href = src
@@ -36,8 +52,9 @@ export const useAssetPreloader = ({ videos = [], models = [], images = [], prior
       })
     }
 
-    // Delay preloading to not interfere with critical resources
-    const timer = setTimeout(preloadAssets, priority === 'high' ? 100 : 2000)
+    // Start preloading much sooner for models
+    const delay = priority === 'high' ? 100 : (models.length > 0 ? 500 : 2000)
+    const timer = setTimeout(preloadAssets, delay)
     return () => clearTimeout(timer)
   }, [videos, models, images, priority])
 }

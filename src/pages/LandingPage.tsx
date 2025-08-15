@@ -39,7 +39,7 @@ const LandingPage = () => {
       '/src/assets/SwervePage/vid0.mp4',
       '/src/assets/FLL_Page/FLL_RobotInAction.mp4'
     ],
-    priority: 'low'
+    priority: 'high' // Changed to high priority for aggressive preloading after landing loads
   })
 
   useEffect(() => {
