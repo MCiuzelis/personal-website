@@ -27,16 +27,21 @@ const KineticLaunchPlatform: React.FC = () => {
 
         <header className="bg-black px-8 pt-20">
             <div className="max-w-screen-2xl mx-auto text-center">
-                <h1 className="section-heading text-white mb-20">
+                <h1 className="section-heading text-white mb-0">
                     Kinetic Model Launch Platform
                 </h1>
+                
+                <p className="text-gray-300 text-base max-w-xl mx-auto mt-8 mb-10">
+                    A fully and rapidly reusable centrifugal model rocket launch platform designed for efficient and repeated launches with minimal setup time.
+                </p>
+                
                 <ThreeImageMosaic
                     images={[
                         { src: img1, alt: 'Kinetic model launch platform photo 1' },
                         { src: img2, alt: 'Kinetic model launch platform photo 2' },
                         { src: img3, alt: 'Kinetic model launch platform photo 3' },
                     ]}
-                    className="mx-auto w-[65vw] mt-6"
+                    className="mx-auto w-[55vw] mt-6"
                     ariaLabelPrefix="Kinetic launch platform image"
                 />
             </div>
