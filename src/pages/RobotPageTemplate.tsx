@@ -68,7 +68,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           //   if (!lockScroll) e.stopPropagation()
           // }}
         >
-          <Environment files="/old_depot_2k.hdr" background={false} />
+          <Environment files="/old_depot.hdr" background={false} />
           <primitive attach="background" object={new THREE.Color('#101010')} />
 
           <ScrollControls pages={1} damping={0}>
