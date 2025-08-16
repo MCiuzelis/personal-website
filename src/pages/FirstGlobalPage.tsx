@@ -385,11 +385,12 @@ const FirstGlobalPage: React.FC = () => {
         {/* Robot development - custom grid + vertical video */}
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2024 Robot development</h2>
-          <div className="flex flex-col md:flex-row gap-4 items-start justify-center">
+          {/* Unified container that scales as one element */}
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[min(90vw,90vh)]">
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}
-                className="grid grid-cols-2 gap-2 w-full md:w-[min(70vw,82vh)]"
+                className="grid grid-cols-2 gap-2"
             >
               {/* Square 1 */}
               <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square bg-black">
@@ -428,8 +429,8 @@ const FirstGlobalPage: React.FC = () => {
               </section>
             </div>
 
-            {/* Vertical video to the right */}
-            <div className="w-full md:w-[24vw] aspect-[9/16] rounded-xl overflow-hidden bg-gray-900 mx-auto">
+            {/* Vertical video that matches the height of the image grid */}
+            <div className="rounded-xl overflow-hidden bg-gray-900 h-full">
               <video
                   ref={mosaicVideoRef2024}
                   src={mosaic8}
