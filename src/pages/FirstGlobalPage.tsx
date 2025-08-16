@@ -527,13 +527,9 @@ const FirstGlobalPage: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* GitHub Link Section */}
-        <section className="px-8 py-8" style={{ backgroundColor: '#101010' }}>
-          <div className="max-w-6xl mx-auto">
-            <div className="flex items-center justify-center">
+            
+            {/* GitHub Link */}
+            <div className="flex items-center justify-center mt-12">
               <a
                 href="https://github.com/MCiuzelis?tab=repositories"
                 target="_blank"

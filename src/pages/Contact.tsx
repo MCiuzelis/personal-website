@@ -174,22 +174,6 @@ export default function Contact() {
             </Form>
           </div>
 
-          <section className="max-w-screen-md mx-auto mt-6 animate-enter">
-            <div className="rounded-xl p-6" style={{ backgroundColor: '#101010' }}>
-              <div className="flex items-center justify-center">
-                <a
-                  href="https://github.com/MCiuzelis?tab=repositories"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-gray-300 hover:text-white transition-colors"
-                >
-                  <Github aria-hidden="true" className="size-6" />
-                  <span className="underline underline-offset-4">click to check out all of the code on github</span>
-                </a>
-              </div>
-            </div>
-          </section>
-
         </main>
       </div>
   )
