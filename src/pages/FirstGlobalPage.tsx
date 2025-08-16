@@ -476,26 +476,24 @@ const FirstGlobalPage: React.FC = () => {
             </div>
           </div>
         </section>
+      </section>
 
-        {/* My Contribution Section */}
+      {/* My Contribution Section */}
         <section className="min-h-screen px-8 py-16" style={{backgroundColor: '#101010'}}>
           <div className="max-w-6xl mx-auto">
             <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr_auto_2fr] gap-12 md:gap-20 mt-12">
               {/* Mechanical Section */}
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
+                <h3 className="text-2xl font-semibold text-white mb-6" >Mechanical</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
-                    As the lead mechanical engineer, I modeled, tested, broke and remodeled the swerve drive unit, perfecting and optimising it
-                    throughout 2 FTC seasons.
+                    We built the 2022 season's championship winning robot together with Rokas Kirdulis in my small workshop in
+                    the summer of 2022 over the course of about 2 months with no real prior practical experience in First Global.
                   </p>
                   <p>
-                    During the final standalone test the 3d printed swerve modules endured over 1500 cycles of lifting a 5kg bucket of water up and down
-                    2.5 meters, travelling 3 km and running for over 10h at maximum load with minimal gear degradation.
-                  </p>
-                  <p>
-                    Modeled and manufactured 6 major chassis revisions, decreasing weight and increasing performance every time.
+                    The majority of the 2024 season's robot was build during a robotic's summer camp along First Glocal team Ukraine.
+                    This was the best summer camp I have ever had so far.
                   </p>
                 </div>
               </div>
@@ -515,14 +513,12 @@ const FirstGlobalPage: React.FC = () => {
                 <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
-                    Coded all the kinematics for the differential swerve drive and optimised the algorithm for the quickest response.
+                    Wrote the majority of the code for the 2022 season's robot in java. It was messy, everything was squished into a single file,
+                    but in the end it worked and helped secure the victory.
                   </p>
                   <p>
-                    Tuned all low - level joint PID controllers, and simple autonomous paths.
-                  </p>
-                  <p>
-                    Together with Rokas Kirdulis learned by trying and failing how to train a rudimentary Tensorflow like object detection
-                    model and quantizing it to run on the REV Control Hub.
+                    2024 season's code was much more advanced state machine with complex command sequences and code practices leaned from
+                    First Tech Challenge.
                   </p>
                 </div>
               </div>
@@ -542,13 +538,12 @@ const FirstGlobalPage: React.FC = () => {
                 <h3 className="text-2xl font-semibold text-white mb-6">Filmmaking</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
-                    Produced and edited all promotional videos, robot reveal content, and documentation footage for both competition seasons.
+                    Together with Rokas Kirdulis and Dovydas Šatkauskas we directed and filmed ourselves for the 2022 season's Kit Capture video, with me being the editor.
+                    It was not perfect, but this was the start of my filmmaking journey.
                   </p>
                   <p>
-                    Coordinated team photography sessions and created visual storytelling content that showcased the engineering process and team dynamics.
-                  </p>
-                  <p>
-                    Developed a consistent visual brand for the team across all media platforms and competition materials.
+                    Together with Rokas Kirdulis we directed and filmed the 2024 video and I also edited it. This was the most fun I have ever had filming anything
+                    and while still not perfect, the result speaks for itself.
                   </p>
                 </div>
               </div>
@@ -557,7 +552,7 @@ const FirstGlobalPage: React.FC = () => {
             {/* GitHub Link */}
             <div className="flex items-center justify-center mt-12">
               <a
-                href="https://github.com/MCiuzelis?tab=repositories"
+                href="https://github.com/MCiuzelis/FirstGlobal_2024"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-6 py-4 rounded-xl text-lg font-medium text-gray-100
@@ -583,7 +578,6 @@ const FirstGlobalPage: React.FC = () => {
             </div>
           </div>
         </section>
-      </section>
     </>
   )
 }

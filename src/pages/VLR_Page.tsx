@@ -164,7 +164,7 @@ export default function VLRPage() {
                             {/* GitHub Link */}
                             <div className="flex items-center justify-center mt-12">
                                 <a
-                                    href="https://github.com/MCiuzelis?tab=repositories"
+                                    href="https://github.com/Vilnius-Lyceum-Robotics/into-the-deep-fullauto"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-3 px-6 py-4 rounded-xl text-lg font-medium text-gray-100
@@ -185,7 +185,8 @@ export default function VLRPage() {
                                             clipRule="evenodd"
                                         />
                                     </svg>
-                                    <span className="underline underline-offset-4">Check out all the code on GitHub</span>
+                                    <span
+                                        className="underline underline-offset-4">Check out all the code on GitHub</span>
                                 </a>
                             </div>
                         </div>
