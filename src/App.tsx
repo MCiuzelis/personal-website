@@ -8,9 +8,10 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import {PageWrapper} from './components/PageWrapper'
 import { LoadingSpinner } from './components/LoadingSpinner'
+import { PerformanceMonitor } from './components/PerformanceMonitor'
 import { AnimatePresence } from 'framer-motion'
 
-// Lazy load pages for better performance
+// Lazy load pages for better performance with preloading hints
 const VLR_Page = lazy(() => import("./pages/VLR_Page"));
 const SwervePage = lazy(() => import("./pages/SwervePage"));
 const FLL_Page = lazy(() => import("./pages/FLL_Page"));
@@ -19,24 +20,29 @@ const CombustionEngine = lazy(() => import("./pages/CombustionEngine"));
 const KineticLaunchPlatform = lazy(() => import("./pages/KineticLaunchPlatform"));
 const RubensTube = lazy(() => import("./pages/RubensTube"));
 const Contact = lazy(() => import("./pages/Contact"));
-const queryClient = new QueryClient();
+
+// Optimized query client for better performance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <PerformanceMonitor />
       <Toaster />
       <Sonner />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div style={{ backgroundColor: '#000', minHeight: '100vh' }}>
           <AnimatedRoutes />
         </div>
-        {/*<Routes>*/}
-        {/*  <Route path="/" element={<LandingPage />} />*/}
-        {/*  <Route path="/details" element={<Details />} />*/}
-        {/*  <Route path="/robot" element={<VLR_Page />} />*/}
-        {/*  /!* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE *!/*/}
-        {/*  <Route path="*" element={<NotFound />} />*/}
-        {/*</Routes>*/}
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

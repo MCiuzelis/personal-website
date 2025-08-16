@@ -27,19 +27,20 @@ const LandingPage = () => {
   const [mobileCardIndex, setMobileCardIndex] = useState(0)
   const isMobile = useIsMobile()
 
-  // Preload critical assets in background
+  // Aggressive preloading for instant page transitions
   useAssetPreloader({
     models: [
       '/CAD_models/VLR_Robot.glb',
       '/CAD_models/SwerveRobot.glb', 
       '/CAD_models/FLL_Robot.glb'
     ],
+    images: cardImages, // Preload all thumbnail images
     videos: [
       '/src/assets/VLR_Page/RobotInAction.mp4',
       '/src/assets/SwervePage/vid0.mp4',
       '/src/assets/FLL_Page/FLL_RobotInAction.mp4'
     ],
-    priority: 'high' // Changed to high priority for aggressive preloading after landing loads
+    priority: 'high' // Highest priority for critical assets
   })
 
   useEffect(() => {

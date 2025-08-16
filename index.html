@@ -2,18 +2,129 @@
   <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Matas' project showcase</title>
-    <meta name="description" content="Matas Čiuželis' portfoli showcase" />
+    <!-- Viewport and device optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark light" />
+    
+    <!-- SEO and metadata -->
+    <title>Matas' Project Showcase - Robotics & Engineering Portfolio</title>
+    <meta name="description" content="Explore innovative robotics projects including VLR robots, swerve drive systems, FLL competitions, combustion engines, and kinetic launch platforms. Interactive 3D portfolio by Matas Čiuželis." />
     <meta name="author" content="Matas Čiuželis"/>
-    <link rel="icon" type="image/png" href="/Icon.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="keywords" content="robotics, engineering, VLR, swerve drive, FLL, combustion engine, kinetic launch platform, 3D models, portfolio" />
+    
+    <!-- App icon and PWA -->
+    <link rel="icon" type="image/jpeg" href="/Icon.jpg" />
+    <link rel="apple-touch-icon" href="/Icon.jpg" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Critical resource hints for 3D models -->
+    <link rel="preload" href="/CAD_models/VLR_Robot.glb" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="/CAD_models/SwerveRobot.glb" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="/CAD_models/FLL_Robot.glb" as="fetch" crossorigin="anonymous">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Portfolio",
+      "name": "Matas' Project Showcase",
+      "description": "Interactive portfolio showcasing robotics and engineering projects with 3D visualizations",
+      "url": "https://your-domain.com/",
+      "author": {
+        "@type": "Person",
+        "name": "Matas Čiuželis",
+        "jobTitle": "Robotics Engineer"
+      },
+      "workExample": [
+        {
+          "@type": "CreativeWork",
+          "name": "VLR Robot",
+          "description": "Advanced robotics project with interactive 3D visualization"
+        },
+        {
+          "@type": "CreativeWork", 
+          "name": "Swerve Drive System",
+          "description": "Innovative omnidirectional drive system for robotics competitions"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Critical CSS for immediate rendering -->
+    <style>
+      html, body { 
+        margin: 0; 
+        padding: 0; 
+        background: #000; 
+        color: #fff; 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      
+      #root { 
+        min-height: 100vh; 
+        background: #000;
+      }
+      
+      /* Prevent layout shift during font loading */
+      .font-inter { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+      }
+      
+      /* Critical loading spinner */
+      .initial-loader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      }
+      
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255,255,255,0.1);
+        border-top: 3px solid rgba(255,255,255,0.8);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
 
     <body>
+      <!-- Initial loading indicator -->
+      <div id="initial-loader" class="initial-loader">
+        <div class="spinner"></div>
+      </div>
+      
       <div id="root"></div>
+      
+      <!-- Remove initial loader when React app loads -->
+      <script>
+        // Hide loader when React takes over
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            const loader = document.getElementById('initial-loader');
+            if (loader) {
+              loader.style.opacity = '0';
+              loader.style.transition = 'opacity 0.3s ease';
+              setTimeout(() => loader.remove(), 300);
+            }
+          }, 500);
+        });
+      </script>
+      
       <script type="module" src="/src/main.tsx"></script>
     </body>
   </html>
