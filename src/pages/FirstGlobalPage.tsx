@@ -7,9 +7,9 @@ import mosaic4 from '@/assets/FGC/mosaic4.jpeg'
 import kitVideo from '@/assets/FGC/2022_KitCapture.mp4'
 
 import main2 from '@/assets/FGC/main2.jpeg'
-import mosaic5 from '@/assets/FGC/mosaic5.jpg'
-import mosaic6 from '@/assets/FGC/mosaic6.jpg'
-import mosaic7 from '@/assets/FGC/horizontal.jpg'
+import mosaic5 from '@/assets/FGC/mosaic5.jpeg'
+import mosaic6 from '@/assets/FGC/mosaic6.jpeg'
+import mosaic7 from '@/assets/FGC/horizontal.jpeg'
 import mosaic8 from '@/assets/FGC/robotInAction.mp4'
 import kitVideo2 from '@/assets/FGC/2024_KitCapture.mp4'
 import Navigation from "@/components/Navigation.tsx";
