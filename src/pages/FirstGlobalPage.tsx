@@ -386,7 +386,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2024 Robot development</h2>
           {/* Unified container that scales as one element */}
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[min(95vw,95vh)]">
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[65vw] justify-center">
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}

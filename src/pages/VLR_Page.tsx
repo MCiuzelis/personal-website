@@ -129,8 +129,8 @@ export default function VLRPage() {
                   <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
                   <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                     <p>
-                      Programmed and tuned most of the low - level parts, like motion profiles and pidfva controllers for the robot's arm, leaving the high level level parts, like the vision system
-                      implementation and command system implementation for to the team's lead programmer Nojus Adomatais.
+                      Programmed and tuned most of the low - level parts, like motion profiles and PIDFVA controllers for the robot's arm, leaving the high level level parts, like the vision system
+                      implementation and command system implementation for to the team's lead programmer Nojus Adomaitis.
                     </p>
                     <p>
                       Spent countless hours tuning autonomous paths and parallelizing arm movements during autonomous operation.
