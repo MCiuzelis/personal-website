@@ -28,15 +28,15 @@ export default defineConfig(({ mode }) => ({
       output: {
         // More aggressive chunking for better caching
         manualChunks: (id) => {
-          // React ecosystem
-          if (id.includes('react') || id.includes('react-dom')) {
+          // Core React - ensure it's always available
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'vendor-react'
           }
           // Three.js ecosystem
           if (id.includes('three') || id.includes('@react-three')) {
             return 'vendor-three'
           }
-          // UI libraries
+          // UI libraries (including Radix which needs React context)
           if (id.includes('framer-motion') || id.includes('@radix-ui')) {
             return 'vendor-ui'
           }
@@ -78,8 +78,8 @@ export default defineConfig(({ mode }) => ({
         },
         // Optimize asset naming
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
-          const ext = info[info.length - 1]
+          const info = assetInfo.name?.split('.') || []
+          const ext = info[info.length - 1] || ''
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
             return `assets/images/[name]-[hash][extname]`
           }
