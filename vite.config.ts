@@ -26,55 +26,29 @@ export default defineConfig(({ mode }) => ({
     reportCompressedSize: false, // Faster builds
     rollupOptions: {
       output: {
-        // More aggressive chunking for better caching
+        // Simple chunking to avoid dependency issues
         manualChunks: (id) => {
-          // Core React - ensure it's always available and comes first
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'vendor-react'
+          // Vendor dependencies
+          if (id.includes('node_modules')) {
+            // Three.js ecosystem
+            if (id.includes('three') || id.includes('@react-three')) {
+              return 'vendor-three'
+            }
+            // UI libraries
+            if (id.includes('@radix-ui') || id.includes('framer-motion')) {
+              return 'vendor-ui'
+            }
+            // Core React and router
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'vendor-react'
+            }
+            // Other vendor libraries
+            return 'vendor-libs'
           }
-          // Three.js ecosystem - but keep React separate to avoid circular deps
-          if (id.includes('node_modules/three/')) {
-            return 'vendor-three-core'
-          }
-          if (id.includes('@react-three')) {
-            return 'vendor-three-react'
-          }
-          // UI libraries (including Radix which needs React context)
-          if (id.includes('framer-motion') || id.includes('@radix-ui')) {
-            return 'vendor-ui'
-          }
-          // Router
-          if (id.includes('react-router')) {
-            return 'vendor-router'
-          }
-          // Query
-          if (id.includes('@tanstack')) {
-            return 'vendor-query'
-          }
-          // Robot pages
-          if (id.includes('/VLR_Page') || id.includes('/SwervePage') || 
-              id.includes('/FLL_Page') || id.includes('/FirstGlobalPage')) {
-            return 'pages-robots'
-          }
-          // Project pages  
-          if (id.includes('/CombustionEngine') || id.includes('/KineticLaunchPlatform') || 
-              id.includes('/RubensTube')) {
-            return 'pages-projects'
-          }
-          // 3D components
-          if (id.includes('Robot.tsx') || id.includes('Robot.jsx')) {
-            return 'components-3d'
-          }
-          // Images and assets
-          if (id.includes('/assets/') || id.includes('.png') || id.includes('.jpg') || 
-              id.includes('.jpeg') || id.includes('.webp')) {
-            return 'assets'
-          }
-          // GLB models
+          // Asset chunking
           if (id.includes('.glb') || id.includes('.gltf')) {
             return 'models'
           }
-          // Videos
           if (id.includes('.mp4') || id.includes('.webm')) {
             return 'videos'
           }
@@ -97,10 +71,7 @@ export default defineConfig(({ mode }) => ({
         chunkFileNames: '[name]-[hash].js',
         entryFileNames: '[name]-[hash].js'
       },
-      // Optimize external dependencies - ensure React is properly resolved
       external: [],
-      // Preserve module structure for React ecosystem
-      preserveEntrySignatures: 'allow-extension',
     },
     // Optimize asset handling
     assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
@@ -108,19 +79,6 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize asset serving
   assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
-  // Optimize dependencies for better performance
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'three',
-      '@react-three/fiber',
-      '@react-three/drei',
-      'framer-motion'
-    ],
-    // Force pre-bundling of React to ensure proper context sharing
-    force: mode === 'production'
-  },
   // Enable compression in preview mode
   preview: {
     headers: {
