@@ -23,59 +23,9 @@ export default defineConfig(({ mode }) => ({
     target: 'esnext',
     minify: 'esbuild',
     cssMinify: true,
-    reportCompressedSize: false, // Faster builds
-    rollupOptions: {
-      output: {
-        // Simple chunking to avoid dependency issues
-        manualChunks: (id) => {
-          // Vendor dependencies
-          if (id.includes('node_modules')) {
-            // Three.js ecosystem
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'vendor-three'
-            }
-            // UI libraries
-            if (id.includes('@radix-ui') || id.includes('framer-motion')) {
-              return 'vendor-ui'
-            }
-            // Core React and router
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-              return 'vendor-react'
-            }
-            // Other vendor libraries
-            return 'vendor-libs'
-          }
-          // Asset chunking
-          if (id.includes('.glb') || id.includes('.gltf')) {
-            return 'models'
-          }
-          if (id.includes('.mp4') || id.includes('.webm')) {
-            return 'videos'
-          }
-        },
-        // Optimize asset naming
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || []
-          const ext = info[info.length - 1] || ''
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
-            return `assets/images/[name]-[hash][extname]`
-          }
-          if (/mp4|webm|ogg|mp3|wav|flac|aac/i.test(ext)) {
-            return `assets/media/[name]-[hash][extname]`
-          }
-          if (/glb|gltf/i.test(ext)) {
-            return `assets/models/[name]-[hash][extname]`
-          }
-          return `assets/[name]-[hash][extname]`
-        },
-        chunkFileNames: '[name]-[hash].js',
-        entryFileNames: '[name]-[hash].js'
-      },
-      external: [],
-    },
-    // Optimize asset handling
+    reportCompressedSize: false,
     assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
-    chunkSizeWarningLimit: 800, // Allow larger chunks for 3D assets
+    chunkSizeWarningLimit: 1000,
   },
   // Optimize asset serving
   assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
