@@ -28,13 +28,16 @@ export default defineConfig(({ mode }) => ({
       output: {
         // More aggressive chunking for better caching
         manualChunks: (id) => {
-          // Core React - ensure it's always available
+          // Core React - ensure it's always available and comes first
           if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'vendor-react'
           }
-          // Three.js ecosystem
-          if (id.includes('three') || id.includes('@react-three')) {
-            return 'vendor-three'
+          // Three.js ecosystem - but keep React separate to avoid circular deps
+          if (id.includes('node_modules/three/')) {
+            return 'vendor-three-core'
+          }
+          if (id.includes('@react-three')) {
+            return 'vendor-three-react'
           }
           // UI libraries (including Radix which needs React context)
           if (id.includes('framer-motion') || id.includes('@radix-ui')) {
@@ -94,8 +97,10 @@ export default defineConfig(({ mode }) => ({
         chunkFileNames: '[name]-[hash].js',
         entryFileNames: '[name]-[hash].js'
       },
-      // Optimize external dependencies
+      // Optimize external dependencies - ensure React is properly resolved
       external: [],
+      // Preserve module structure for React ecosystem
+      preserveEntrySignatures: 'allow-extension',
     },
     // Optimize asset handling
     assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
@@ -103,6 +108,19 @@ export default defineConfig(({ mode }) => ({
   },
   // Optimize asset serving
   assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.hdr'],
+  // Optimize dependencies for better performance
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'three',
+      '@react-three/fiber',
+      '@react-three/drei',
+      'framer-motion'
+    ],
+    // Force pre-bundling of React to ensure proper context sharing
+    force: mode === 'production'
+  },
   // Enable compression in preview mode
   preview: {
     headers: {
