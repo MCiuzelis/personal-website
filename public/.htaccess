@@ -111,8 +111,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    RewriteRule ^index\.html$ - [L]
+    
+    # Handle Angular and React HTML5 pushState routing
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.html [L]
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteRule ^(.*)$ /index.html [QSA,L]
 </IfModule>
