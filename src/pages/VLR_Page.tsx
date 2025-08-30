@@ -22,6 +22,7 @@ const slideshowImages = [image1, image2, image3, image4, image5, image6, image7,
 export default function VLRPage() {
     const videoRef = useRef<HTMLVideoElement | null>(null)
 
+
     const wrapRef = useRef<HTMLDivElement | null>(null)
     const [visible, setVisible] = useState(false)
     const [muted, setMuted] = useState(true)
