@@ -501,19 +501,6 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
           `,
                     backgroundSize: '50px 50px'
                 }}></div>
-                
-                {/* Floating blue stroke */}
-                <div className="absolute top-1/4 right-1/4 animate-stroke-float">
-                    <svg width="200" height="120" viewBox="0 0 200 120" className="opacity-20">
-                        <path
-                            d="M20,60 Q60,20 100,60 T180,60"
-                            stroke="#60a5fa"
-                            strokeWidth="3"
-                            fill="none"
-                            strokeLinecap="round"
-                        />
-                    </svg>
-                </div>
             </div>
 
             <div className="relative h-full flex items-center justify-center px-8">
@@ -523,8 +510,11 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                         <img
                             src={profilePicture}
                             alt="Matas Čiuželis"
-                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ease-in
+                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover transition-opacity duration-1000 ease-in
                                 ${showProfile ? 'opacity-100 delay-500' : 'opacity-0'}`}
+                            style={{
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.05)'
+                            }}
                         />
                     </div>
 
