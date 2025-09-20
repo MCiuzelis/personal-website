@@ -10,7 +10,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 // Import card images
-import card1 from '@/assets/ProjectThumbnails/main.jpg'
+import profilePicture from '@/assets/profile-picture.jpg'
 import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
 import card3 from '@/assets/ProjectThumbnails/RubensTube.jpg'
 import card4 from '@/assets/ProjectThumbnails/engine.jpeg'
@@ -19,12 +19,14 @@ import card6 from '@/assets/ProjectThumbnails/FGC.jpeg'
 import card7 from '@/assets/ProjectThumbnails/Swerve.jpg'
 import card8 from '@/assets/ProjectThumbnails/VLR.jpg'
 
-const cardImages = [card1, card2, card3, card4, card5, card6, card7, card8]
+const cardImages = [card2, card3, card4, card5, card6, card7, card8]
 
 const LandingPage = () => {
   const [hasScrolled, setHasScrolled] = useState(0)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [mobileCardIndex, setMobileCardIndex] = useState(0)
+  const [showProfile, setShowProfile] = useState(true)
+  const [scrollOffset, setScrollOffset] = useState(0)
   const isMobile = useIsMobile()
 
   // Aggressive preloading for instant page transitions
@@ -58,6 +60,14 @@ const LandingPage = () => {
 
   const handleScrollChange = (scrolled: number) => {
     setHasScrolled(scrolled)
+    setScrollOffset(scrolled)
+    if (scrolled > 0.1) {
+      setShowProfile(false)
+    }
+  }
+
+  const handleProfileScroll = () => {
+    setShowProfile(false)
   }
 
   if (isMobile) {
@@ -80,7 +90,7 @@ const LandingPage = () => {
           <div className="pb-8 px-6">
             <MobileCardNavigation 
               currentIndex={mobileCardIndex}
-              totalCards={8}
+              totalCards={7}
               onIndexChange={setMobileCardIndex}
             />
           </div>
@@ -94,11 +104,53 @@ const LandingPage = () => {
       {/* Navigation */}
       <Navigation pageType = 'landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
 
-      {/* 3D Canvas */}
+      {/* Profile Intro Section */}
+      <div 
+        className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
+          showProfile ? 'translate-y-0' : '-translate-y-full'
+        }`}
+        style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
+      >
+        <div className="h-full flex items-center justify-center px-8">
+          <div className="flex items-center gap-12 max-w-4xl mx-auto">
+            <div className="relative">
+              <img 
+                src={profilePicture} 
+                alt="Matas Čiuželis" 
+                className="w-80 h-80 rounded-full object-cover border-4 border-white/20 shadow-2xl"
+              />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
+            </div>
+            <div className="text-white">
+              <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Matas Čiuželis
+              </h1>
+              <p className="text-2xl text-gray-300 mb-8">Student and maker</p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
+          <div 
+            className="cursor-pointer hover:text-white transition-colors"
+            onClick={handleProfileScroll}
+          >
+            <p className="text-sm mb-4">Scroll to explore my projects</p>
+            <div className="animate-bounce">
+              <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3D Canvas - Always loaded but hidden initially */}
       <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
         {/*<fog attach="fog" args={['#000', 8.5, 12]} />*/}
         <ScrollControls pages={4} infinite>
-          <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange}>
+          <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange} showProfile={showProfile}>
             <Carousel onCardHover={setHoveredCard} />
           </Rig>
         </ScrollControls>
@@ -110,9 +162,10 @@ const LandingPage = () => {
 interface RigProps extends React.ComponentProps<'group'> {
   rotation: [number, number, number]
   onScrollChange?: (hasScrolled: number) => void
+  showProfile?: boolean
 }
 
-function Rig({ onScrollChange, ...props }: RigProps) {
+function Rig({ onScrollChange, showProfile, ...props }: RigProps) {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
   const prevOffset = useRef(0)
@@ -126,18 +179,21 @@ function Rig({ onScrollChange, ...props }: RigProps) {
     const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
     if (scrollDelta > 0.001) {
       onScrollChange?.(scrollDelta)
-      // console.log("scrolled")
       prevOffset.current = scroll.offset
     }
 
     state.events?.update?.()
-    easing.damp3(state.camera.position, [-state.pointer.x * 2, state.pointer.y + 1.5, 10], 0.3, delta)
+    
+    // Camera animation: start from top when profile is hidden
+    const targetY = showProfile ? 15 : state.pointer.y + 1.5
+    const targetPosition: [number, number, number] = [-state.pointer.x * 2, targetY, 10]
+    easing.damp3(state.camera.position, targetPosition, showProfile ? 0.1 : 0.3, delta)
     state.camera.lookAt(0, 0, 1)
   })
   return <group ref={ref} {...props} />
 }
 
-function Carousel({ radius = 1.34, count = 8, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
+function Carousel({ radius = 1.34, count = 7, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
   return Array.from({ length: count }, (_, i) => (
       <Card
           key={i}
@@ -182,8 +238,8 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
 
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
-    // Navigate to different robot pages based on card index
-    const routes = [null, 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
+    // Navigate to different robot pages based on card index (removed profile route)
+    const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
     navigate(routes[cardIndex])
   }
 
@@ -225,7 +281,7 @@ interface MobileCardProps {
 function MobileCard({ cardIndex, onCardChange, onCardHover }: MobileCardProps) {
   const navigate = useNavigate()
   const [startX, setStartX] = useState(0)
-  const routes = [null, 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
+  const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setStartX(e.touches[0].clientX)
@@ -236,7 +292,7 @@ function MobileCard({ cardIndex, onCardChange, onCardHover }: MobileCardProps) {
     const diff = startX - endX
     
     if (Math.abs(diff) > 50) {
-      if (diff > 0 && cardIndex < 7) {
+      if (diff > 0 && cardIndex < 6) {
         onCardChange(cardIndex + 1)
       } else if (diff < 0 && cardIndex > 0) {
         onCardChange(cardIndex - 1)
@@ -245,9 +301,7 @@ function MobileCard({ cardIndex, onCardChange, onCardHover }: MobileCardProps) {
   }
 
   const handleCardClick = () => {
-    if (routes[cardIndex]) {
-      navigate(routes[cardIndex])
-    }
+    navigate(routes[cardIndex])
   }
 
   return (
