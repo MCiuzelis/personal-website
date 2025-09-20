@@ -142,7 +142,7 @@ const Navigation = ({
                   <span className={getOpacityClass(landed)}>Scroll to reveal more projects</span>
                   <span
                     className={getOpacityClass(
-                      landedTrue && (hoveredCard === null || hoveredCard === 0)
+                      landedTrue && hoveredCard === null
                     )}
                   >
                     Hover on a project for more detail

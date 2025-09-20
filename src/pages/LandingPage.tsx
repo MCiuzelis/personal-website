@@ -325,16 +325,20 @@ function Carousel({radius = 1.175, count = 7, onCardHover}: {
     count?: number,
     onCardHover: (cardIndex: number | null) => void
 }) {
-    return Array.from({length: count}, (_, i) => (
-        <Card
-            key={i}
-            url={cardImages[i % cardImages.length]}
-            position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
-            rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
-            cardIndex={i}
-            onCardHover={onCardHover}
-        />
-    ))
+    return Array.from({length: count}, (_, i) => {
+        // Rotate by 6 positions to center VLR (2024-2025 FTC robot)
+        const adjustedIndex = (i + 6) % count
+        return (
+            <Card
+                key={i}
+                url={cardImages[adjustedIndex % cardImages.length]}
+                position={[Math.sin((i / count) * Math.PI * 2) * radius, 0, Math.cos((i / count) * Math.PI * 2) * radius]}
+                rotation={[0, Math.PI + (i / count) * Math.PI * 2, 0]}
+                cardIndex={adjustedIndex}
+                onCardHover={onCardHover}
+            />
+        )
+    })
 }
 
 interface CardProps {
@@ -544,7 +548,13 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                     className="cursor-pointer hover:text-white transition-colors"
                     onClick={onScrollClick}
                 >
-                    <p className="text-sm mb-4 moving-highlight">Scroll to explore my portfolio</p>
+                    <p className="text-sm mb-4" style={{
+                        background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
+                        backgroundSize: '200% 100%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        animation: 'moving-highlight 6s ease-in-out infinite alternate'
+                    }}>Scroll to explore my portfolio</p>
                     <div className="animate-bounce">
                         <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
