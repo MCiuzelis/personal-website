@@ -471,7 +471,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
         "Mechanical engineering student at the university of Glasgow"
     ], [])
 
-    const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(nameText, 50)
+    const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(nameText, 50, 100)
     const {displayText: descriptionDisplay, showCursor} = useTwoStepTypingEffect(
         descriptions,
         40,    // typing speed
@@ -500,13 +500,13 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
             </div>
 
             <div className="relative h-full flex items-center justify-center px-8">
-                <div className="flex items-center gap-20 max-w-6xl mx-auto">
+                <div className="flex items-center gap-12 max-w-6xl mx-auto">
                     {/* Profile Image - Responsive sizing with fade animation */}
                     <div className="relative flex-shrink-0">
                         <img
                             src={profilePicture}
                             alt="Matas Čiuželis"
-                            className={`w-[300px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ${
+                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ${
                                 showProfile ? 'opacity-100' : 'opacity-0'
                             }`}
                         />
@@ -514,13 +514,13 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
                     {/* Text with typing animation - Fixed width container */}
                     <div className="text-white flex-shrink-0" style={{minWidth: '600px'}}>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight tracking-tight"
-                            style={{lineHeight: '0.85', transform: 'scaleY(1.2)'}}>
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-oswald font-medium mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight tracking-tight"
+                            style={{lineHeight: '0.85'}}>
                             <span>{nameDisplay}</span>
                             {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
                         </h1>
                         <div className="space-y-2">
-                            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-light tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
+                            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-extralight tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
                                 {nameComplete && (
                                     <span>{descriptionDisplay}
                                         {showCursor && <span className="animate-pulse">|</span>}

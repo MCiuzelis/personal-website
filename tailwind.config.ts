@@ -20,6 +20,7 @@ export default {
     extend: {
       fontFamily: {
         'inter': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'oswald': ['Oswald', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       colors: {
 				border: 'hsl(var(--border))',
