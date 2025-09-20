@@ -364,25 +364,25 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
       style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
     >
       <div className="h-full flex items-center justify-center px-8">
-        <div className="flex items-center gap-16 max-w-5xl mx-auto">
-          {/* Profile Image - Larger and rounded */}
+        <div className="flex items-center gap-20 max-w-6xl mx-auto">
+          {/* Profile Image - Larger with original aspect ratio */}
           <div className="relative flex-shrink-0">
             <img
               src={profilePicture}
               alt="Matas Čiuželis"
-              className="w-96 h-96 rounded-3xl object-cover shadow-2xl"
+              className="w-[500px] h-auto rounded-3xl object-cover shadow-2xl"
             />
           </div>
           
-          {/* Text with typing animation */}
-          <div className="text-white">
-            <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent min-h-[1.2em]">
-              {nameDisplay}
-              <span className="animate-pulse">|</span>
+          {/* Text with typing animation - Fixed width container */}
+          <div className="text-white flex-shrink-0" style={{ minWidth: '600px' }}>
+            <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent h-24 flex items-center">
+              <span className="font-mono">{nameDisplay}</span>
+              {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
             </h1>
-            <p className="text-3xl text-gray-300 mb-8 min-h-[1.2em]">
-              {subtitleDisplay}
-              {nameDisplay === nameText && <span className="animate-pulse">|</span>}
+            <p className="text-3xl text-gray-300 mb-8 h-12 flex items-center">
+              <span className="font-mono">{nameDisplay === nameText ? subtitleDisplay : ''}</span>
+              {nameDisplay === nameText && subtitleDisplay !== subtitleText && <span className="animate-pulse ml-1">|</span>}
             </p>
           </div>
         </div>
