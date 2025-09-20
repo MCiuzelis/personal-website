@@ -39,52 +39,57 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
 // Cycling typing animation hook for descriptions
 const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, delay = 0) => {
   const [displayText, setDisplayText] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [showCursor, setShowCursor] = useState(true)
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (texts.length === 0) return
+    if (texts.length === 0 || delay > 0) return
 
+    setIsActive(true)
     let timeoutId: NodeJS.Timeout
-    let currentText = texts[currentTextIndex]
     let charIndex = 0
     let isDeleting = false
-
-    const startTimer = setTimeout(() => {
-      setIsTyping(true)
+    let isPausing = false
+    
+    const animate = () => {
+      const currentText = texts[currentTextIndex]
       
-      const animate = () => {
-        if (!isDeleting) {
-          // Typing phase
-          if (charIndex < currentText.length) {
-            setDisplayText(currentText.slice(0, charIndex + 1))
-            charIndex++
-            timeoutId = setTimeout(animate, typeSpeed)
-          } else {
-            // Pause before deleting
-            setShowCursor(true)
-            timeoutId = setTimeout(() => {
-              isDeleting = true
-              animate()
-            }, pauseDuration)
-          }
+      if (isPausing) {
+        // Pause phase - just wait
+        timeoutId = setTimeout(() => {
+          isPausing = false
+          isDeleting = true
+          animate()
+        }, pauseDuration)
+      } else if (!isDeleting) {
+        // Typing phase
+        if (charIndex <= currentText.length) {
+          setDisplayText(currentText.slice(0, charIndex))
+          charIndex++
+          timeoutId = setTimeout(animate, typeSpeed)
         } else {
-          // Deleting phase
-          if (charIndex > 0) {
-            setDisplayText(currentText.slice(0, charIndex - 1))
-            charIndex--
-            timeoutId = setTimeout(animate, deleteSpeed)
-          } else {
-            // Move to next text
-            setCurrentTextIndex((prev) => (prev + 1) % texts.length)
-            isDeleting = false
-            currentText = texts[(currentTextIndex + 1) % texts.length]
-            timeoutId = setTimeout(animate, typeSpeed)
-          }
+          // Finished typing, start pause
+          isPausing = true
+          animate()
+        }
+      } else {
+        // Deleting phase
+        if (charIndex > 0) {
+          charIndex--
+          setDisplayText(currentText.slice(0, charIndex))
+          timeoutId = setTimeout(animate, deleteSpeed)
+        } else {
+          // Finished deleting, move to next text
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length)
+          isDeleting = false
+          charIndex = 0
+          timeoutId = setTimeout(animate, typeSpeed)
         }
       }
+    }
 
+    const startTimer = setTimeout(() => {
       animate()
     }, delay)
 
@@ -94,7 +99,17 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
     }
   }, [texts, typeSpeed, deleteSpeed, pauseDuration, delay, currentTextIndex])
 
-  return { displayText, isTyping, showCursor }
+  // Handle delayed start
+  useEffect(() => {
+    if (delay > 0) {
+      const delayTimer = setTimeout(() => {
+        setIsActive(true)
+      }, delay)
+      return () => clearTimeout(delayTimer)
+    }
+  }, [delay])
+
+  return { displayText, showCursor: isActive, isActive }
 }
 
 // Import card images
@@ -423,7 +438,13 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
   ]
   
   const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 50)
-  const { displayText: descriptionDisplay, showCursor } = useCyclingTypingEffect(descriptions, 30, 20, 2000, nameComplete ? 500 : 999999)
+  const { displayText: descriptionDisplay, showCursor } = useCyclingTypingEffect(
+    descriptions, 
+    30, // type speed
+    20, // delete speed  
+    2000, // pause duration
+    nameComplete ? 500 : 999999 // delay until name is complete
+  )
 
   return (
     <div
