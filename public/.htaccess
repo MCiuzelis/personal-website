@@ -111,10 +111,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    
-    # Handle Angular and React HTML5 pushState routing
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} !^/api/
-    RewriteRule ^(.*)$ /index.html [QSA,L]
+
+    # Don’t rewrite requests for real files or folders
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Rewrite everything else to index.html
+    RewriteRule . /index.html [L]
 </IfModule>
+
+ErrorDocument 404 /index.html

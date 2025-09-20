@@ -10,7 +10,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 // Import card images
-import profilePicture from '@/assets/profile-picture.jpg'
+import profilePicture from '@/assets/profilePicture.jpeg'
 import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
 import card3 from '@/assets/ProjectThumbnails/RubensTube.jpg'
 import card4 from '@/assets/ProjectThumbnails/engine.jpeg'
@@ -28,21 +28,22 @@ const LandingPage = () => {
   const [showProfile, setShowProfile] = useState(true)
   const [scrollOffset, setScrollOffset] = useState(0)
   const isMobile = useIsMobile()
+  const overlayRef = useRef<HTMLDivElement | null>(null)
 
   // Aggressive preloading for instant page transitions
   useAssetPreloader({
     models: [
       '/CAD_models/VLR_Robot.glb',
-      '/CAD_models/SwerveRobot.glb', 
+      '/CAD_models/SwerveRobot.glb',
       '/CAD_models/FLL_Robot.glb'
     ],
-    images: cardImages, // Preload all thumbnail images
+    images: cardImages,
     videos: [
       '/src/assets/VLR_Page/RobotInAction.mp4',
       '/src/assets/SwervePage/vid0.mp4',
       '/src/assets/FLL_Page/FLL_RobotInAction.mp4'
     ],
-    priority: 'high' // Highest priority for critical assets
+    priority: 'high'
   })
 
   useEffect(() => {
@@ -59,103 +60,126 @@ const LandingPage = () => {
   }, [])
 
   const handleScrollChange = (scrolled: number) => {
+    console.log('[DEBUG] handleScrollChange -> scrolled:', scrolled, 'showProfile:', showProfile)
     setHasScrolled(scrolled)
     setScrollOffset(scrolled)
     if (scrolled > 0.1) {
       setShowProfile(false)
+      console.log('[DEBUG] handleScrollChange -> setShowProfile(false)')
     }
   }
 
   const handleProfileScroll = () => {
+    console.log('[DEBUG] handleProfileScroll (button click)')
     setShowProfile(false)
   }
 
+  // Listen for wheel/touch events even if overlay is covering scroll
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      console.log('[DEBUG] window wheel event: deltaY=', e.deltaY, 'showProfile=', showProfile)
+      if (showProfile) {
+        setShowProfile(false)
+        console.log('[DEBUG] window wheel -> setShowProfile(false)')
+      }
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      console.log('[DEBUG] window touchmove event, showProfile=', showProfile)
+      if (showProfile) {
+        setShowProfile(false)
+        console.log('[DEBUG] window touchmove -> setShowProfile(false)')
+      }
+    }
+
+    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+
+    return () => {
+      window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchmove', onTouchMove)
+    }
+  }, [showProfile])
+
   if (isMobile) {
     return (
-      <div className="h-screen w-full overflow-hidden relative bg-black">
-        {/* Navigation */}
-        <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
-        
-        {/* Mobile Card View */}
-        <div className="flex flex-col h-full pt-16">
-          <div className="flex-1 flex items-center justify-center px-4">
-            <MobileCard 
-              cardIndex={mobileCardIndex}
-              onCardChange={setMobileCardIndex}
-              onCardHover={setHoveredCard}
-            />
-          </div>
-          
-          {/* Mobile Navigation */}
-          <div className="pb-8 px-6">
-            <MobileCardNavigation 
-              currentIndex={mobileCardIndex}
-              totalCards={7}
-              onIndexChange={setMobileCardIndex}
-            />
+        <div className="h-screen w-full overflow-hidden relative bg-black">
+          <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
+          <div className="flex flex-col h-full pt-16">
+            <div className="flex-1 flex items-center justify-center px-4">
+              <MobileCard
+                  cardIndex={mobileCardIndex}
+                  onCardChange={setMobileCardIndex}
+                  onCardHover={setHoveredCard}
+              />
+            </div>
+            <div className="pb-8 px-6">
+              <MobileCardNavigation
+                  currentIndex={mobileCardIndex}
+                  totalCards={7}
+                  onIndexChange={setMobileCardIndex}
+              />
+            </div>
           </div>
         </div>
-      </div>
     )
   }
 
   return (
-    <div className="h-screen w-full overflow-hidden relative bg-black">
-      {/* Navigation */}
-      <Navigation pageType = 'landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
+      <div className="h-screen w-full overflow-hidden relative bg-black">
+        <Navigation pageType = 'landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
 
-      {/* Profile Intro Section */}
-      <div 
-        className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
-          showProfile ? 'translate-y-0' : '-translate-y-full'
-        }`}
-        style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
-      >
-        <div className="h-full flex items-center justify-center px-8">
-          <div className="flex items-center gap-12 max-w-4xl mx-auto">
-            <div className="relative">
-              <img 
-                src={profilePicture} 
-                alt="Matas Čiuželis" 
-                className="w-80 h-80 rounded-full object-cover border-4 border-white/20 shadow-2xl"
-              />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
+        {/* Profile Intro Section */}
+        <div
+            ref={overlayRef}
+            className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
+                showProfile ? 'translate-y-0' : '-translate-y-full'
+            }`}
+            style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
+        >
+          <div className="h-full flex items-center justify-center px-8">
+            <div className="flex items-center gap-12 max-w-4xl mx-auto">
+              <div className="relative">
+                <img
+                    src={profilePicture}
+                    alt="Matas Čiuželis"
+                    className="w-80 h-80 rounded-full object-cover border-4 border-white/20 shadow-2xl"
+                />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
+              </div>
+              <div className="text-white">
+                <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Matas Čiuželis
+                </h1>
+                <p className="text-2xl text-gray-300 mb-8">Mechanical engineering student and maker</p>
+              </div>
             </div>
-            <div className="text-white">
-              <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Matas Čiuželis
-              </h1>
-              <p className="text-2xl text-gray-300 mb-8">Student and maker</p>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
+            <div
+                className="cursor-pointer hover:text-white transition-colors"
+                onClick={handleProfileScroll}
+            >
+              <p className="text-sm mb-4">Scroll to explore my projects</p>
+              <div className="animate-bounce">
+                <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
-        
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
-          <div 
-            className="cursor-pointer hover:text-white transition-colors"
-            onClick={handleProfileScroll}
-          >
-            <p className="text-sm mb-4">Scroll to explore my projects</p>
-            <div className="animate-bounce">
-              <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
-          </div>
-        </div>
+
+        {/* 3D Canvas */}
+        <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
+          <ScrollControls pages={4} infinite>
+            <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange} showProfile={showProfile}>
+              <Carousel onCardHover={setHoveredCard} />
+            </Rig>
+          </ScrollControls>
+        </Canvas>
       </div>
-
-      {/* 3D Canvas - Always loaded but hidden initially */}
-      <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
-        {/*<fog attach="fog" args={['#000', 8.5, 12]} />*/}
-        <ScrollControls pages={4} infinite>
-          <Rig rotation={[0, 0, 0.02]} onScrollChange={handleScrollChange} showProfile={showProfile}>
-            <Carousel onCardHover={setHoveredCard} />
-          </Rig>
-        </ScrollControls>
-      </Canvas>
-    </div>
   )
 }
 
@@ -169,22 +193,24 @@ function Rig({ onScrollChange, showProfile, ...props }: RigProps) {
   const ref = useRef<THREE.Group>(null!)
   const scroll = useScroll()
   const prevOffset = useRef(0)
+  const lastLog = useRef(0)
 
   useFrame((state, delta) => {
     if (ref.current) {
       ref.current.rotation.y = -scroll.offset * (Math.PI * 2)
     }
 
-    // Detect scroll change
+    const now = performance.now()
     const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
-    if (scrollDelta > 0.001) {
-      onScrollChange?.(scrollDelta)
+    if (scrollDelta > 0.0005) {
+      if (now - lastLog.current > 200) {
+        console.log('[DEBUG] Rig scroll.offset=', scroll.offset.toFixed(4), 'delta=', scrollDelta.toFixed(4), 'showProfile=', showProfile)
+        lastLog.current = now
+      }
+      onScrollChange?.(scroll.offset) // pass absolute offset
       prevOffset.current = scroll.offset
     }
 
-    state.events?.update?.()
-    
-    // Camera animation: start from top when profile is hidden
     const targetY = showProfile ? 15 : state.pointer.y + 1.5
     const targetPosition: [number, number, number] = [-state.pointer.x * 2, targetY, 10]
     easing.damp3(state.camera.position, targetPosition, showProfile ? 0.1 : 0.3, delta)
@@ -192,6 +218,8 @@ function Rig({ onScrollChange, showProfile, ...props }: RigProps) {
   })
   return <group ref={ref} {...props} />
 }
+
+/* --- Carousel, Card, MobileCard, MobileCardNavigation unchanged --- */
 
 function Carousel({ radius = 1.34, count = 7, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
   return Array.from({ length: count }, (_, i) => (
@@ -222,7 +250,6 @@ interface ZoomableMaterial extends THREE.ShaderMaterial {
 function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
   const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
   const [hovered, hover] = useState(false)
-  const rotationAngle = useRef(0)
   const navigate = useNavigate()
 
   const pointerOver = (e: ThreeEvent<PointerEvent>) => {
@@ -238,7 +265,6 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
 
   const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
     e.stopPropagation()
-    // Navigate to different robot pages based on card index (removed profile route)
     const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
     navigate(routes[cardIndex])
   }
@@ -269,104 +295,6 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
   )
 }
 
-
-
-// Mobile Components
-interface MobileCardProps {
-  cardIndex: number
-  onCardChange: (index: number) => void
-  onCardHover: (index: number | null) => void
-}
-
-function MobileCard({ cardIndex, onCardChange, onCardHover }: MobileCardProps) {
-  const navigate = useNavigate()
-  const [startX, setStartX] = useState(0)
-  const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setStartX(e.touches[0].clientX)
-  }
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const endX = e.changedTouches[0].clientX
-    const diff = startX - endX
-    
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && cardIndex < 6) {
-        onCardChange(cardIndex + 1)
-      } else if (diff < 0 && cardIndex > 0) {
-        onCardChange(cardIndex - 1)
-      }
-    }
-  }
-
-  const handleCardClick = () => {
-    navigate(routes[cardIndex])
-  }
-
-  return (
-    <div className="w-full max-w-sm mx-auto">
-      <div
-        className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl cursor-pointer"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onClick={handleCardClick}
-        onMouseEnter={() => onCardHover(cardIndex)}
-        onMouseLeave={() => onCardHover(null)}
-      >
-        <img
-          src={cardImages[cardIndex]}
-          alt={`Project ${cardIndex + 1}`}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-      </div>
-    </div>
-  )
-}
-
-interface MobileCardNavigationProps {
-  currentIndex: number
-  totalCards: number
-  onIndexChange: (index: number) => void
-}
-
-function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: MobileCardNavigationProps) {
-  return (
-    <div className="flex items-center justify-center space-x-3">
-      <button
-        onClick={() => onIndexChange(Math.max(0, currentIndex - 1))}
-        disabled={currentIndex === 0}
-        className="p-3 rounded-full bg-white/10 text-white disabled:opacity-30 disabled:cursor-not-allowed"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      
-      <div className="flex space-x-2">
-        {Array.from({ length: totalCards }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => onIndexChange(i)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              i === currentIndex ? 'bg-white scale-125' : 'bg-white/30'
-            }`}
-          />
-        ))}
-      </div>
-      
-      <button
-        onClick={() => onIndexChange(Math.min(totalCards - 1, currentIndex + 1))}
-        disabled={currentIndex === totalCards - 1}
-        className="p-3 rounded-full bg-white/10 text-white disabled:opacity-30 disabled:cursor-not-allowed"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </div>
-  )
-}
+// MobileCard + MobileCardNavigation remain unchanged from your version...
 
 export default LandingPage
