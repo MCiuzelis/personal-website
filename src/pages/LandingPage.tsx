@@ -514,8 +514,8 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
                     {/* Text with typing animation - Fixed width container */}
                     <div className="text-white flex-shrink-0" style={{minWidth: '600px'}}>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-oswald font-medium mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight tracking-tight"
-                            style={{lineHeight: '0.85'}}>
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-roboto-condensed font-medium mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
+                            style={{lineHeight: '1.1'}}>
                             <span>{nameDisplay}</span>
                             {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
                         </h1>
