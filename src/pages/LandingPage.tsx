@@ -40,25 +40,25 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
 const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, startDelay = 0) => {
   const [displayText, setDisplayText] = useState('')
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
-  const [isActive, setIsActive] = useState(false)
+  const [showCursor, setShowCursor] = useState(false)
 
   useEffect(() => {
     if (texts.length === 0) return
 
     const startTimer = setTimeout(() => {
-      setIsActive(true)
+      setShowCursor(true)
       
-      let timeoutId: NodeJS.Timeout
       let charIndex = 0
       let isDeleting = false
       let isPausing = false
+      let textIndex = 0
       
       const animate = () => {
-        const currentText = texts[currentTextIndex]
+        const currentText = texts[textIndex]
         
         if (isPausing) {
-          // Pause phase - just wait with cursor blinking
-          timeoutId = setTimeout(() => {
+          // Pause phase - wait 2 seconds with cursor blinking
+          setTimeout(() => {
             isPausing = false
             isDeleting = true
             animate()
@@ -68,7 +68,7 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
           if (charIndex < currentText.length) {
             setDisplayText(currentText.slice(0, charIndex + 1))
             charIndex++
-            timeoutId = setTimeout(animate, typeSpeed)
+            setTimeout(animate, typeSpeed)
           } else {
             // Finished typing, start pause
             isPausing = true
@@ -79,27 +79,26 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
           if (charIndex > 0) {
             charIndex--
             setDisplayText(currentText.slice(0, charIndex))
-            timeoutId = setTimeout(animate, deleteSpeed)
+            setTimeout(animate, deleteSpeed)
           } else {
             // Finished deleting, move to next text
-            setCurrentTextIndex((prev) => (prev + 1) % texts.length)
+            textIndex = (textIndex + 1) % texts.length
+            setCurrentTextIndex(textIndex)
             isDeleting = false
             isPausing = false
             charIndex = 0
-            timeoutId = setTimeout(animate, typeSpeed)
+            setTimeout(animate, typeSpeed)
           }
         }
       }
 
       animate()
-
-      return () => clearTimeout(timeoutId)
     }, startDelay)
 
     return () => clearTimeout(startTimer)
-  }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay, currentTextIndex])
+  }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay])
 
-  return { displayText, showCursor: isActive }
+  return { displayText, showCursor }
 }
 
 // Import card images
@@ -423,8 +422,7 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
   const nameText = "Matas Čiuželis"
   const descriptions = [
     "Mechanical engineering student at the university of Glasgow",
-    "Passionate about robotics and automation",
-    "Creating innovative solutions through engineering"
+    "I created swerve in my mom's garage"
   ]
   
   const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 50)
