@@ -134,9 +134,21 @@ const Navigation = ({
                   Home
                 </button>
               ) : pageType === 'robot' ? (
-                <span className={`${getOpacityClass(true)} moving-highlight`}>Scroll to explore the model</span>
+                <span className={`${getOpacityClass(true)}`} style={{
+                  background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  animation: 'moving-highlight 1.5s ease-in-out infinite alternate'
+                }}>Scroll to explore the model</span>
               ) : pageType === 'other' ? (
-                <span className={`${getOpacityClass(true)} moving-highlight`}>Scroll to learn more</span>
+                <span className={`${getOpacityClass(true)}`} style={{
+                  background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  animation: 'moving-highlight 1.5s ease-in-out infinite alternate'
+                }}>Scroll to learn more</span>
               ) : (
                 <>
                   <span className={getOpacityClass(landed)}>Scroll to reveal more projects</span>

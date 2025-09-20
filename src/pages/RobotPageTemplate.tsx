@@ -55,18 +55,27 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
       {/* Canvas section */}
       <div ref={robotSectionRef} className="relative overflow-hidden bg-[#101010]">
         <Canvas
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           style={{
             width: '100vw',
             height: '100vh',
             position: 'relative',
             pointerEvents: lockScroll ? 'auto' : 'none',
           }}
-          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-          onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#101010'))}
-          // onWheel={(e) => {
-          //   if (!lockScroll) e.stopPropagation()
-          // }}
+          performance={{ min: 0.5 }}
+          frameloop="demand"
+          gl={{ 
+            antialias: false, 
+            alpha: false, 
+            powerPreference: 'high-performance',
+            stencil: false,
+            depth: true
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(new THREE.Color('#101010'))
+            gl.shadowMap.enabled = false
+            gl.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+          }}
         >
           <Environment files="/old_depot.hdr" background={false} />
           <primitive attach="background" object={new THREE.Color('#101010')} />
@@ -105,15 +114,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           />
           <Tone mapping="ACESFilmic" exposure={0.85} />
 
-          <Perf
-            style={{
-              position: 'absolute',
-              top: '4.5rem',
-              right: '1rem',
-              pointerEvents: 'none',
-              zIndex: 9999,
-            }}
-          />
+          {/* Remove Perf component for better performance */}
         </Canvas>
       </div>
 
@@ -176,9 +177,14 @@ function AnimationTracker({
   lockScroll: boolean
 }) {
   const scroll = useScroll()
-  const lastScroll = React.useRef(0)
+  const frameSkip = useRef(0)
+  const lastScroll = useRef(0)
 
   useFrame(() => {
+    // Skip frames for better performance
+    frameSkip.current++
+    if (frameSkip.current % 3 !== 0) return
+    
     if (!lockScroll) return
 
     const currentOffset = scroll.offset * 2
@@ -202,9 +208,14 @@ interface PageTrackerProps {
 }
 
 function PageTracker({ onRelock, lockScroll, onScrollChange }: PageTrackerProps) {
-  const lastWindowY = React.useRef(0)
+  const frameSkip = useRef(0)
+  const lastWindowY = useRef(0)
 
   useFrame(() => {
+    // Skip frames for better performance  
+    frameSkip.current++
+    if (frameSkip.current % 2 !== 0) return
+    
     if (!lockScroll) {
       const scrollY = window.scrollY
 
