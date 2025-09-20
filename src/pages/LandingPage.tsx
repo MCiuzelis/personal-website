@@ -150,7 +150,8 @@ const LandingPage = () => {
     const [hasScrolled, setHasScrolled] = useState(0)
     const [hoveredCard, setHoveredCard] = useState<number | null>(null)
     const [mobileCardIndex, setMobileCardIndex] = useState(0)
-    const [showProfile, setShowProfile] = useState(true)
+    // Initialize showProfile based on hash - start directly in projects if hash is #projects
+    const [showProfile, setShowProfile] = useState(() => window.location.hash !== '#projects')
     const [scrollOffset, setScrollOffset] = useState(0)
     const isMobile = useIsMobile()
     const overlayRef = useRef<HTMLDivElement | null>(null)
@@ -190,11 +191,16 @@ const LandingPage = () => {
             document.head.appendChild(link)
         }
         link.href = window.location.origin + '/'
-
-        // Check if user navigated directly to projects
-        if (window.location.hash === '#projects') {
-            setShowProfile(false)
+        
+        // Listen for hash changes to handle navigation to #projects
+        const handleHashChange = () => {
+            if (window.location.hash === '#projects') {
+                setShowProfile(false)
+            }
         }
+        
+        window.addEventListener('hashchange', handleHashChange)
+        return () => window.removeEventListener('hashchange', handleHashChange)
     }, [])
 
     const handleScrollChange = (scrolled: number) => {
