@@ -79,7 +79,7 @@ const Navigation = ({
           <div className="flex items-center justify-between">
             {/* Home Button */}
             {pageType !== 'contact' && (
-              <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+              <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
                 Home
               </button>
             )}
@@ -87,7 +87,7 @@ const Navigation = ({
             {/* Center Text */}
             <div className="flex-1 text-center px-4">
               {pageType === 'contact' ? (
-                <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+                <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
                   Home
                 </button>
               ) : pageType === 'robot' ? (
@@ -121,7 +121,7 @@ const Navigation = ({
                   className="absolute"
                   style={{ right: '50%', transform: 'translateX(-105%)', marginRight: '5vw' }}
               >
-                <button onClick={() => navigate('/')} className="apple-nav-text px-5">
+                <button onClick={() => navigate('/#projects')} className="apple-nav-text px-5">
                   Home
                 </button>
               </div>
@@ -130,7 +130,7 @@ const Navigation = ({
             {/* Center */}
             <div className="min-w-max h-6 flex items-center justify-center">
               {pageType === 'contact' ? (
-                <button onClick={() => navigate('/')} className="apple-nav-text px-5">
+                <button onClick={() => navigate('/#projects')} className="apple-nav-text px-5">
                   Home
                 </button>
               ) : pageType === 'robot' ? (

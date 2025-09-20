@@ -190,6 +190,11 @@ const LandingPage = () => {
             document.head.appendChild(link)
         }
         link.href = window.location.origin + '/'
+
+        // Check if user navigated directly to projects
+        if (window.location.hash === '#projects') {
+            setShowProfile(false)
+        }
     }, [])
 
     const handleScrollChange = (scrolled: number) => {
