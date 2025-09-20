@@ -247,4 +247,43 @@
   animation-iteration-count: 1;
 }
 
+@keyframes moving-highlight {
+  0%   { background-position: -200% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.moving-highlight {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.4),
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,1),
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.4)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moving-highlight 3s ease-in-out infinite;
+}
+
+@keyframes stroke-float {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px) rotateZ(0deg); 
+  }
+  25% { 
+    transform: translateY(-10px) translateX(5px) rotateZ(1deg); 
+  }
+  50% { 
+    transform: translateY(5px) translateX(-8px) rotateZ(-0.5deg); 
+  }
+  75% { 
+    transform: translateY(-3px) translateX(3px) rotateZ(0.5deg); 
+  }
+}
+
+.animate-stroke-float {
+  animation: stroke-float 8s ease-in-out infinite;
+}
+
 

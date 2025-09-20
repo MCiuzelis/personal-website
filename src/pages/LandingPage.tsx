@@ -501,6 +501,19 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
           `,
                     backgroundSize: '50px 50px'
                 }}></div>
+                
+                {/* Floating blue stroke */}
+                <div className="absolute top-1/4 right-1/4 animate-stroke-float">
+                    <svg width="200" height="120" viewBox="0 0 200 120" className="opacity-20">
+                        <path
+                            d="M20,60 Q60,20 100,60 T180,60"
+                            stroke="#60a5fa"
+                            strokeWidth="3"
+                            fill="none"
+                            strokeLinecap="round"
+                        />
+                    </svg>
+                </div>
             </div>
 
             <div className="relative h-full flex items-center justify-center px-8">
@@ -541,7 +554,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                     className="cursor-pointer hover:text-white transition-colors"
                     onClick={onScrollClick}
                 >
-                    <p className="text-sm mb-4">Scroll to explore my portfolio</p>
+                    <p className="text-sm mb-4 moving-highlight">Scroll to explore my portfolio</p>
                     <div className="animate-bounce">
                         <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
