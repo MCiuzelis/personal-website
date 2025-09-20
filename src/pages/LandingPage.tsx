@@ -36,6 +36,67 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
   return { displayText, isComplete }
 }
 
+// Cycling typing animation hook for descriptions
+const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, delay = 0) => {
+  const [displayText, setDisplayText] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const [showCursor, setShowCursor] = useState(true)
+
+  useEffect(() => {
+    if (texts.length === 0) return
+
+    let timeoutId: NodeJS.Timeout
+    let currentText = texts[currentTextIndex]
+    let charIndex = 0
+    let isDeleting = false
+
+    const startTimer = setTimeout(() => {
+      setIsTyping(true)
+      
+      const animate = () => {
+        if (!isDeleting) {
+          // Typing phase
+          if (charIndex < currentText.length) {
+            setDisplayText(currentText.slice(0, charIndex + 1))
+            charIndex++
+            timeoutId = setTimeout(animate, typeSpeed)
+          } else {
+            // Pause before deleting
+            setShowCursor(true)
+            timeoutId = setTimeout(() => {
+              isDeleting = true
+              animate()
+            }, pauseDuration)
+          }
+        } else {
+          // Deleting phase
+          if (charIndex > 0) {
+            setDisplayText(currentText.slice(0, charIndex - 1))
+            charIndex--
+            timeoutId = setTimeout(animate, deleteSpeed)
+          } else {
+            // Move to next text
+            setCurrentTextIndex((prev) => (prev + 1) % texts.length)
+            isDeleting = false
+            currentText = texts[(currentTextIndex + 1) % texts.length]
+            timeoutId = setTimeout(animate, typeSpeed)
+          }
+        }
+      }
+
+      animate()
+    }, delay)
+
+    return () => {
+      clearTimeout(startTimer)
+      clearTimeout(timeoutId)
+    }
+  }, [texts, typeSpeed, deleteSpeed, pauseDuration, delay, currentTextIndex])
+
+  return { displayText, isTyping, showCursor }
+}
+
 // Import card images
 import profilePicture from '@/assets/profilePicture.jpeg'
 import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
@@ -355,12 +416,14 @@ function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: {
 // Profile intro component
 function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, onScrollClick: () => void }) {
   const nameText = "Matas Čiuželis"
-  const subtitleLine1 = "Mechanical engineering student"
-  const subtitleLine2 = "at the university of Glasgow"
+  const descriptions = [
+    "Mechanical engineering student at the university of Glasgow",
+    "Passionate about robotics and automation",
+    "Creating innovative solutions through engineering"
+  ]
   
-  const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 80)
-  const { displayText: subtitle1Display, isComplete: subtitle1Complete } = useTypingEffect(subtitleLine1, 50, nameComplete ? 500 : 999999)
-  const { displayText: subtitle2Display } = useTypingEffect(subtitleLine2, 50, subtitle1Complete ? 200 : 999999)
+  const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 50)
+  const { displayText: descriptionDisplay, showCursor } = useCyclingTypingEffect(descriptions, 30, 20, 2000, nameComplete ? 500 : 999999)
 
   return (
     <div
@@ -370,11 +433,6 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
     >
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
-        {/* Geometric elements */}
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/5 rotate-45 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 border border-white/5 rotate-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 right-1/3 w-16 h-16 border border-white/5 rotate-45 animate-pulse" style={{ animationDelay: '2s' }}></div>
-        
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
           backgroundImage: `
@@ -387,12 +445,14 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
 
       <div className="relative h-full flex items-center justify-center px-8">
         <div className="flex items-center gap-20 max-w-6xl mx-auto">
-          {/* Profile Image - Responsive sizing */}
+          {/* Profile Image - Responsive sizing with fade animation */}
           <div className="relative flex-shrink-0">
             <img
               src={profilePicture}
               alt="Matas Čiuželis"
-              className="w-[300px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] h-auto rounded-2xl object-cover shadow-2xl"
+              className={`w-[300px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ${
+                showProfile ? 'opacity-100' : 'opacity-0'
+              }`}
             />
           </div>
           
@@ -404,12 +464,8 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
             </h1>
             <div className="space-y-2">
               <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-light tracking-wide h-8 flex items-center">
-                <span>{nameComplete ? subtitle1Display : ''}</span>
-                {nameComplete && subtitle1Display !== subtitleLine1 && <span className="animate-pulse ml-1">|</span>}
-              </p>
-              <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-light tracking-wide h-8 flex items-center">
-                <span>{subtitle1Complete ? subtitle2Display : ''}</span>
-                {subtitle1Complete && subtitle2Display !== subtitleLine2 && <span className="animate-pulse ml-1">|</span>}
+                <span>{nameComplete ? descriptionDisplay : ''}</span>
+                {nameComplete && showCursor && <span className="animate-pulse ml-1">|</span>}
               </p>
             </div>
           </div>
