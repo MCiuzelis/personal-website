@@ -497,7 +497,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
         40,    // typing speed
         30,    // delete speed
         2000,  // pause duration at end of first text (ms)
-        nameComplete ? 1000 : 999999 // wait until name is complete
+        nameComplete ? 500 : 999999 // wait until name is complete
     );
 
     return (
