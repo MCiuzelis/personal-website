@@ -26,8 +26,11 @@ const FourImageMosaic: React.FC<FourImageMosaicProps> = ({ images, className = '
             alt={img.alt}
             loading="lazy"
             decoding="async"
-            className={`block w-full h-full object-cover opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
-            style={{ animationDelay: visible ? `${delays[idx]}ms` : undefined }}
+            className={`block w-full h-full object-cover transition-opacity duration-500 ease-out ${visible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ 
+              transitionDelay: visible ? `${delays[idx]}ms` : undefined,
+              willChange: visible ? 'auto' : 'opacity'
+            }}
           />
         </section>
       ))}

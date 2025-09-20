@@ -27,8 +27,11 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
             alt={images[0].alt}
             loading="lazy"
             decoding="async"
-            className={`block w-full h-full object-cover opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
-            style={{ animationDelay: visible ? `${delays[0]}ms` : undefined }}
+            className={`block w-full h-full object-cover transition-opacity duration-500 ease-out ${visible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ 
+              transitionDelay: visible ? `${delays[0]}ms` : undefined,
+              willChange: visible ? 'auto' : 'opacity'
+            }}
           />
         </section>
 
@@ -38,8 +41,11 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
             alt={images[1].alt}
             loading="lazy"
             decoding="async"
-            className={`block w-full h-full object-cover opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
-            style={{ animationDelay: visible ? `${delays[1]}ms` : undefined }}
+            className={`block w-full h-full object-cover transition-opacity duration-500 ease-out ${visible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ 
+              transitionDelay: visible ? `${delays[1]}ms` : undefined,
+              willChange: visible ? 'auto' : 'opacity'
+            }}
           />
         </section>
 
@@ -49,8 +55,11 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
             alt={images[2].alt}
             loading="lazy"
             decoding="async"
-            className={`block w-full h-full object-cover opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
-            style={{ animationDelay: visible ? `${delays[2]}ms` : undefined }}
+            className={`block w-full h-full object-cover transition-opacity duration-500 ease-out ${visible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ 
+              transitionDelay: visible ? `${delays[2]}ms` : undefined,
+              willChange: visible ? 'auto' : 'opacity'
+            }}
           />
         </section>
       </div>
