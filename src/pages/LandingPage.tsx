@@ -37,79 +37,69 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
 }
 
 // Cycling typing animation hook for descriptions
-const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, delay = 0) => {
+const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, startDelay = 0) => {
   const [displayText, setDisplayText] = useState('')
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
-  const [showCursor, setShowCursor] = useState(true)
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (texts.length === 0 || delay > 0) return
-
-    setIsActive(true)
-    let timeoutId: NodeJS.Timeout
-    let charIndex = 0
-    let isDeleting = false
-    let isPausing = false
-    
-    const animate = () => {
-      const currentText = texts[currentTextIndex]
-      
-      if (isPausing) {
-        // Pause phase - just wait
-        timeoutId = setTimeout(() => {
-          isPausing = false
-          isDeleting = true
-          animate()
-        }, pauseDuration)
-      } else if (!isDeleting) {
-        // Typing phase
-        if (charIndex <= currentText.length) {
-          setDisplayText(currentText.slice(0, charIndex))
-          charIndex++
-          timeoutId = setTimeout(animate, typeSpeed)
-        } else {
-          // Finished typing, start pause
-          isPausing = true
-          animate()
-        }
-      } else {
-        // Deleting phase
-        if (charIndex > 0) {
-          charIndex--
-          setDisplayText(currentText.slice(0, charIndex))
-          timeoutId = setTimeout(animate, deleteSpeed)
-        } else {
-          // Finished deleting, move to next text
-          setCurrentTextIndex((prev) => (prev + 1) % texts.length)
-          isDeleting = false
-          charIndex = 0
-          timeoutId = setTimeout(animate, typeSpeed)
-        }
-      }
-    }
+    if (texts.length === 0) return
 
     const startTimer = setTimeout(() => {
+      setIsActive(true)
+      
+      let timeoutId: NodeJS.Timeout
+      let charIndex = 0
+      let isDeleting = false
+      let isPausing = false
+      
+      const animate = () => {
+        const currentText = texts[currentTextIndex]
+        
+        if (isPausing) {
+          // Pause phase - just wait with cursor blinking
+          timeoutId = setTimeout(() => {
+            isPausing = false
+            isDeleting = true
+            animate()
+          }, pauseDuration)
+        } else if (!isDeleting) {
+          // Typing phase
+          if (charIndex < currentText.length) {
+            setDisplayText(currentText.slice(0, charIndex + 1))
+            charIndex++
+            timeoutId = setTimeout(animate, typeSpeed)
+          } else {
+            // Finished typing, start pause
+            isPausing = true
+            animate()
+          }
+        } else {
+          // Deleting phase
+          if (charIndex > 0) {
+            charIndex--
+            setDisplayText(currentText.slice(0, charIndex))
+            timeoutId = setTimeout(animate, deleteSpeed)
+          } else {
+            // Finished deleting, move to next text
+            setCurrentTextIndex((prev) => (prev + 1) % texts.length)
+            isDeleting = false
+            isPausing = false
+            charIndex = 0
+            timeoutId = setTimeout(animate, typeSpeed)
+          }
+        }
+      }
+
       animate()
-    }, delay)
 
-    return () => {
-      clearTimeout(startTimer)
-      clearTimeout(timeoutId)
-    }
-  }, [texts, typeSpeed, deleteSpeed, pauseDuration, delay, currentTextIndex])
+      return () => clearTimeout(timeoutId)
+    }, startDelay)
 
-  // Handle delayed start
-  useEffect(() => {
-    if (delay > 0) {
-      const delayTimer = setTimeout(() => {
-        setIsActive(true)
-      }, delay)
-      return () => clearTimeout(delayTimer)
-    }
-  }, [delay])
+    return () => clearTimeout(startTimer)
+  }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay, currentTextIndex])
 
-  return { displayText, showCursor: isActive, isActive }
+  return { displayText, showCursor: isActive }
 }
 
 // Import card images
