@@ -214,7 +214,7 @@ function Rig({ onScrollChange, showProfile, ...props }: RigProps) {
 
 /* --- Carousel, Card, MobileCard, MobileCardNavigation unchanged --- */
 
-function Carousel({ radius = 1.34, count = 7, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
+function Carousel({ radius = 1.175, count = 7, onCardHover }: { radius?: number, count?: number, onCardHover: (cardIndex: number | null) => void }) {
   return Array.from({ length: count }, (_, i) => (
       <Card
           key={i}
@@ -355,7 +355,7 @@ function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: {
 // Profile intro component
 function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, onScrollClick: () => void }) {
   const nameText = "Matas Čiuželis"
-  const subtitleText = "Mechanical engineering student and maker"
+  const subtitleText = "Mechanical engineering student at the university of Glasgow"
   
   const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 80)
   const { displayText: subtitleDisplay } = useTypingEffect(subtitleText, 50, nameComplete ? 500 : 999999)
@@ -374,7 +374,7 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
             <img
               src={profilePicture}
               alt="Matas Čiuželis"
-              className="w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[500px] h-auto rounded-2xl object-cover shadow-2xl"
+              className="w-[300px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[450px] h-auto rounded-2xl object-cover shadow-2xl"
             />
           </div>
           
@@ -398,7 +398,7 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
           className="cursor-pointer hover:text-white transition-colors"
           onClick={onScrollClick}
         >
-          <p className="text-sm mb-4">Scroll to explore my projects</p>
+          <p className="text-sm mb-4">Scroll to explore my porfolio</p>
           <div className="animate-bounce">
             <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />

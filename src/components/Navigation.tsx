@@ -17,7 +17,6 @@ const Navigation = ({
   const isMobile = useIsMobile()
 
   const messages = [
-    null,
     "Kinetic model rocket launch platform",
     "Visualizing music with fire",
     "Combustion engine playing music",
