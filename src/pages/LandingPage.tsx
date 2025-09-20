@@ -39,8 +39,8 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
 // Cycling typing animation hook for descriptions
 const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 20, pauseDuration = 2000, startDelay = 0) => {
   const [displayText, setDisplayText] = useState('')
-  const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [showCursor, setShowCursor] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
 
   useEffect(() => {
     if (texts.length === 0) return
@@ -52,6 +52,7 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
       let isDeleting = false
       let isPausing = false
       let textIndex = 0
+      let cycleCount = 0 // Track how many complete cycles we've done
       
       const animate = () => {
         const currentText = texts[textIndex]
@@ -70,9 +71,17 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
             charIndex++
             setTimeout(animate, typeSpeed)
           } else {
-            // Finished typing, start pause
-            isPausing = true
-            animate()
+            // Finished typing
+            if (textIndex === 1) {
+              // If we're on the second description, stop here
+              setIsFinished(true)
+              setShowCursor(false)
+              return
+            } else {
+              // If we're on the first description, start pause before deleting
+              isPausing = true
+              animate()
+            }
           }
         } else {
           // Deleting phase
@@ -81,9 +90,8 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
             setDisplayText(currentText.slice(0, charIndex))
             setTimeout(animate, deleteSpeed)
           } else {
-            // Finished deleting, move to next text
-            textIndex = (textIndex + 1) % texts.length
-            setCurrentTextIndex(textIndex)
+            // Finished deleting, move to next text (only happens once)
+            textIndex = 1 // Move to second description
             isDeleting = false
             isPausing = false
             charIndex = 0
@@ -98,7 +106,7 @@ const useCyclingTypingEffect = (texts: string[], typeSpeed = 30, deleteSpeed = 2
     return () => clearTimeout(startTimer)
   }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay])
 
-  return { displayText, showCursor }
+  return { displayText, showCursor: showCursor && !isFinished }
 }
 
 // Import card images
