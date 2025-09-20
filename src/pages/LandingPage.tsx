@@ -295,6 +295,68 @@ function Card({ url, cardIndex, onCardHover, ...props }: CardProps) {
   )
 }
 
-// MobileCard + MobileCardNavigation remain unchanged from your version...
+function MobileCard({ cardIndex, onCardChange, onCardHover }: {
+  cardIndex: number
+  onCardChange: (index: number) => void
+  onCardHover: (cardIndex: number | null) => void
+}) {
+  const navigate = useNavigate()
+  
+  const handleClick = () => {
+    const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
+    navigate(routes[cardIndex])
+  }
+
+  return (
+    <div className="relative w-80 h-96 mx-auto">
+      <img
+        src={cardImages[cardIndex]}
+        alt={`Project ${cardIndex + 1}`}
+        className="w-full h-full object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+        onClick={handleClick}
+        onMouseEnter={() => onCardHover(cardIndex)}
+        onMouseLeave={() => onCardHover(null)}
+      />
+    </div>
+  )
+}
+
+function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: {
+  currentIndex: number
+  totalCards: number
+  onIndexChange: (index: number) => void
+}) {
+  return (
+    <div className="flex justify-center items-center space-x-4">
+      <button
+        onClick={() => onIndexChange(Math.max(0, currentIndex - 1))}
+        className="p-2 text-white/70 hover:text-white disabled:opacity-30"
+        disabled={currentIndex === 0}
+      >
+        ←
+      </button>
+      
+      <div className="flex space-x-2">
+        {Array.from({ length: totalCards }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => onIndexChange(i)}
+            className={`w-2 h-2 rounded-full transition-colors ${
+              i === currentIndex ? 'bg-white' : 'bg-white/30'
+            }`}
+          />
+        ))}
+      </div>
+      
+      <button
+        onClick={() => onIndexChange(Math.min(totalCards - 1, currentIndex + 1))}
+        className="p-2 text-white/70 hover:text-white disabled:opacity-30"
+        disabled={currentIndex === totalCards - 1}
+      >
+        →
+      </button>
+    </div>
+  )
+}
 
 export default LandingPage
