@@ -10,24 +10,28 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 // Typing animation hook
-const useTypingEffect = (text: string, speed = 50) => {
+const useTypingEffect = (text: string, speed = 50, delay = 0) => {
   const [displayText, setDisplayText] = useState('')
   const [isComplete, setIsComplete] = useState(false)
 
   useEffect(() => {
     let index = 0
-    const timer = setInterval(() => {
-      if (index < text.length) {
-        setDisplayText(text.slice(0, index + 1))
-        index++
-      } else {
-        setIsComplete(true)
-        clearInterval(timer)
-      }
-    }, speed)
+    const startTimer = setTimeout(() => {
+      const timer = setInterval(() => {
+        if (index < text.length) {
+          setDisplayText(text.slice(0, index + 1))
+          index++
+        } else {
+          setIsComplete(true)
+          clearInterval(timer)
+        }
+      }, speed)
+      
+      return () => clearInterval(timer)
+    }, delay)
 
-    return () => clearInterval(timer)
-  }, [text, speed])
+    return () => clearTimeout(startTimer)
+  }, [text, speed, delay])
 
   return { displayText, isComplete }
 }
@@ -149,9 +153,9 @@ const LandingPage = () => {
 
   return (
       <div className="h-screen w-full overflow-hidden relative bg-black">
-        {/* Navigation - hidden during intro */}
-        <div className={`transition-transform duration-700 ease-out ${
-          showProfile ? '-translate-x-full' : 'translate-x-0'
+        {/* Navigation - slides in from left after intro */}
+        <div className={`fixed top-0 left-0 w-full z-20 transition-transform duration-700 ease-out ${
+          showProfile ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
         }`}>
           <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
         </div>
@@ -353,8 +357,8 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
   const nameText = "Matas Čiuželis"
   const subtitleText = "Mechanical engineering student and maker"
   
-  const { displayText: nameDisplay } = useTypingEffect(nameText, 80)
-  const { displayText: subtitleDisplay } = useTypingEffect(subtitleText, 40)
+  const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 80)
+  const { displayText: subtitleDisplay } = useTypingEffect(subtitleText, 50, nameComplete ? 500 : 999999)
 
   return (
     <div
@@ -365,24 +369,24 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
     >
       <div className="h-full flex items-center justify-center px-8">
         <div className="flex items-center gap-20 max-w-6xl mx-auto">
-          {/* Profile Image - Larger with original aspect ratio */}
+          {/* Profile Image - Responsive sizing */}
           <div className="relative flex-shrink-0">
             <img
               src={profilePicture}
               alt="Matas Čiuželis"
-              className="w-[500px] h-auto rounded-3xl object-cover shadow-2xl"
+              className="w-[300px] sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[500px] h-auto rounded-2xl object-cover shadow-2xl"
             />
           </div>
           
           {/* Text with typing animation - Fixed width container */}
           <div className="text-white flex-shrink-0" style={{ minWidth: '600px' }}>
-            <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent h-24 flex items-center">
-              <span className="font-mono">{nameDisplay}</span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent h-16 sm:h-20 lg:h-24 flex items-center font-inter tracking-tight leading-none">
+              <span>{nameDisplay}</span>
               {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
             </h1>
-            <p className="text-3xl text-gray-300 mb-8 h-12 flex items-center">
-              <span className="font-mono">{nameDisplay === nameText ? subtitleDisplay : ''}</span>
-              {nameDisplay === nameText && subtitleDisplay !== subtitleText && <span className="animate-pulse ml-1">|</span>}
+            <p className="text-xl sm:text-2xl lg:text-3xl text-gray-400 mb-8 h-8 sm:h-10 lg:h-12 flex items-center font-light tracking-wide">
+              <span>{nameComplete ? subtitleDisplay : ''}</span>
+              {nameComplete && subtitleDisplay !== subtitleText && <span className="animate-pulse ml-1">|</span>}
             </p>
           </div>
         </div>
