@@ -355,19 +355,37 @@ function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: {
 // Profile intro component
 function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, onScrollClick: () => void }) {
   const nameText = "Matas Čiuželis"
-  const subtitleText = "Mechanical engineering student at the university of Glasgow"
+  const subtitleLine1 = "Mechanical engineering student"
+  const subtitleLine2 = "at the university of Glasgow"
   
   const { displayText: nameDisplay, isComplete: nameComplete } = useTypingEffect(nameText, 80)
-  const { displayText: subtitleDisplay } = useTypingEffect(subtitleText, 50, nameComplete ? 500 : 999999)
+  const { displayText: subtitle1Display, isComplete: subtitle1Complete } = useTypingEffect(subtitleLine1, 50, nameComplete ? 500 : 999999)
+  const { displayText: subtitle2Display } = useTypingEffect(subtitleLine2, 50, subtitle1Complete ? 200 : 999999)
 
   return (
     <div
       className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
         showProfile ? 'translate-y-0' : '-translate-y-full'
       }`}
-      style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
     >
-      <div className="h-full flex items-center justify-center px-8">
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+        {/* Geometric elements */}
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/5 rotate-45 animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 border border-white/5 rotate-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 right-1/3 w-16 h-16 border border-white/5 rotate-45 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}></div>
+      </div>
+
+      <div className="relative h-full flex items-center justify-center px-8">
         <div className="flex items-center gap-20 max-w-6xl mx-auto">
           {/* Profile Image - Responsive sizing */}
           <div className="relative flex-shrink-0">
@@ -380,14 +398,20 @@ function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, on
           
           {/* Text with typing animation - Fixed width container */}
           <div className="text-white flex-shrink-0" style={{ minWidth: '600px' }}>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent h-16 sm:h-20 lg:h-24 flex items-center font-inter tracking-tight leading-none">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight tracking-tight" style={{ lineHeight: '0.85', transform: 'scaleY(1.2)' }}>
               <span>{nameDisplay}</span>
               {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
             </h1>
-            <p className="text-xl sm:text-2xl lg:text-3xl text-gray-400 mb-8 h-8 sm:h-10 lg:h-12 flex items-center font-light tracking-wide">
-              <span>{nameComplete ? subtitleDisplay : ''}</span>
-              {nameComplete && subtitleDisplay !== subtitleText && <span className="animate-pulse ml-1">|</span>}
-            </p>
+            <div className="space-y-2">
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-light tracking-wide h-8 flex items-center">
+                <span>{nameComplete ? subtitle1Display : ''}</span>
+                {nameComplete && subtitle1Display !== subtitleLine1 && <span className="animate-pulse ml-1">|</span>}
+              </p>
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-light tracking-wide h-8 flex items-center">
+                <span>{subtitle1Complete ? subtitle2Display : ''}</span>
+                {subtitle1Complete && subtitle2Display !== subtitleLine2 && <span className="animate-pulse ml-1">|</span>}
+              </p>
+            </div>
           </div>
         </div>
       </div>
