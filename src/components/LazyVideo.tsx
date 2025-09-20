@@ -39,8 +39,23 @@ export const LazyVideo = ({
   useEffect(() => {
     if (isVisible && videoRef.current && !isLoaded) {
       const video = videoRef.current
+      
+      // Optimize video loading for better performance
+      video.preload = 'metadata'
+      video.playsInline = true
+      
+      const handleLoadedData = () => {
+        requestAnimationFrame(() => {
+          setIsLoaded(true)
+        })
+      }
+      
+      video.addEventListener('loadeddata', handleLoadedData, { once: true })
       video.src = src
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true })
+      
+      return () => {
+        video.removeEventListener('loadeddata', handleLoadedData)
+      }
     }
   }, [isVisible, src, isLoaded])
 
