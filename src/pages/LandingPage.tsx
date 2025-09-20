@@ -9,6 +9,29 @@ import Navigation from '@/components/Navigation'
 import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 import { useIsMobile } from '@/hooks/use-mobile'
 
+// Typing animation hook
+const useTypingEffect = (text: string, speed = 50) => {
+  const [displayText, setDisplayText] = useState('')
+  const [isComplete, setIsComplete] = useState(false)
+
+  useEffect(() => {
+    let index = 0
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setDisplayText(text.slice(0, index + 1))
+        index++
+      } else {
+        setIsComplete(true)
+        clearInterval(timer)
+      }
+    }, speed)
+
+    return () => clearInterval(timer)
+  }, [text, speed])
+
+  return { displayText, isComplete }
+}
+
 // Import card images
 import profilePicture from '@/assets/profilePicture.jpeg'
 import card2 from '@/assets/ProjectThumbnails/spinLaunch.jpg'
@@ -126,50 +149,16 @@ const LandingPage = () => {
 
   return (
       <div className="h-screen w-full overflow-hidden relative bg-black">
-        <Navigation pageType = 'landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
+        {/* Navigation - hidden during intro */}
+        <div className={`transition-transform duration-700 ease-out ${
+          showProfile ? '-translate-x-full' : 'translate-x-0'
+        }`}>
+          <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard} />
+        </div>
 
         {/* Profile Intro Section */}
-        <div
-            ref={overlayRef}
-            className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
-                showProfile ? 'translate-y-0' : '-translate-y-full'
-            }`}
-            style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
-        >
-          <div className="h-full flex items-center justify-center px-8">
-            <div className="flex items-center gap-12 max-w-4xl mx-auto">
-              <div className="relative">
-                <img
-                    src={profilePicture}
-                    alt="Matas Čiuželis"
-                    className="w-80 h-80 rounded-full object-cover border-4 border-white/20 shadow-2xl"
-                />
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
-              </div>
-              <div className="text-white">
-                <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                  Matas Čiuželis
-                </h1>
-                <p className="text-2xl text-gray-300 mb-8">Mechanical engineering student and maker</p>
-              </div>
-            </div>
-          </div>
+        <ProfileIntro showProfile={showProfile} onScrollClick={handleProfileScroll} />
 
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
-            <div
-                className="cursor-pointer hover:text-white transition-colors"
-                onClick={handleProfileScroll}
-            >
-              <p className="text-sm mb-4">Scroll to explore my projects</p>
-              <div className="animate-bounce">
-                <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* 3D Canvas */}
         <Canvas camera={{ position: [0, 0, 100], fov: 8.75 }} style={{ background: '#000' }}>
@@ -355,6 +344,64 @@ function MobileCardNavigation({ currentIndex, totalCards, onIndexChange }: {
       >
         →
       </button>
+    </div>
+  )
+}
+
+// Profile intro component
+function ProfileIntro({ showProfile, onScrollClick }: { showProfile: boolean, onScrollClick: () => void }) {
+  const nameText = "Matas Čiuželis"
+  const subtitleText = "Mechanical engineering student and maker"
+  
+  const { displayText: nameDisplay } = useTypingEffect(nameText, 80)
+  const { displayText: subtitleDisplay } = useTypingEffect(subtitleText, 40)
+
+  return (
+    <div
+      className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
+        showProfile ? 'translate-y-0' : '-translate-y-full'
+      }`}
+      style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)' }}
+    >
+      <div className="h-full flex items-center justify-center px-8">
+        <div className="flex items-center gap-16 max-w-5xl mx-auto">
+          {/* Profile Image - Larger and rounded */}
+          <div className="relative flex-shrink-0">
+            <img
+              src={profilePicture}
+              alt="Matas Čiuželis"
+              className="w-96 h-96 rounded-3xl object-cover shadow-2xl"
+            />
+          </div>
+          
+          {/* Text with typing animation */}
+          <div className="text-white">
+            <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent min-h-[1.2em]">
+              {nameDisplay}
+              <span className="animate-pulse">|</span>
+            </h1>
+            <p className="text-3xl text-gray-300 mb-8 min-h-[1.2em]">
+              {subtitleDisplay}
+              {nameDisplay === nameText && <span className="animate-pulse">|</span>}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
+        <div
+          className="cursor-pointer hover:text-white transition-colors"
+          onClick={onScrollClick}
+        >
+          <p className="text-sm mb-4">Scroll to explore my projects</p>
+          <div className="animate-bounce">
+            <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
