@@ -465,7 +465,6 @@ function MobileCardNavigation({currentIndex, totalCards, onIndexChange}: {
 // Profile intro component
 function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
     const nameText = "Matas Čiuželis"
-    // Memoize descriptions so the hook doesn't restart on every render
     const descriptions = useMemo(() => [
         "I created a swerve drive in my mom's garage.",
         "Mechanical engineering student at the university of Glasgow"
@@ -479,7 +478,6 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
         2000,  // pause duration at end of first text (ms)
         nameComplete ? 1000 : 999999 // wait until name is complete
     );
-
 
     return (
         <div
@@ -506,20 +504,19 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                         <img
                             src={profilePicture}
                             alt="Matas Čiuželis"
-                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ${
-                                showProfile ? 'opacity-100' : 'opacity-0'
-                            }`}
+                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover shadow-2xl transition-opacity duration-1000 ease-in
+                                ${showProfile ? 'opacity-100 delay-500' : 'opacity-0'}`}
                         />
                     </div>
 
-                    {/* Text with typing animation - Fixed width container */}
+                    {/* Text with typing animation */}
                     <div className="text-white flex-shrink-0" style={{minWidth: '600px'}}>
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-roboto-condensed font-medium mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-roboto-condensed font-large mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
                             style={{lineHeight: '1.1'}}>
                             <span>{nameDisplay}</span>
                             {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
                         </h1>
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-extralight tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
                                 {nameComplete && (
                                     <span>{descriptionDisplay}
@@ -527,8 +524,6 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                                     </span>
                                 )}
                             </p>
-
-
                         </div>
                     </div>
                 </div>
@@ -540,7 +535,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                     className="cursor-pointer hover:text-white transition-colors"
                     onClick={onScrollClick}
                 >
-                    <p className="text-sm mb-4">Scroll to explore my porfolio</p>
+                    <p className="text-sm mb-4">Scroll to explore my portfolio</p>
                     <div className="animate-bounce">
                         <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -552,5 +547,6 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
         </div>
     )
 }
+
 
 export default LandingPage
