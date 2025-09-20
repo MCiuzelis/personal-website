@@ -3,6 +3,7 @@ declare global {
     interface IntrinsicElements {
       bentPlaneGeometry: any
       meshSineMaterial: any
+      animatedBentPlaneGeometry: any
     }
   }
 }

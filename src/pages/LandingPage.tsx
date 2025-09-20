@@ -352,6 +352,7 @@ interface ZoomableMaterial extends THREE.ShaderMaterial {
 
 function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
     const ref = useRef<THREE.Mesh<THREE.BufferGeometry, ZoomableMaterial>>(null!)
+    const geometryRef = useRef<any>(null!)
     const [hovered, hover] = useState(false)
     const navigate = useNavigate()
 
@@ -378,6 +379,11 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
             easing.damp(ref.current.material, 'radius', hovered ? 0.1 : 0.05, 0.2, delta)
             easing.damp(ref.current.material, 'zoom', hovered ? 1.035 : 1, 0.2, delta)
         }
+        
+        // Add subtle movement to the geometry
+        if (geometryRef.current && geometryRef.current.update) {
+            geometryRef.current.update(delta)
+        }
     })
 
     return (
@@ -392,7 +398,7 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
                 onClick={(e) => handleClick(e, cardIndex)}
                 {...props}
             >
-                <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]}/>
+                <animatedBentPlaneGeometry ref={geometryRef} args={[0.1, 1, 1, 20, 20]}/>
             </Image>
         </group>
     )

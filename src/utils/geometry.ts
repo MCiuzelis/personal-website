@@ -56,5 +56,32 @@ class MeshSineMaterial extends THREE.MeshBasicMaterial {
   }
 }
 
-extend({ BentPlaneGeometry, MeshSineMaterial })
-export { BentPlaneGeometry, MeshSineMaterial }
+class AnimatedBentPlaneGeometry extends BentPlaneGeometry {
+  public time: { value: number }
+
+  constructor(radius: number, ...args: ConstructorParameters<typeof THREE.PlaneGeometry>) {
+    super(radius, ...args)
+    this.time = { value: 0 }
+  }
+
+  update(delta: number) {
+    this.time.value += delta * 0.5
+    const positions = this.attributes.position.array as Float32Array
+    const originalPositions = this.userData.originalPositions || positions.slice()
+    this.userData.originalPositions = originalPositions
+
+    for (let i = 0; i < positions.length; i += 3) {
+      const x = originalPositions[i]
+      const y = originalPositions[i + 1]
+      const z = originalPositions[i + 2]
+      
+      // Add subtle wave motion
+      positions[i + 2] = z + Math.sin(this.time.value + x * 2) * 0.02
+    }
+    
+    this.attributes.position.needsUpdate = true
+  }
+}
+
+extend({ BentPlaneGeometry, MeshSineMaterial, AnimatedBentPlaneGeometry })
+export { BentPlaneGeometry, MeshSineMaterial, AnimatedBentPlaneGeometry }

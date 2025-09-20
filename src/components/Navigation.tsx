@@ -134,9 +134,9 @@ const Navigation = ({
                   Home
                 </button>
               ) : pageType === 'robot' ? (
-                <span className={getOpacityClass(true)}>Scroll to explore the model</span>
+                <span className={`${getOpacityClass(true)} moving-highlight`}>Scroll to explore the model</span>
               ) : pageType === 'other' ? (
-                <span className={getOpacityClass(true)}>Scroll to learn more</span>
+                <span className={`${getOpacityClass(true)} moving-highlight`}>Scroll to learn more</span>
               ) : (
                 <>
                   <span className={getOpacityClass(landed)}>Scroll to reveal more projects</span>
