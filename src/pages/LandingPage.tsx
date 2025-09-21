@@ -425,11 +425,11 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     const navigate = useNavigate()
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [touchEnd, setTouchEnd] = useState<number | null>(null)
-    const [internalIndex, setInternalIndex] = useState(cardIndex) // internal index for looping
+    const [internalIndex, setInternalIndex] = useState(cardIndex + 1) // start at 1 because 0 is duplicate last
     const [isTransitioning, setIsTransitioning] = useState(false)
 
-    const gap = 12 // px gap between cards
-    const cardWidth = 288 // 72 * 4, matches Tailwind w-72 in px
+    const gap = 12
+    const cardWidth = 320
     const totalCards = cardImages.length
 
     const handleClick = () => {
@@ -441,31 +441,34 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
             'FirstGlobal',
             'Swerve',
             'VLR'
-        ][internalIndex % totalCards])
+        ][(internalIndex - 1 + totalCards) % totalCards])
     }
 
-    // Build a looped array: last card, all cards, first card
-    const loopedCards = [
-        cardImages[totalCards - 1],
-        ...cardImages,
-        cardImages[0]
-    ]
+    const loopedCards = [cardImages[totalCards - 1], ...cardImages, cardImages[0]]
 
-    // Move to a given index with transition
     const moveToIndex = (newIndex: number) => {
         if (isTransitioning) return
         setIsTransitioning(true)
         setInternalIndex(newIndex)
+
         setTimeout(() => {
-            // Handle infinite loop "jump" without transition
-            if (newIndex === 0) {
-                setInternalIndex(1) // jump from duplicate first card to real first
-            } else if (newIndex === totalCards + 1) {
-                setInternalIndex(totalCards) // jump from duplicate last card to real last
+            let adjustedIndex = newIndex
+
+            // If we hit the duplicate at the start or end, jump silently to the real card
+            if (newIndex === 0) adjustedIndex = totalCards
+            if (newIndex === totalCards + 1) adjustedIndex = 1
+
+            if (adjustedIndex !== newIndex) {
+                // Jump instantly without transition
+                setIsTransitioning(false)
+                setInternalIndex(adjustedIndex)
+            } else {
+                setIsTransitioning(false)
             }
-            setIsTransitioning(false)
-            onCardChange((newIndex - 1 + totalCards) % totalCards) // update parent
-        }, 500) // match CSS transition
+
+            // Notify parent of visible card index
+            onCardChange((adjustedIndex - 1 + totalCards) % totalCards)
+        }, 500)
     }
 
     const handlePrevious = () => moveToIndex(internalIndex - 1)
@@ -485,33 +488,18 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
         else if (distance < -50) handlePrevious()
     }
 
-    // compute translateX including gap
     const translateX = -internalIndex * (cardWidth + gap)
 
     return (
-        <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
-            {/* Project Name */}
-            <h3 className="text-xl font-light px-4 text-center">
-                {[
-                    'Kinetic Launch Platform',
-                    'Rubens Tube',
-                    'Combustion Engine',
-                    'First Lego League',
-                    'First Global Challenge',
-                    'Swerve Drive Robot',
-                    '2024-2025 FTC Robot'
-                ][(internalIndex - 1 + totalCards) % totalCards]}
-            </h3>
-
-            {/* Card Container */}
+        <div className="flex flex-col items-center space-y-6 w-full max-w-md mx-auto">
             <div
-                className="relative w-72 h-80 mx-auto overflow-hidden rounded-xl"
+                className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl"
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}
             >
                 <div
-                    className={`flex h-full transition-transform duration-500 ease-in-out`}
+                    className={`flex h-full ${isTransitioning ? 'transition-transform duration-500 ease-in-out' : ''}`}
                     style={{
                         transform: `translateX(${translateX}px)`,
                         gap: `${gap}px`
@@ -520,7 +508,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
                     {loopedCards.map((img, i) => (
                         <div
                             key={i}
-                            className="flex-shrink-0 w-72 h-80 cursor-pointer"
+                            className="flex-shrink-0 w-80 h-96 cursor-pointer"
                             onClick={handleClick}
                             onMouseEnter={() => onCardHover((i - 1 + totalCards) % totalCards)}
                             onMouseLeave={() => onCardHover(null)}
@@ -535,14 +523,13 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
                 </div>
             </div>
 
-            {/* Navigation */}
             <div className="flex justify-center items-center space-x-4">
                 <button onClick={handlePrevious} className="p-2 text-white/70 hover:text-white">←</button>
                 <div className="flex space-x-2">
                     {Array.from({ length: totalCards }, (_, i) => (
                         <button
                             key={i}
-                            onClick={() => moveToIndex(i + 1)} // +1 because of looped first card
+                            onClick={() => moveToIndex(i + 1)}
                             className={`w-2 h-2 rounded-full transition-colors duration-200 ${
                                 (internalIndex - 1 + totalCards) % totalCards === i ? 'bg-white' : 'bg-white/30'
                             }`}
@@ -554,6 +541,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
         </div>
     )
 }
+
 
 
 // Profile intro component
