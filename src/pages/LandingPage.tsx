@@ -266,17 +266,10 @@ const LandingPage = () => {
                 }`}>
                     <div className="flex flex-col h-full pt-16">
                         <div className="flex-1 flex items-center justify-center px-4">
-                            <MobileCard
+                            <MobileCarousel
                                 cardIndex={mobileCardIndex}
                                 onCardChange={setMobileCardIndex}
                                 onCardHover={setHoveredCard}
-                            />
-                        </div>
-                        <div className="pb-8 px-6">
-                            <MobileCardNavigation
-                                currentIndex={mobileCardIndex}
-                                totalCards={7}
-                                onIndexChange={setMobileCardIndex}
                             />
                         </div>
                     </div>
@@ -436,69 +429,143 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
     )
 }
 
-function MobileCard({cardIndex, onCardChange, onCardHover}: {
+function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
     cardIndex: number
     onCardChange: (index: number) => void
     onCardHover: (cardIndex: number | null) => void
 }) {
     const navigate = useNavigate()
+    const [isTransitioning, setIsTransitioning] = useState(false)
+    const [touchStart, setTouchStart] = useState<number | null>(null)
+    const [touchEnd, setTouchEnd] = useState<number | null>(null)
+    
+    const totalCards = 7
+    const projectNames = [
+        'Kinetic Launch Platform',
+        'Rubens Tube',
+        'Combustion Engine',
+        'First Lego League',
+        'First Global Challenge',
+        'Swerve Drive Robot',
+        '2024-2025 FTC Robot'
+    ]
 
     // Adjust index to match desktop sequence (VLR should be in center at start)
-    const adjustedIndex = (cardIndex + 6) % 7
+    const adjustedIndex = (cardIndex + 6) % totalCards
+
+    const handleCardChange = (newIndex: number) => {
+        if (isTransitioning) return
+        
+        setIsTransitioning(true)
+        onCardChange(newIndex)
+        
+        setTimeout(() => {
+            setIsTransitioning(false)
+        }, 300)
+    }
+
+    const handlePrevious = () => {
+        const newIndex = cardIndex === 0 ? totalCards - 1 : cardIndex - 1
+        handleCardChange(newIndex)
+    }
+
+    const handleNext = () => {
+        const newIndex = (cardIndex + 1) % totalCards
+        handleCardChange(newIndex)
+    }
 
     const handleClick = () => {
         const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
         navigate(routes[adjustedIndex])
     }
 
-    return (
-        <div className="relative w-80 h-96 mx-auto">
-            <img
-                src={cardImages[adjustedIndex]}
-                alt={`Project ${adjustedIndex + 1}`}
-                className="w-full h-full object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-                onClick={handleClick}
-                onMouseEnter={() => onCardHover(adjustedIndex)}
-                onMouseLeave={() => onCardHover(null)}
-            />
-        </div>
-    )
-}
+    // Touch handlers for swipe gestures
+    const onTouchStart = (e: React.TouchEvent) => {
+        setTouchEnd(null)
+        setTouchStart(e.targetTouches[0].clientX)
+    }
 
-function MobileCardNavigation({currentIndex, totalCards, onIndexChange}: {
-    currentIndex: number
-    totalCards: number
-    onIndexChange: (index: number) => void
-}) {
-    return (
-        <div className="flex justify-center items-center space-x-4">
-            <button
-                onClick={() => onIndexChange(Math.max(0, currentIndex - 1))}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-30"
-                disabled={currentIndex === 0}
-            >
-                ←
-            </button>
+    const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
 
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > 50
+        const isRightSwipe = distance < -50
+
+        if (isLeftSwipe) {
+            handleNext()
+        } else if (isRightSwipe) {
+            handlePrevious()
+        }
+    }
+
+    return (
+        <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
+            {/* Project Name */}
+            <div className="text-center">
+                <h3 className="text-white text-lg font-inter font-medium tracking-wide">
+                    {projectNames[adjustedIndex]}
+                </h3>
+            </div>
+
+            {/* Card Container with Navigation */}
+            <div className="relative w-full">
+                {/* Previous Button */}
+                <button
+                    onClick={handlePrevious}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 p-3 text-white/70 hover:text-white transition-colors"
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                {/* Card */}
+                <div 
+                    className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl"
+                    onTouchStart={onTouchStart}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
+                >
+                    <div className={`w-full h-full transition-all duration-300 ease-out ${
+                        isTransitioning ? 'scale-95 opacity-75' : 'scale-100 opacity-100'
+                    }`}>
+                        <img
+                            src={cardImages[adjustedIndex]}
+                            alt={projectNames[adjustedIndex]}
+                            className="w-full h-full object-cover cursor-pointer"
+                            onClick={handleClick}
+                            onMouseEnter={() => onCardHover(adjustedIndex)}
+                            onMouseLeave={() => onCardHover(null)}
+                        />
+                    </div>
+                </div>
+
+                {/* Next Button */}
+                <button
+                    onClick={handleNext}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 p-3 text-white/70 hover:text-white transition-colors"
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Dot Indicators */}
             <div className="flex space-x-2">
                 {Array.from({length: totalCards}, (_, i) => (
                     <button
                         key={i}
-                        onClick={() => onIndexChange(i)}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                            i === currentIndex ? 'bg-white' : 'bg-white/30'
+                        onClick={() => handleCardChange(i)}
+                        className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                            i === cardIndex ? 'bg-white' : 'bg-white/30'
                         }`}
                     />
                 ))}
             </div>
-
-            <button
-                onClick={() => onIndexChange(Math.min(totalCards - 1, currentIndex + 1))}
-                className="p-2 text-white/70 hover:text-white disabled:opacity-30"
-                disabled={currentIndex === totalCards - 1}
-            >
-                →
-            </button>
         </div>
     )
 }

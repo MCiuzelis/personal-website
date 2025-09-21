@@ -84,7 +84,7 @@ const Navigation = ({
               </button>
             )}
             
-            {/* Center Text */}
+            {/* Center is empty for landing page on mobile */}
             <div className="flex-1 text-center px-4">
               {pageType === 'contact' ? (
                 <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
@@ -94,8 +94,6 @@ const Navigation = ({
                 <span className="apple-nav-text text-xs">Explore the model</span>
               ) : pageType === 'other' ? (
                 <span className="apple-nav-text text-xs">Learn more</span>
-              ) : pageType === 'landing' ? (
-                <span className="apple-nav-text text-xs">Swipe to browse projects</span>
               ) : null}
             </div>
             
