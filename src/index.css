@@ -9,31 +9,51 @@
   
   /* Mobile-specific styles to prevent white bleed and overscroll */
   @media (max-width: 767px) {
+    /* Safari-specific viewport meta tag support */
+    @supports (-webkit-touch-callout: none) {
+      html {
+        height: -webkit-fill-available;
+        background-color: #000000 !important;
+      }
+      
+      body {
+        min-height: -webkit-fill-available;
+        background-color: #000000 !important;
+      }
+    }
+    
     html, body {
       overscroll-behavior: none;
-      background-color: #000000;
+      background-color: #000000 !important;
       position: fixed;
       width: 100%;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height */
       overflow: hidden;
+      -webkit-overflow-scrolling: none;
+      padding: 0;
+      margin: 0;
     }
     
     #root {
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height */
       overflow: hidden;
-      background-color: #000000;
+      background-color: #000000 !important;
+      position: relative;
+      padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
     }
     
-    /* Fix status bar areas on mobile */
+    /* Comprehensive status bar and home indicator coverage */
     html::before {
       content: '';
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: env(safe-area-inset-top, 44px);
-      background-color: #000000;
-      z-index: 9999;
+      height: env(safe-area-inset-top, 50px);
+      background-color: #000000 !important;
+      z-index: 10000;
       pointer-events: none;
     }
     
@@ -43,10 +63,22 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: env(safe-area-inset-bottom, 34px);
-      background-color: #000000;
-      z-index: 9999;
+      height: env(safe-area-inset-bottom, 40px);
+      background-color: #000000 !important;
+      z-index: 10000;
       pointer-events: none;
+    }
+    
+    /* Ensure body background covers everything */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -100px;
+      left: -100px;
+      right: -100px;
+      bottom: -100px;
+      background-color: #000000 !important;
+      z-index: -1;
     }
   }
 }
