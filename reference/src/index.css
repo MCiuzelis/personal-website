@@ -208,4 +208,18 @@ canvas {
   body {
     @apply bg-background text-foreground;
   }
+
+  html, body {
+    min-height: 100%;
+    background-color: #000000; /* solid base color matching gradient */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  #root {
+    min-height: 100vh;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 }
