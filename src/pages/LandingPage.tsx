@@ -539,7 +539,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
             </div>
 
             <div className="relative h-full flex items-center justify-center px-8">
-                <div className="flex items-center gap-12 max-w-6xl mx-auto">
+                <div className="flex items-center gap-8 max-w-6xl mx-auto">
                     {/* Profile Image - Slide and rotate animation */}
                     <div className="relative flex-shrink-0">
                         <img
@@ -557,9 +557,9 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                     </div>
 
                     {/* Text with typing animation */}
-                    <div className="text-white flex-shrink-0" style={{minWidth: '600px'}}>
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-inter font-normal mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
-                            style={{lineHeight: '1.1'}}>
+                    <div className="text-white flex-shrink-0" style={{width: '600px'}}>
+                        <h1 className="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-inter font-normal mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
+                            style={{lineHeight: '1.1', height: '1.1em'}}>
                             <span>{nameDisplay}</span>
                             {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
                         </h1>
