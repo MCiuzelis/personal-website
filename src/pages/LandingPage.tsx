@@ -264,8 +264,8 @@ const LandingPage = () => {
                 <div className={`h-full transition-transform duration-1000 ease-in-out ${
                     showProfile ? 'translate-y-full' : 'translate-y-0'
                 }`}>
-                    <div className="flex flex-col h-full pt-12">
-                        <div className="flex-1 flex items-center justify-center px-4 pb-8">
+                    <div className="flex flex-col h-full pt-16">
+                        <div className="flex-1 flex items-start justify-center px-4 pt-8 pb-8">
                             <MobileCarousel
                                 cardIndex={mobileCardIndex}
                                 onCardChange={setMobileCardIndex}
@@ -462,12 +462,12 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
         
         setTimeout(() => {
             onCardChange(newIndex)
-        }, 150)
+        }, 250)
         
         setTimeout(() => {
             setIsTransitioning(false)
             setSlideDirection(null)
-        }, 300)
+        }, 500)
     }
 
     const handlePrevious = () => {
@@ -508,11 +508,11 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
     }
 
     return (
-        <div className="flex flex-col items-center space-y-4 w-full max-w-sm mx-auto">
+        <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
             {/* Project Name */}
-            <div className="text-center">
+            <div className="text-center mb-2">
                 <h3 
-                    className="text-lg font-light"
+                    className="text-xl font-light px-4"
                     style={{
                         background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
                         backgroundSize: '200% 100%',
@@ -526,19 +526,20 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
             </div>
 
             {/* Card Container */}
-            <div className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl">
+            <div className="relative w-72 h-80 mx-auto overflow-hidden rounded-xl"
+                 onTouchStart={onTouchStart}
+                 onTouchMove={onTouchMove}
+                 onTouchEnd={onTouchEnd}
+            >
                 {/* Current Card */}
                 <div 
-                    className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                    className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
                         isTransitioning 
                             ? slideDirection === 'left' 
                                 ? '-translate-x-full' 
                                 : 'translate-x-full'
                             : 'translate-x-0'
                     }`}
-                    onTouchStart={onTouchStart}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
                 >
                     <img
                         src={cardImages[adjustedIndex]}
@@ -552,7 +553,7 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
 
                 {/* Next Card (slides in from right when going left) */}
                 {isTransitioning && slideDirection === 'left' && (
-                    <div className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                    <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
                         isTransitioning ? 'translate-x-0' : 'translate-x-full'
                     }`}>
                         <img
@@ -565,7 +566,7 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
 
                 {/* Previous Card (slides in from left when going right) */}
                 {isTransitioning && slideDirection === 'right' && (
-                    <div className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                    <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
                         isTransitioning ? 'translate-x-0' : '-translate-x-full'
                     }`}>
                         <img
@@ -824,8 +825,8 @@ function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean
                     </div>
                 </div>
 
-                {/* Scroll Indicator - Mobile */}
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
+                 {/* Scroll Indicator - Mobile */}
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
                     <div
                         className="cursor-pointer hover:text-white transition-colors"
                         onClick={onScrollClick}

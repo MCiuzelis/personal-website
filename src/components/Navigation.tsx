@@ -75,8 +75,8 @@ const Navigation = ({
   if (isMobile) {
     return (
       <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50">
-        <div className="bg-black px-4 py-3 relative">
-          <div className="flex items-center justify-between px-4">
+        <div className="bg-black px-4 py-5 relative">
+          <div className="flex items-center justify-between px-2">
             {/* Home Button */}
             {pageType !== 'contact' && (
               <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
