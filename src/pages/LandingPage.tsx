@@ -53,23 +53,22 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
  *  - tracks all timers and clears them on cleanup
  *  - only begins after startDelay has elapsed (so the cursor won't show early)
  */
-const useTwoStepTypingEffect = (
+const useThreeStepTypingEffect = (
     texts: string[],
     typeSpeed = 30,
     deleteSpeed = 20,
     pauseDuration = 2000,
-    startDelay = 0
+    startDelay = 0,
+    appendDelay = 1000
 ) => {
-    const [displayText, setDisplayText] = useState('')
+    const [displayText, setDisplayText] = useState("")
     const [showCursor, setShowCursor] = useState(false)
 
     useEffect(() => {
-        // Defensive: if texts isn't provided or has < 2 entries, do nothing
-        if (!Array.isArray(texts) || texts.length < 2) return
+        if (!Array.isArray(texts) || texts.length < 3) return
 
         let timers: number[] = []
         let cancelled = false
-
         const sleep = (ms: number) =>
             new Promise<void>((resolve) => {
                 const id = window.setTimeout(() => resolve(), ms)
@@ -77,17 +76,13 @@ const useTwoStepTypingEffect = (
             })
 
         const run = async () => {
-            // wait initial delay (e.g. until name typing is complete)
             if (startDelay > 0) {
                 await sleep(startDelay)
                 if (cancelled) return
             }
-
-            // show cursor now that we're about to start
-            if (cancelled) return
             setShowCursor(true)
 
-            // Type first text
+            // Step 1: type first text
             const first = texts[0]
             for (let i = 1; i <= first.length; i++) {
                 if (cancelled) return
@@ -95,30 +90,38 @@ const useTwoStepTypingEffect = (
                 await sleep(typeSpeed)
             }
 
-            if (cancelled) return
-            // Pause with cursor
-            await sleep(pauseDuration)
-            if (cancelled) return
-
-            // Delete first text
-            for (let i = first.length - 1; i >= 0; i--) {
-                if (cancelled) return
-                setDisplayText(first.slice(0, i))
-                await sleep(deleteSpeed)
-            }
-
+            // Step 2: wait before appending
+            await sleep(appendDelay)
             if (cancelled) return
 
-            // Type second text
+            // Step 3: append second text (continue typing)
             const second = texts[1]
             for (let i = 1; i <= second.length; i++) {
                 if (cancelled) return
-                setDisplayText(second.slice(0, i))
+                setDisplayText(first + second.slice(0, i))
                 await sleep(typeSpeed)
             }
 
+            // Step 4: pause after full first+second
+            await sleep(pauseDuration)
             if (cancelled) return
-            // Finished; hide cursor (optional - you can keep it if you prefer)
+
+            // Step 5: delete everything
+            const combined = first + second
+            for (let i = combined.length - 1; i >= 0; i--) {
+                if (cancelled) return
+                setDisplayText(combined.slice(0, i))
+                await sleep(deleteSpeed)
+            }
+
+            // Step 6: type third (final) text
+            const third = texts[2]
+            for (let i = 1; i <= third.length; i++) {
+                if (cancelled) return
+                setDisplayText(third.slice(0, i))
+                await sleep(typeSpeed)
+            }
+
             setShowCursor(false)
         }
 
@@ -129,9 +132,9 @@ const useTwoStepTypingEffect = (
             timers.forEach((t) => clearTimeout(t))
             timers = []
         }
-    }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay])
+    }, [texts, typeSpeed, deleteSpeed, pauseDuration, startDelay, appendDelay])
 
-    return {displayText, showCursor}
+    return { displayText, showCursor }
 }
 
 // Import card images
@@ -191,14 +194,14 @@ const LandingPage = () => {
             document.head.appendChild(link)
         }
         link.href = window.location.origin + '/'
-        
+
         // Listen for hash changes to handle navigation to #projects
         const handleHashChange = () => {
             if (window.location.hash === '#projects') {
                 setShowProfile(false)
             }
         }
-        
+
         window.addEventListener('hashchange', handleHashChange)
         return () => window.removeEventListener('hashchange', handleHashChange)
     }, [])
@@ -394,7 +397,7 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
             easing.damp(ref.current.material, 'radius', hovered ? 0.1 : 0.05, 0.2, delta)
             easing.damp(ref.current.material, 'zoom', hovered ? 1.035 : 1, 0.2, delta)
         }
-        
+
         // Add subtle movement to the geometry
         if (geometryRef.current && geometryRef.current.update) {
             geometryRef.current.update(delta)
@@ -488,7 +491,8 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
     const nameText = "Matas Čiuželis"
     const descriptions = useMemo(() => [
         "I created a swerve drive in my mom's garage.",
-        "Mechanical engineering student at the university of Glasgow"
+        " Oops, wrong audience",
+        "Mechanical engineering student at the University of Glasgow"
     ], [])
 
     // State for profile picture animation
@@ -508,17 +512,18 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
     // Only start typing after profile picture is in place
     const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
-        nameText, 
-        50, 
+        nameText,
+        50,
         profilePictureAnimated ? 1200 : 999999 // Wait for profile pic animation
     )
-    const {displayText: descriptionDisplay, showCursor} = useTwoStepTypingEffect(
+    const { displayText: descriptionDisplay, showCursor } = useThreeStepTypingEffect(
         descriptions,
-        40,    // typing speed
-        30,    // delete speed
-        2000,  // pause duration at end of first text (ms)
-        nameComplete ? 500 : 999999 // wait until name is complete
-    );
+        40,     // typing speed
+        30,     // delete speed
+        1000,   // pause after first+second
+        nameComplete ? 400 : 999999, // start delay
+        800    // delay before appending second text
+    )
 
     return (
         <div
