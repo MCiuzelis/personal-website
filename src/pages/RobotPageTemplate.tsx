@@ -182,7 +182,6 @@ function AnimationTracker({
     onScroll(currentOffset)
 
     if (currentOffset >= 1.1 && lastScroll.current < 1.1) {
-      console.log('unlocking')
       onUnlock()
     }
 
@@ -206,7 +205,6 @@ function PageTracker({ onRelock, lockScroll, onScrollChange }: PageTrackerProps)
       const scrollY = window.scrollY
 
       if (scrollY === 0 && lastWindowY.current !== 0) {
-        console.log('relocking')
         onScrollChange?.(0)
         onRelock()
       }

@@ -38,9 +38,8 @@ export class ResourcePreloader {
       link.crossOrigin = 'anonymous'
       document.head.appendChild(link)
       
-      console.log(`✅ Preloaded 3D model: ${url}`)
     }).catch(error => {
-      console.warn(`❌ Failed to preload model ${url}:`, error)
+      // Silent fail
     })
 
     this.preloadPromises.set(url, promise)
@@ -128,9 +127,8 @@ export class ResourcePreloader {
 
     try {
       await Promise.allSettled([...modelPromises, ...imagePromises])
-      console.log('✅ Critical assets preloaded')
     } catch (error) {
-      console.warn('❌ Some critical assets failed to preload:', error)
+      // Silent fail
     }
   }
 
@@ -155,7 +153,6 @@ export class ResourcePreloader {
     
     this.preloadedAssets.clear()
     this.preloadPromises.clear()
-    console.log('🧹 Resource cache cleared')
   }
 }
 

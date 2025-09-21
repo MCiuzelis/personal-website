@@ -16,7 +16,6 @@ export const PerformanceMonitor = () => {
     if (process.env.NODE_ENV !== 'production') return
 
     const logMetric = (name: string, value: number) => {
-      console.log(`[Performance] ${name}: ${Math.round(value)}ms`)
       // You could send this to analytics service here
     }
 
@@ -70,13 +69,7 @@ export const PerformanceMonitor = () => {
     const reportMetrics = () => {
       setTimeout(() => {
         const metrics = metricsRef.current
-        console.log('[Performance Summary]', {
-          FCP: metrics.fcp ? `${Math.round(metrics.fcp)}ms` : 'N/A',
-          LCP: metrics.lcp ? `${Math.round(metrics.lcp)}ms` : 'N/A',
-          FID: metrics.fid ? `${Math.round(metrics.fid)}ms` : 'N/A',
-          CLS: metrics.cls ? Math.round(metrics.cls * 1000) / 1000 : 'N/A',
-          TTFB: metrics.ttfb ? `${Math.round(metrics.ttfb)}ms` : 'N/A'
-        })
+        // Silent performance monitoring - could send to analytics here
       }, 5000) // Report after 5 seconds
     }
 

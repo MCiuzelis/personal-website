@@ -62,9 +62,8 @@ export const useAssetPreloader = ({ videos = [], models = [], images = [], prior
           link.crossOrigin = 'anonymous'
           document.head.appendChild(link)
           
-          console.log(`✅ Preloaded 3D model: ${src}`)
         }).catch(error => {
-          console.warn(`Failed to preload model ${src}:`, error)
+          // Silent fail
         })
         
         preloadPromises.set(src, promise)

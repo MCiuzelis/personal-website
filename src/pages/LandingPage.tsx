@@ -207,34 +207,27 @@ const LandingPage = () => {
     }, [])
 
     const handleScrollChange = (scrolled: number) => {
-        console.log('[DEBUG] handleScrollChange -> scrolled:', scrolled, 'showProfile:', showProfile)
         setHasScrolled(scrolled)
         setScrollOffset(scrolled)
         if (scrolled > 0.1) {
             setShowProfile(false)
-            console.log('[DEBUG] handleScrollChange -> setShowProfile(false)')
         }
     }
 
     const handleProfileScroll = () => {
-        console.log('[DEBUG] handleProfileScroll (button click)')
         setShowProfile(false)
     }
 
     // Listen for wheel/touch events even if overlay is covering scroll
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
-            console.log('[DEBUG] window wheel event: deltaY=', e.deltaY, 'showProfile=', showProfile)
             if (showProfile) {
                 setShowProfile(false)
-                console.log('[DEBUG] window wheel -> setShowProfile(false)')
             }
         }
         const onTouchMove = (e: TouchEvent) => {
-            console.log('[DEBUG] window touchmove event, showProfile=', showProfile)
             if (showProfile) {
                 setShowProfile(false)
-                console.log('[DEBUG] window touchmove -> setShowProfile(false)')
             }
         }
 
@@ -320,14 +313,9 @@ function Rig({onScrollChange, showProfile, ...props}: RigProps) {
             ref.current.rotation.y = -scroll.offset * (Math.PI * 2)
         }
 
-        const now = performance.now()
         const scrollDelta = Math.abs(scroll.offset - prevOffset.current)
         if (scrollDelta > 0.0005) {
-            if (now - lastLog.current > 200) {
-                console.log('[DEBUG] Rig scroll.offset=', scroll.offset.toFixed(4), 'delta=', scrollDelta.toFixed(4), 'showProfile=', showProfile)
-                lastLog.current = now
-            }
-            onScrollChange?.(scroll.offset) // pass absolute offset
+            onScrollChange?.(scroll.offset)
             prevOffset.current = scroll.offset
         }
 
