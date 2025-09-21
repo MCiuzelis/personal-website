@@ -23,6 +23,31 @@
       overflow: hidden;
       background-color: #000000;
     }
+    
+    /* Fix status bar areas on mobile */
+    html::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: env(safe-area-inset-top, 44px);
+      background-color: #000000;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    
+    html::after {
+      content: '';
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: env(safe-area-inset-bottom, 34px);
+      background-color: #000000;
+      z-index: 9999;
+      pointer-events: none;
+    }
   }
 }
 

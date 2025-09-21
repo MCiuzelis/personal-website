@@ -264,8 +264,8 @@ const LandingPage = () => {
                 <div className={`h-full transition-transform duration-1000 ease-in-out ${
                     showProfile ? 'translate-y-full' : 'translate-y-0'
                 }`}>
-                    <div className="flex flex-col h-full pt-16">
-                        <div className="flex-1 flex items-center justify-center px-4">
+                    <div className="flex flex-col h-full pt-12">
+                        <div className="flex-1 flex items-center justify-center px-4 pb-8">
                             <MobileCarousel
                                 cardIndex={mobileCardIndex}
                                 onCardChange={setMobileCardIndex}
@@ -508,10 +508,19 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
     }
 
     return (
-        <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
+        <div className="flex flex-col items-center space-y-4 w-full max-w-sm mx-auto">
             {/* Project Name */}
             <div className="text-center">
-                <h3 className="apple-nav-text text-sm">
+                <h3 
+                    className="text-lg font-light"
+                    style={{
+                        background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
+                        backgroundSize: '200% 100%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        animation: 'moving-highlight 1.5s ease-in-out infinite alternate'
+                    }}
+                >
                     {projectNames[adjustedIndex]}
                 </h3>
             </div>
