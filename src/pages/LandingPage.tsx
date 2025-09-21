@@ -491,7 +491,27 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
         "Mechanical engineering student at the university of Glasgow"
     ], [])
 
-    const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(nameText, 50, 100)
+    // State for profile picture animation
+    const [profilePictureAnimated, setProfilePictureAnimated] = useState(false)
+
+    // Start profile picture animation when component shows
+    useEffect(() => {
+        if (showProfile) {
+            const timer = setTimeout(() => {
+                setProfilePictureAnimated(true)
+            }, 200) // Small delay for smooth transition
+            return () => clearTimeout(timer)
+        } else {
+            setProfilePictureAnimated(false)
+        }
+    }, [showProfile])
+
+    // Only start typing after profile picture is in place
+    const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
+        nameText, 
+        50, 
+        profilePictureAnimated ? 1200 : 999999 // Wait for profile pic animation
+    )
     const {displayText: descriptionDisplay, showCursor} = useTwoStepTypingEffect(
         descriptions,
         40,    // typing speed
@@ -520,13 +540,16 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
             <div className="relative h-full flex items-center justify-center px-8">
                 <div className="flex items-center gap-12 max-w-6xl mx-auto">
-                    {/* Profile Image - Responsive sizing with fade animation */}
+                    {/* Profile Image - Slide and rotate animation */}
                     <div className="relative flex-shrink-0">
                         <img
                             src={profilePicture}
                             alt="Matas Čiuželis"
-                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover transition-opacity duration-1000 ease-in
-                                ${showProfile ? 'opacity-100 delay-500' : 'opacity-0'}`}
+                            className={`w-[280px] sm:w-[280px] md:w-[320px] lg:w-[360px] xl:w-[400px] h-auto rounded-2xl object-cover transition-all duration-1000 ease-out
+                                ${profilePictureAnimated 
+                                    ? 'translate-x-0 rotate-0 opacity-100' 
+                                    : '-translate-x-full rotate-12 opacity-0'
+                                }`}
                             style={{
                                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.05)'
                             }}
@@ -535,13 +558,13 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
                     {/* Text with typing animation */}
                     <div className="text-white flex-shrink-0" style={{minWidth: '600px'}}>
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-roboto-condensed font-large mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-inter font-normal mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
                             style={{lineHeight: '1.1'}}>
                             <span>{nameDisplay}</span>
                             {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
                         </h1>
                         <div className="space-y-1">
-                            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-extralight tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
+                            <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-inter font-normal tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
                                 {nameComplete && (
                                     <span>{descriptionDisplay}
                                         {showCursor && <span className="animate-pulse">|</span>}
@@ -559,7 +582,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                     className="cursor-pointer hover:text-white transition-colors"
                     onClick={onScrollClick}
                 >
-                    <p className="text-sm mb-4" style={{
+                    <p className="text-sm mb-4 font-inter font-normal" style={{
                         background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
                         backgroundSize: '200% 100%',
                         WebkitBackgroundClip: 'text',
