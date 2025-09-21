@@ -250,21 +250,35 @@ const LandingPage = () => {
     if (isMobile) {
         return (
             <div className="h-screen w-full overflow-hidden relative bg-black">
-                <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard}/>
-                <div className="flex flex-col h-full pt-16">
-                    <div className="flex-1 flex items-center justify-center px-4">
-                        <MobileCard
-                            cardIndex={mobileCardIndex}
-                            onCardChange={setMobileCardIndex}
-                            onCardHover={setHoveredCard}
-                        />
-                    </div>
-                    <div className="pb-8 px-6">
-                        <MobileCardNavigation
-                            currentIndex={mobileCardIndex}
-                            totalCards={7}
-                            onIndexChange={setMobileCardIndex}
-                        />
+                {/* Navigation - slides in from left after intro */}
+                <div className={`fixed top-0 left-0 w-full z-20 transition-transform duration-700 ease-out ${
+                    showProfile ? '-translate-x-full opacity-0' : 'translate-x-0 opacity-100'
+                }`}>
+                    <Navigation pageType='landing' scrollOffset={hasScrolled} hoveredCard={hoveredCard}/>
+                </div>
+
+                {/* Profile Intro Section - Mobile */}
+                <MobileProfileIntro showProfile={showProfile} onScrollClick={handleProfileScroll}/>
+
+                {/* Projects Section */}
+                <div className={`h-full transition-transform duration-1000 ease-in-out ${
+                    showProfile ? 'translate-y-full' : 'translate-y-0'
+                }`}>
+                    <div className="flex flex-col h-full pt-16">
+                        <div className="flex-1 flex items-center justify-center px-4">
+                            <MobileCard
+                                cardIndex={mobileCardIndex}
+                                onCardChange={setMobileCardIndex}
+                                onCardHover={setHoveredCard}
+                            />
+                        </div>
+                        <div className="pb-8 px-6">
+                            <MobileCardNavigation
+                                currentIndex={mobileCardIndex}
+                                totalCards={7}
+                                onIndexChange={setMobileCardIndex}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -429,19 +443,22 @@ function MobileCard({cardIndex, onCardChange, onCardHover}: {
 }) {
     const navigate = useNavigate()
 
+    // Adjust index to match desktop sequence (VLR should be in center at start)
+    const adjustedIndex = (cardIndex + 6) % 7
+
     const handleClick = () => {
         const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
-        navigate(routes[cardIndex])
+        navigate(routes[adjustedIndex])
     }
 
     return (
         <div className="relative w-80 h-96 mx-auto">
             <img
-                src={cardImages[cardIndex]}
-                alt={`Project ${cardIndex + 1}`}
+                src={cardImages[adjustedIndex]}
+                alt={`Project ${adjustedIndex + 1}`}
                 className="w-full h-full object-cover rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300"
                 onClick={handleClick}
-                onMouseEnter={() => onCardHover(cardIndex)}
+                onMouseEnter={() => onCardHover(adjustedIndex)}
                 onMouseLeave={() => onCardHover(null)}
             />
         </div>
@@ -599,6 +616,124 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                   d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
                         </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+// Mobile Profile intro component
+function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
+    const nameText = "Matas Čiuželis"
+    const descriptions = useMemo(() => [
+        "I created a swerve drive in my mom's garage.",
+        " Oops, wrong audience",
+        "Mechanical engineering student at the University of Glasgow"
+    ], [])
+
+    // State for profile picture animation
+    const [profilePictureAnimated, setProfilePictureAnimated] = useState(false)
+
+    // Start profile picture animation when component shows
+    useEffect(() => {
+        if (showProfile) {
+            const timer = setTimeout(() => {
+                setProfilePictureAnimated(true)
+            }, 200) // Small delay for smooth transition
+            return () => clearTimeout(timer)
+        } else {
+            setProfilePictureAnimated(false)
+        }
+    }, [showProfile])
+
+    // Only start typing after profile picture is in place
+    const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
+        nameText,
+        50,
+        profilePictureAnimated ? 1200 : 999999 // Wait for profile pic animation
+    )
+    const { displayText: descriptionDisplay, showCursor } = useThreeStepTypingEffect(
+        descriptions,
+        40,     // typing speed
+        30,     // delete speed
+        1000,   // pause after first+second
+        nameComplete ? 400 : 999999, // start delay
+        800    // delay before appending second text
+    )
+
+    return (
+        <div
+            className={`absolute inset-0 z-10 transition-transform duration-1000 ease-in-out ${
+                showProfile ? 'translate-y-0' : '-translate-y-full'
+            }`}
+        >
+            {/* Animated Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+                {/* Subtle grid pattern */}
+                <div className="absolute inset-0 opacity-[0.02]" style={{
+                    backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+                    backgroundSize: '50px 50px'
+                }}></div>
+            </div>
+
+            <div className="relative h-full flex flex-col items-center justify-center px-6 pt-16">
+                {/* Profile Image - Mobile - much smaller and centered */}
+                <div className="relative flex-shrink-0 mb-8">
+                    <img
+                        src={profilePicture}
+                        alt="Matas Čiuželis"
+                        className={`w-32 h-32 rounded-full object-cover transition-all duration-1000 ease-out
+                            ${profilePictureAnimated 
+                                ? 'translate-x-0 rotate-0 opacity-100' 
+                                : '-translate-x-full rotate-12 opacity-0'
+                            }`}
+                        style={{
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.05)'
+                        }}
+                    />
+                </div>
+
+                {/* Text with typing animation - Mobile */}
+                <div className="text-white text-center">
+                    <h1 className="text-3xl sm:text-4xl font-inter font-normal mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
+                        style={{lineHeight: '1.1', height: '1.1em'}}>
+                        <span>{nameDisplay}</span>
+                        {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
+                    </h1>
+                    <div className="space-y-1">
+                        <p className="text-base sm:text-lg text-gray-400 font-inter font-normal tracking-wide max-w-sm leading-relaxed h-12 overflow-hidden">
+                            {nameComplete && (
+                                <span>{descriptionDisplay}
+                                    {showCursor && <span className="animate-pulse">|</span>}
+                                </span>
+                            )}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Scroll Indicator - Mobile */}
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-center">
+                    <div
+                        className="cursor-pointer hover:text-white transition-colors"
+                        onClick={onScrollClick}
+                    >
+                        <p className="text-sm mb-4 font-inter font-normal" style={{
+                            background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
+                            backgroundSize: '200% 100%',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            animation: 'moving-highlight 6s ease-in-out infinite alternate'
+                        }}>Scroll to explore my portfolio</p>
+                        <div className="animate-bounce">
+                            <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                      d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
