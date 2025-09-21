@@ -436,6 +436,7 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
 }) {
     const navigate = useNavigate()
     const [isTransitioning, setIsTransitioning] = useState(false)
+    const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null)
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [touchEnd, setTouchEnd] = useState<number | null>(null)
     
@@ -453,25 +454,30 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
     // Adjust index to match desktop sequence (VLR should be in center at start)
     const adjustedIndex = (cardIndex + 6) % totalCards
 
-    const handleCardChange = (newIndex: number) => {
+    const handleCardChange = (newIndex: number, direction: 'left' | 'right') => {
         if (isTransitioning) return
         
+        setSlideDirection(direction)
         setIsTransitioning(true)
-        onCardChange(newIndex)
+        
+        setTimeout(() => {
+            onCardChange(newIndex)
+        }, 150)
         
         setTimeout(() => {
             setIsTransitioning(false)
+            setSlideDirection(null)
         }, 300)
     }
 
     const handlePrevious = () => {
         const newIndex = cardIndex === 0 ? totalCards - 1 : cardIndex - 1
-        handleCardChange(newIndex)
+        handleCardChange(newIndex, 'right')
     }
 
     const handleNext = () => {
         const newIndex = (cardIndex + 1) % totalCards
-        handleCardChange(newIndex)
+        handleCardChange(newIndex, 'left')
     }
 
     const handleClick = () => {
@@ -505,66 +511,93 @@ function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
         <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
             {/* Project Name */}
             <div className="text-center">
-                <h3 className="text-white text-lg font-inter font-medium tracking-wide">
+                <h3 className="apple-nav-text text-sm">
                     {projectNames[adjustedIndex]}
                 </h3>
             </div>
 
-            {/* Card Container with Navigation */}
-            <div className="relative w-full">
-                {/* Previous Button */}
-                <button
-                    onClick={handlePrevious}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 p-3 text-white/70 hover:text-white transition-colors"
-                >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                {/* Card */}
+            {/* Card Container */}
+            <div className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl">
+                {/* Current Card */}
                 <div 
-                    className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl"
+                    className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                        isTransitioning 
+                            ? slideDirection === 'left' 
+                                ? '-translate-x-full' 
+                                : 'translate-x-full'
+                            : 'translate-x-0'
+                    }`}
                     onTouchStart={onTouchStart}
                     onTouchMove={onTouchMove}
                     onTouchEnd={onTouchEnd}
                 >
-                    <div className={`w-full h-full transition-all duration-300 ease-out ${
-                        isTransitioning ? 'scale-95 opacity-75' : 'scale-100 opacity-100'
-                    }`}>
-                        <img
-                            src={cardImages[adjustedIndex]}
-                            alt={projectNames[adjustedIndex]}
-                            className="w-full h-full object-cover cursor-pointer"
-                            onClick={handleClick}
-                            onMouseEnter={() => onCardHover(adjustedIndex)}
-                            onMouseLeave={() => onCardHover(null)}
-                        />
-                    </div>
+                    <img
+                        src={cardImages[adjustedIndex]}
+                        alt={projectNames[adjustedIndex]}
+                        className="w-full h-full object-cover cursor-pointer"
+                        onClick={handleClick}
+                        onMouseEnter={() => onCardHover(adjustedIndex)}
+                        onMouseLeave={() => onCardHover(null)}
+                    />
                 </div>
 
-                {/* Next Button */}
-                <button
-                    onClick={handleNext}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 p-3 text-white/70 hover:text-white transition-colors"
-                >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+                {/* Next Card (slides in from right when going left) */}
+                {isTransitioning && slideDirection === 'left' && (
+                    <div className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                        isTransitioning ? 'translate-x-0' : 'translate-x-full'
+                    }`}>
+                        <img
+                            src={cardImages[((cardIndex + 1 + 6) % totalCards)]}
+                            alt={projectNames[((cardIndex + 1 + 6) % totalCards)]}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                )}
+
+                {/* Previous Card (slides in from left when going right) */}
+                {isTransitioning && slideDirection === 'right' && (
+                    <div className={`absolute inset-0 transition-transform duration-300 ease-out ${
+                        isTransitioning ? 'translate-x-0' : '-translate-x-full'
+                    }`}>
+                        <img
+                            src={cardImages[((cardIndex - 1 + totalCards + 6) % totalCards)]}
+                            alt={projectNames[((cardIndex - 1 + totalCards + 6) % totalCards)]}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                )}
             </div>
 
-            {/* Dot Indicators */}
-            <div className="flex space-x-2">
-                {Array.from({length: totalCards}, (_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => handleCardChange(i)}
-                        className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                            i === cardIndex ? 'bg-white' : 'bg-white/30'
-                        }`}
-                    />
-                ))}
+            {/* Navigation with arrows and dots */}
+            <div className="flex justify-center items-center space-x-4">
+                <button
+                    onClick={handlePrevious}
+                    className="p-2 text-white/70 hover:text-white transition-colors"
+                >
+                    ←
+                </button>
+
+                <div className="flex space-x-2">
+                    {Array.from({length: totalCards}, (_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => {
+                                const direction = i > cardIndex ? 'left' : 'right'
+                                handleCardChange(i, direction)
+                            }}
+                            className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                                i === cardIndex ? 'bg-white' : 'bg-white/30'
+                            }`}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    onClick={handleNext}
+                    className="p-2 text-white/70 hover:text-white transition-colors"
+                >
+                    →
+                </button>
             </div>
         </div>
     )
