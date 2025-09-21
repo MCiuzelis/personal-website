@@ -429,189 +429,144 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
     )
 }
 
-function MobileCarousel({cardIndex, onCardChange, onCardHover}: {
+function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     cardIndex: number
     onCardChange: (index: number) => void
     onCardHover: (cardIndex: number | null) => void
 }) {
     const navigate = useNavigate()
-    const [isTransitioning, setIsTransitioning] = useState(false)
-    const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null)
     const [touchStart, setTouchStart] = useState<number | null>(null)
     const [touchEnd, setTouchEnd] = useState<number | null>(null)
-    
-    const totalCards = 7
-    const projectNames = [
-        'Kinetic Launch Platform',
-        'Rubens Tube',
-        'Combustion Engine',
-        'First Lego League',
-        'First Global Challenge',
-        'Swerve Drive Robot',
-        '2024-2025 FTC Robot'
-    ]
+    const [internalIndex, setInternalIndex] = useState(cardIndex) // internal index for looping
+    const [isTransitioning, setIsTransitioning] = useState(false)
 
-    // Adjust index to match desktop sequence (VLR should be in center at start)
-    const adjustedIndex = (cardIndex + 6) % totalCards
-
-    const handleCardChange = (newIndex: number, direction: 'left' | 'right') => {
-        if (isTransitioning) return
-        
-        setSlideDirection(direction)
-        setIsTransitioning(true)
-        
-        setTimeout(() => {
-            onCardChange(newIndex)
-        }, 250)
-        
-        setTimeout(() => {
-            setIsTransitioning(false)
-            setSlideDirection(null)
-        }, 500)
-    }
-
-    const handlePrevious = () => {
-        const newIndex = cardIndex === 0 ? totalCards - 1 : cardIndex - 1
-        handleCardChange(newIndex, 'right')
-    }
-
-    const handleNext = () => {
-        const newIndex = (cardIndex + 1) % totalCards
-        handleCardChange(newIndex, 'left')
-    }
+    const gap = 12 // px gap between cards
+    const cardWidth = 288 // 72 * 4, matches Tailwind w-72 in px
+    const totalCards = cardImages.length
 
     const handleClick = () => {
-        const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
-        navigate(routes[adjustedIndex])
+        navigate([
+            'KineticLaunchPlatform',
+            'RubensTube',
+            'CombustionEngine',
+            'FLL',
+            'FirstGlobal',
+            'Swerve',
+            'VLR'
+        ][internalIndex % totalCards])
     }
 
-    // Touch handlers for swipe gestures
+    // Build a looped array: last card, all cards, first card
+    const loopedCards = [
+        cardImages[totalCards - 1],
+        ...cardImages,
+        cardImages[0]
+    ]
+
+    // Move to a given index with transition
+    const moveToIndex = (newIndex: number) => {
+        if (isTransitioning) return
+        setIsTransitioning(true)
+        setInternalIndex(newIndex)
+        setTimeout(() => {
+            // Handle infinite loop "jump" without transition
+            if (newIndex === 0) {
+                setInternalIndex(1) // jump from duplicate first card to real first
+            } else if (newIndex === totalCards + 1) {
+                setInternalIndex(totalCards) // jump from duplicate last card to real last
+            }
+            setIsTransitioning(false)
+            onCardChange((newIndex - 1 + totalCards) % totalCards) // update parent
+        }, 500) // match CSS transition
+    }
+
+    const handlePrevious = () => moveToIndex(internalIndex - 1)
+    const handleNext = () => moveToIndex(internalIndex + 1)
+
+    // Touch handlers
     const onTouchStart = (e: React.TouchEvent) => {
         setTouchEnd(null)
         setTouchStart(e.targetTouches[0].clientX)
     }
 
     const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
-
     const onTouchEnd = () => {
-        if (!touchStart || !touchEnd) return
-        
+        if (touchStart === null || touchEnd === null) return
         const distance = touchStart - touchEnd
-        const isLeftSwipe = distance > 50
-        const isRightSwipe = distance < -50
-
-        if (isLeftSwipe) {
-            handleNext()
-        } else if (isRightSwipe) {
-            handlePrevious()
-        }
+        if (distance > 50) handleNext()
+        else if (distance < -50) handlePrevious()
     }
+
+    // compute translateX including gap
+    const translateX = -internalIndex * (cardWidth + gap)
 
     return (
         <div className="flex flex-col items-center space-y-6 w-full max-w-sm mx-auto">
             {/* Project Name */}
-            <div className="text-center mb-2">
-                <h3 
-                    className="text-xl font-light px-4"
-                    style={{
-                        background: 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,1), rgba(255,255,255,0.7))',
-                        backgroundSize: '200% 100%',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        animation: 'moving-highlight 1.5s ease-in-out infinite alternate'
-                    }}
-                >
-                    {projectNames[adjustedIndex]}
-                </h3>
-            </div>
+            <h3 className="text-xl font-light px-4 text-center">
+                {[
+                    'Kinetic Launch Platform',
+                    'Rubens Tube',
+                    'Combustion Engine',
+                    'First Lego League',
+                    'First Global Challenge',
+                    'Swerve Drive Robot',
+                    '2024-2025 FTC Robot'
+                ][(internalIndex - 1 + totalCards) % totalCards]}
+            </h3>
 
             {/* Card Container */}
-            <div className="relative w-72 h-80 mx-auto overflow-hidden rounded-xl"
-                 onTouchStart={onTouchStart}
-                 onTouchMove={onTouchMove}
-                 onTouchEnd={onTouchEnd}
+            <div
+                className="relative w-72 h-80 mx-auto overflow-hidden rounded-xl"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
             >
-                {/* Current Card */}
-                <div 
-                    className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
-                        isTransitioning 
-                            ? slideDirection === 'left' 
-                                ? '-translate-x-full' 
-                                : 'translate-x-full'
-                            : 'translate-x-0'
-                    }`}
+                <div
+                    className={`flex h-full transition-transform duration-500 ease-in-out`}
+                    style={{
+                        transform: `translateX(${translateX}px)`,
+                        gap: `${gap}px`
+                    }}
                 >
-                    <img
-                        src={cardImages[adjustedIndex]}
-                        alt={projectNames[adjustedIndex]}
-                        className="w-full h-full object-cover cursor-pointer"
-                        onClick={handleClick}
-                        onMouseEnter={() => onCardHover(adjustedIndex)}
-                        onMouseLeave={() => onCardHover(null)}
-                    />
+                    {loopedCards.map((img, i) => (
+                        <div
+                            key={i}
+                            className="flex-shrink-0 w-72 h-80 cursor-pointer"
+                            onClick={handleClick}
+                            onMouseEnter={() => onCardHover((i - 1 + totalCards) % totalCards)}
+                            onMouseLeave={() => onCardHover(null)}
+                        >
+                            <img
+                                src={img}
+                                alt={`Project ${i}`}
+                                className="w-full h-full object-cover rounded-xl"
+                            />
+                        </div>
+                    ))}
                 </div>
-
-                {/* Next Card (slides in from right when going left) */}
-                {isTransitioning && slideDirection === 'left' && (
-                    <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
-                        isTransitioning ? 'translate-x-0' : 'translate-x-full'
-                    }`}>
-                        <img
-                            src={cardImages[((cardIndex + 1 + 6) % totalCards)]}
-                            alt={projectNames[((cardIndex + 1 + 6) % totalCards)]}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                )}
-
-                {/* Previous Card (slides in from left when going right) */}
-                {isTransitioning && slideDirection === 'right' && (
-                    <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${
-                        isTransitioning ? 'translate-x-0' : '-translate-x-full'
-                    }`}>
-                        <img
-                            src={cardImages[((cardIndex - 1 + totalCards + 6) % totalCards)]}
-                            alt={projectNames[((cardIndex - 1 + totalCards + 6) % totalCards)]}
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                )}
             </div>
 
-            {/* Navigation with arrows and dots */}
+            {/* Navigation */}
             <div className="flex justify-center items-center space-x-4">
-                <button
-                    onClick={handlePrevious}
-                    className="p-2 text-white/70 hover:text-white transition-colors"
-                >
-                    ←
-                </button>
-
+                <button onClick={handlePrevious} className="p-2 text-white/70 hover:text-white">←</button>
                 <div className="flex space-x-2">
-                    {Array.from({length: totalCards}, (_, i) => (
+                    {Array.from({ length: totalCards }, (_, i) => (
                         <button
                             key={i}
-                            onClick={() => {
-                                const direction = i > cardIndex ? 'left' : 'right'
-                                handleCardChange(i, direction)
-                            }}
+                            onClick={() => moveToIndex(i + 1)} // +1 because of looped first card
                             className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                                i === cardIndex ? 'bg-white' : 'bg-white/30'
+                                (internalIndex - 1 + totalCards) % totalCards === i ? 'bg-white' : 'bg-white/30'
                             }`}
                         />
                     ))}
                 </div>
-
-                <button
-                    onClick={handleNext}
-                    className="p-2 text-white/70 hover:text-white transition-colors"
-                >
-                    →
-                </button>
+                <button onClick={handleNext} className="p-2 text-white/70 hover:text-white">→</button>
             </div>
         </div>
     )
 }
+
 
 // Profile intro component
 function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
