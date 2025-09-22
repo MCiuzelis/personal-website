@@ -152,29 +152,10 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
                       const contentElement = contentSectionRef.current
                       if (contentElement) {
                         console.log('Scrolling to content element')
-                        // Use smooth scrolling with custom animation
-                        const startPosition = window.pageYOffset
-                        const targetPosition = contentElement.offsetTop
-                        const distance = targetPosition - startPosition
-                        const duration = 1200 // 1.2 seconds for smoother animation
-                        let start = null
-
-                        function animation(currentTime) {
-                          if (start === null) start = currentTime
-                          const timeElapsed = currentTime - start
-                          const run = ease(timeElapsed, startPosition, distance, duration)
-                          window.scrollTo(0, run)
-                          if (timeElapsed < duration) requestAnimationFrame(animation)
-                        }
-
-                        function ease(t, b, c, d) {
-                          t /= d / 2
-                          if (t < 1) return c / 2 * t * t + b
-                          t--
-                          return -c / 2 * (t * (t - 2) - 1) + b
-                        }
-
-                        requestAnimationFrame(animation)
+                        contentElement.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start'
+                        })
                       } else {
                         console.log('Content element not found, using fallback scroll')
                         window.scrollTo({
