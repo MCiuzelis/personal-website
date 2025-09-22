@@ -74,7 +74,7 @@ const Navigation = ({
 
   if (isMobile) {
     return (
-      <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50">
+      <nav id="nav-bar" className="fixed top-0 left-0 w-full z-50">
         <div className="bg-black px-4 py-5 relative">
           {pageType === 'landing' ? (
             /* Landing page - only contact button centered */

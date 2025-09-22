@@ -148,22 +148,22 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
                   setShowContent(!showContent)
                   if (!showContent) {
                     // Scroll to content when showing it
-                    setTimeout(() => {
-                      const contentElement = contentSectionRef.current
-                      if (contentElement) {
-                        console.log('Scrolling to content element')
-                        contentElement.scrollIntoView({
-                          behavior: 'smooth',
-                          block: 'start'
-                        })
-                      } else {
-                        console.log('Content element not found, using fallback scroll')
-                        window.scrollTo({
-                          top: window.innerHeight,
-                          behavior: 'smooth'
-                        })
-                      }
-                    }, 100)
+                     setTimeout(() => {
+                       const contentElement = contentSectionRef.current
+                       if (contentElement) {
+                         console.log('Scrolling to content element')
+                         contentElement.scrollIntoView({
+                           behavior: 'smooth',
+                           block: 'start'
+                         })
+                       } else {
+                         console.log('Content element not found, using fallback scroll')
+                         window.scrollTo({
+                           top: window.innerHeight * 1.1,
+                           behavior: 'smooth'
+                         })
+                       }
+                     }, 200)
                   }
                 }}
                 className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
