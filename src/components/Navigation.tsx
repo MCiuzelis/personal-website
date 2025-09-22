@@ -83,6 +83,13 @@ const Navigation = ({
                 Contact
               </button>
             </div>
+          ) : pageType === 'robot' ? (
+            /* Robot pages - only home button centered */
+            <div className="flex items-center justify-center">
+              <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+                Home
+              </button>
+            </div>
           ) : (
             /* Other pages - keep current layout */
             <div className="flex items-center justify-between px-2">
@@ -99,8 +106,6 @@ const Navigation = ({
                   <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
                     Home
                   </button>
-                ) : pageType === 'robot' ? (
-                  <span className="apple-nav-text text-xs">Explore the model</span>
                 ) : pageType === 'other' ? (
                   <span className="apple-nav-text text-xs">Learn more</span>
                 ) : null}

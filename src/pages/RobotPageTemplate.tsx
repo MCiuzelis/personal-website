@@ -122,7 +122,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
 
         {/* Mobile Controls */}
         {isMobile && (
-          <div className="absolute bottom-4 left-0 right-0 z-50 px-6">
+          <div className="absolute bottom-16 left-0 right-0 z-50 px-6">
             <div className="flex items-center justify-center space-x-4">
               {/* Explosion Slider */}
               <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
