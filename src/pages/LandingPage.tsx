@@ -430,33 +430,28 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
 
     const gap = 12
     const cardWidth = 320
-    const totalCards = cardImages.length
-
-    // Project titles array matching the cardImages order
-    const projectTitles = [
-        'Kinetic Launch Platform',
+    
+    // Reorder to match desktop sequence (VLR first, then follow the rotation)
+    const mobileCardImages = [card8, card2, card3, card4, card5, card6, card7] // VLR first
+    const mobileProjectTitles = [
+        'VEX V5 Robotics Competition',
+        'Kinetic Launch Platform', 
         "Ruben's Tube",
         'Combustion Engine',
         'FIRST Lego League',
         'FIRST Global Challenge',
-        'Swerve Drive',
-        'VEX V5 Robotics Competition'
+        'Swerve Drive'
     ]
+    const mobileRoutes = ['VLR', 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve']
+    
+    const totalCards = mobileCardImages.length
 
     const handleClick = () => {
-        navigate([
-            'KineticLaunchPlatform',
-            'RubensTube',
-            'CombustionEngine',
-            'FLL',
-            'FirstGlobal',
-            'Swerve',
-            'VLR'
-        ][(internalIndex - 1 + totalCards) % totalCards])
+        navigate(mobileRoutes[(internalIndex - 1 + totalCards) % totalCards])
     }
 
-    const loopedCards = [cardImages[totalCards - 1], ...cardImages, cardImages[0]]
-    const loopedTitles = [projectTitles[totalCards - 1], ...projectTitles, projectTitles[0]]
+    const loopedCards = [mobileCardImages[totalCards - 1], ...mobileCardImages, mobileCardImages[0]]
+    const loopedTitles = [mobileProjectTitles[totalCards - 1], ...mobileProjectTitles, mobileProjectTitles[0]]
 
     const moveToIndex = (newIndex: number) => {
         if (isTransitioning) return

@@ -76,34 +76,44 @@ const Navigation = ({
     return (
       <nav id="nav-bar" className="absolute top-0 left-0 w-full z-50">
         <div className="bg-black px-4 py-5 relative">
-          <div className="flex items-center justify-between px-2">
-            {/* Home Button */}
-            {pageType !== 'contact' && (
-              <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
-                Home
-              </button>
-            )}
-            
-            {/* Center is empty for landing page on mobile */}
-            <div className="flex-1 text-center px-4">
-              {pageType === 'contact' ? (
-                <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
-                  Home
-                </button>
-              ) : pageType === 'robot' ? (
-                <span className="apple-nav-text text-xs">Explore the model</span>
-              ) : pageType === 'other' ? (
-                <span className="apple-nav-text text-xs">Learn more</span>
-              ) : null}
-            </div>
-            
-            {/* Contact Button */}
-            {pageType !== 'contact' && (
+          {pageType === 'landing' ? (
+            /* Landing page - only contact button centered */
+            <div className="flex items-center justify-center">
               <button onClick={() => navigate('/contact')} className="apple-nav-text text-sm">
                 Contact
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            /* Other pages - keep current layout */
+            <div className="flex items-center justify-between px-2">
+              {/* Home Button */}
+              {pageType !== 'contact' && (
+                <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
+                  Home
+                </button>
+              )}
+              
+              {/* Center content */}
+              <div className="flex-1 text-center px-4">
+                {pageType === 'contact' ? (
+                  <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
+                    Home
+                  </button>
+                ) : pageType === 'robot' ? (
+                  <span className="apple-nav-text text-xs">Explore the model</span>
+                ) : pageType === 'other' ? (
+                  <span className="apple-nav-text text-xs">Learn more</span>
+                ) : null}
+              </div>
+              
+              {/* Contact Button */}
+              {pageType !== 'contact' && (
+                <button onClick={() => navigate('/contact')} className="apple-nav-text text-sm">
+                  Contact
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </nav>
     )
