@@ -536,7 +536,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
             </div>
 
             <div className="flex justify-center items-center space-x-4">
-                <button onClick={handlePrevious} className="p-2 text-white/70 hover:text-white">←</button>
+                <button onClick={handlePrevious} className="p-3 text-white/70 hover:text-white text-xl">←</button>
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-2.5 flex space-x-3">
                     {Array.from({ length: totalCards }, (_, i) => (
                         <button
@@ -550,7 +550,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
                         />
                     ))}
                 </div>
-                <button onClick={handleNext} className="p-2 text-white/70 hover:text-white">→</button>
+                <button onClick={handleNext} className="p-3 text-white/70 hover:text-white text-xl">→</button>
             </div>
         </div>
     )
@@ -736,12 +736,12 @@ function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean
             </div>
 
             <div className="relative h-full flex flex-col items-center justify-center px-6 pt-16">
-                {/* Profile Image - Mobile - much smaller and centered */}
+                {/* Profile Image - Mobile - slightly larger and centered */}
                 <div className="relative flex-shrink-0 mb-8">
                     <img
                         src={profilePicture}
                         alt="Matas Čiuželis"
-                        className={`w-32 h-32 rounded-full object-cover transition-all duration-1000 ease-out
+                        className={`w-40 h-40 rounded-full object-cover transition-all duration-1000 ease-out
                             ${profilePictureAnimated 
                                 ? 'translate-x-0 rotate-0 opacity-100' 
                                 : '-translate-x-full rotate-12 opacity-0'
