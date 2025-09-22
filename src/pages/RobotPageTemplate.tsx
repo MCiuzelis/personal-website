@@ -179,7 +179,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
       </div>
 
       {/* Content section passed in as children */}
-      <div ref={contentSectionRef} className={`relative z-10 bg-background ${isMobile && !showContent ? 'hidden' : ''}`}>
+      <div ref={contentSectionRef} className="relative z-10 bg-background">
         {children}
       </div>
     </div>

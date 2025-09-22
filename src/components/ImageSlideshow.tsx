@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { OptimizedImage } from './OptimizedImage'
 
 interface ImageSlideshowProps {
     images: string[]
@@ -105,10 +106,11 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                                 className="h-[50vh] md:h-[75vh] w-auto mx-auto object-cover rounded-lg"
                             />
                         ) : (
-                            <img
+                            <OptimizedImage
                                 src={media}
                                 alt={`Slide ${index + 1}`}
                                 className="h-[50vh] md:h-[75vh] w-auto mx-auto object-cover rounded-lg"
+                                priority={index === 0}
                             />
                         )}
                     </div>
