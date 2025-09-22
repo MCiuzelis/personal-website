@@ -13,6 +13,8 @@ import { Perf } from 'r3f-perf'
 import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/Navigation'
 import { CanvasLoader } from '@/components/CanvasLoader'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { ChevronDown } from 'lucide-react'
 
 interface RobotPageTemplateProps {
   robot: React.ReactNode
@@ -26,7 +28,10 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   const [lockScroll, setLockScroll] = useState(true)
   const [scrollValue, setScrollValue] = useState(0)
   const [robotVisible, setRobotVisible] = useState(true)
+  const [mobileSliderValue, setMobileSliderValue] = useState(0)
+  const [showContent, setShowContent] = useState(false)
   const robotSectionRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
   // Robot visibility observer
   useEffect(() => {
@@ -87,7 +92,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           {/* Robot Component passed in as prop */}
           <Suspense fallback={<CanvasLoader />}>
             {robotVisible && React.cloneElement(robot as React.ReactElement, {
-              scrollValue: animationProgress,
+              scrollValue: isMobile ? mobileSliderValue : animationProgress,
             })}
           </Suspense>
 
@@ -102,20 +107,58 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           />
           <Tone mapping="ACESFilmic" exposure={0.85} />
 
-          <Perf
-            style={{
-              position: 'absolute',
-              top: '4.5rem',
-              right: '1rem',
-              pointerEvents: 'none',
-              zIndex: 9999,
-            }}
-          />
+          {!isMobile && (
+            <Perf
+              style={{
+                position: 'absolute',
+                top: '4.5rem',
+                right: '1rem',
+                pointerEvents: 'none',
+                zIndex: 9999,
+              }}
+            />
+          )}
         </Canvas>
+
+        {/* Mobile Controls */}
+        {isMobile && (
+          <div className="absolute bottom-6 left-0 right-0 z-50 px-6">
+            <div className="flex items-center justify-center space-x-4">
+              {/* Explosion Slider */}
+              <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={mobileSliderValue}
+                  onChange={(e) => setMobileSliderValue(parseFloat(e.target.value))}
+                  className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+                  style={{
+                    background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${mobileSliderValue * 100}%, rgba(255,255,255,0.2) ${mobileSliderValue * 100}%, rgba(255,255,255,0.2) 100%)`
+                  }}
+                />
+              </div>
+
+              {/* Dropdown Arrow */}
+              <button
+                onClick={() => setShowContent(!showContent)}
+                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
+                aria-label="Toggle content visibility"
+              >
+                <ChevronDown 
+                  className={`w-6 h-6 transition-transform duration-300 ${showContent ? 'rotate-180' : ''}`} 
+                />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Content section passed in as children */}
-      <div className="relative z-10 bg-background">{children}</div>
+      <div className={`relative z-10 bg-background ${isMobile && !showContent ? 'hidden' : ''}`}>
+        {children}
+      </div>
     </div>
   )
 }
