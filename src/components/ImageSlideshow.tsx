@@ -93,6 +93,9 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                 style={{
                     transform: `translateX(-${currentIndex * 100}%)`,
                     transition: `transform ${transitionDuration}ms ease-in-out`,
+                    willChange: 'transform',
+                    backfaceVisibility: 'hidden',
+                    perspective: '1000px'
                 }}
             >
                 {images.map((media, index) => (
@@ -111,6 +114,11 @@ export default function ImageSlideshow({ images }: ImageSlideshowProps) {
                                 alt={`Slide ${index + 1}`}
                                 className="h-[50vh] md:h-[75vh] w-auto mx-auto object-cover rounded-lg"
                                 priority={index === 0}
+                                style={{
+                                    filter: 'brightness(1)',
+                                    backfaceVisibility: 'hidden',
+                                    transform: 'translateZ(0)'
+                                }}
                             />
                         )}
                     </div>

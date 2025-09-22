@@ -55,7 +55,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   }, [])
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">{/* Remove overflow-hidden to allow scrolling */}
       <Navigation pageType="robot" scrollOffset={scrollValue} />
 
       {/* Canvas section */}
@@ -270,7 +270,7 @@ function PageTracker({ onRelock, lockScroll, onScrollChange }: PageTrackerProps)
     if (!lockScroll) {
       const scrollY = window.scrollY
 
-      if (scrollY === 0 && lastWindowY.current !== 0) {
+      if (scrollY <= 10 && lastWindowY.current > 10) {
         onScrollChange?.(0)
         onRelock()
       }
