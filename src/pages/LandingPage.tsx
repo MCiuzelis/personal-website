@@ -432,6 +432,17 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     const cardWidth = 320
     const totalCards = cardImages.length
 
+    // Project titles array matching the cardImages order
+    const projectTitles = [
+        'Kinetic Launch Platform',
+        "Ruben's Tube",
+        'Combustion Engine',
+        'FIRST Lego League',
+        'FIRST Global Challenge',
+        'Swerve Drive',
+        'VEX V5 Robotics Competition'
+    ]
+
     const handleClick = () => {
         navigate([
             'KineticLaunchPlatform',
@@ -445,6 +456,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     }
 
     const loopedCards = [cardImages[totalCards - 1], ...cardImages, cardImages[0]]
+    const loopedTitles = [projectTitles[totalCards - 1], ...projectTitles, projectTitles[0]]
 
     const moveToIndex = (newIndex: number) => {
         if (isTransitioning) return
@@ -492,6 +504,11 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
 
     return (
         <div className="flex flex-col items-center space-y-6 w-full max-w-md mx-auto">
+            {/* Project Title */}
+            <h2 className="text-2xl font-semibold text-white text-center px-4">
+                {loopedTitles[internalIndex]}
+            </h2>
+            
             <div
                 className="relative w-80 h-96 mx-auto overflow-hidden rounded-xl"
                 onTouchStart={onTouchStart}
