@@ -537,13 +537,15 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
 
             <div className="flex justify-center items-center space-x-4">
                 <button onClick={handlePrevious} className="p-2 text-white/70 hover:text-white">←</button>
-                <div className="flex space-x-2">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-2.5 flex space-x-3">
                     {Array.from({ length: totalCards }, (_, i) => (
                         <button
                             key={i}
                             onClick={() => moveToIndex(i + 1)}
-                            className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                                (internalIndex - 1 + totalCards) % totalCards === i ? 'bg-white' : 'bg-white/30'
+                            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                                (internalIndex - 1 + totalCards) % totalCards === i 
+                                    ? 'bg-white shadow-lg scale-110' 
+                                    : 'bg-white/40 hover:bg-white/60'
                             }`}
                         />
                     ))}
