@@ -428,21 +428,21 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     const [internalIndex, setInternalIndex] = useState(cardIndex + 1) // start at 1 because 0 is duplicate last
     const [isTransitioning, setIsTransitioning] = useState(false)
 
-    const gap = 12
+    const gap = 30
     const cardWidth = 320
     
     // Reorder to match desktop sequence (VLR first, then follow the rotation)
-    const mobileCardImages = [card8, card2, card3, card4, card5, card6, card7] // VLR first
+    const mobileCardImages = [card8, card7, card5, card6, card2, card3, card4, ]
     const mobileProjectTitles = [
-        'VEX V5 Robotics Competition',
-        'Kinetic Launch Platform', 
-        "Ruben's Tube",
-        'Combustion Engine',
+        'FTC final season robot',
+        'Swerve Drive',
         'FIRST Lego League',
         'FIRST Global Challenge',
-        'Swerve Drive'
+        'Kinetic Launch Platform', 
+        "Ruben's Tube",
+        'Combustion Engine'
     ]
-    const mobileRoutes = ['VLR', 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve']
+    const mobileRoutes = ['VLR', 'Swerve', 'FLL', 'FirstGlobal', 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine']
     
     const totalCards = mobileCardImages.length
 
