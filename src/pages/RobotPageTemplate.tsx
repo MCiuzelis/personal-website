@@ -122,7 +122,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
 
         {/* Mobile Controls */}
         {isMobile && (
-          <div className="absolute bottom-6 left-0 right-0 z-50 px-6">
+          <div className="absolute bottom-4 left-0 right-0 z-50 px-6">
             <div className="flex items-center justify-center space-x-4">
               {/* Explosion Slider */}
               <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
@@ -142,7 +142,18 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
 
               {/* Dropdown Arrow */}
               <button
-                onClick={() => setShowContent(!showContent)}
+                onClick={() => {
+                  setShowContent(!showContent)
+                  if (!showContent) {
+                    // Scroll to content when showing it
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: window.innerHeight,
+                        behavior: 'smooth'
+                      })
+                    }, 100)
+                  }
+                }}
                 className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
                 aria-label="Toggle content visibility"
               >
