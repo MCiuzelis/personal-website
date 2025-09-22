@@ -59,7 +59,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
       <Navigation pageType="robot" scrollOffset={scrollValue} />
 
       {/* Canvas section */}
-      <div ref={robotSectionRef} className="relative overflow-hidden bg-[#101010]">
+      <div ref={robotSectionRef} className="relative bg-[#101010]" style={{ height: lockScroll ? '100vh' : 'auto' }}>
         <Canvas
           dpr={[1, 2]}
           style={{
@@ -67,6 +67,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
             height: '100vh',
             position: 'relative',
             pointerEvents: lockScroll ? 'auto' : 'none',
+            touchAction: lockScroll ? 'auto' : 'none',
           }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#101010'))}
@@ -74,15 +75,17 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
           <Environment files="/old_depot.hdr" background={false} />
           <primitive attach="background" object={new THREE.Color('#101010')} />
 
-          <ScrollControls pages={1} damping={0}>
-            <Scroll>
-              <AnimationTracker
-                onScroll={(v) => setAnimationProgress(v)}
-                onUnlock={() => setLockScroll(false)}
-                lockScroll={lockScroll}
-              />
-            </Scroll>
-          </ScrollControls>
+          {lockScroll && (
+            <ScrollControls pages={1} damping={0}>
+              <Scroll>
+                <AnimationTracker
+                  onScroll={(v) => setAnimationProgress(v)}
+                  onUnlock={() => setLockScroll(false)}
+                  lockScroll={lockScroll}
+                />
+              </Scroll>
+            </ScrollControls>
+          )}
 
           <PageTracker
             onRelock={() => setLockScroll(true)}
