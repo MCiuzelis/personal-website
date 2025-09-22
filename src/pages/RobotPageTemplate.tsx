@@ -31,6 +31,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   const [mobileSliderValue, setMobileSliderValue] = useState(0)
   const [showContent, setShowContent] = useState(false)
   const robotSectionRef = useRef<HTMLDivElement>(null)
+  const contentSectionRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
 
   // Robot visibility observer
@@ -143,14 +144,25 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
               {/* Dropdown Arrow */}
               <button
                 onClick={() => {
+                  console.log('Dropdown button clicked, showContent:', showContent)
                   setShowContent(!showContent)
                   if (!showContent) {
                     // Scroll to content when showing it
                     setTimeout(() => {
-                      window.scrollTo({
-                        top: window.innerHeight,
-                        behavior: 'smooth'
-                      })
+                      const contentElement = contentSectionRef.current
+                      if (contentElement) {
+                        console.log('Scrolling to content element')
+                        contentElement.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start'
+                        })
+                      } else {
+                        console.log('Content element not found, using fallback scroll')
+                        window.scrollTo({
+                          top: window.innerHeight,
+                          behavior: 'smooth'
+                        })
+                      }
                     }, 100)
                   }
                 }}
@@ -167,7 +179,7 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
       </div>
 
       {/* Content section passed in as children */}
-      <div className={`relative z-10 bg-background ${isMobile && !showContent ? 'hidden' : ''}`}>
+      <div ref={contentSectionRef} className={`relative z-10 bg-background ${isMobile && !showContent ? 'hidden' : ''}`}>
         {children}
       </div>
     </div>
