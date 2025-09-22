@@ -1,0 +1,107 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Viewport and device optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark light" />
+    
+    <!-- SEO and metadata -->
+    <title>Matas' Project Showcase - Robotics & Engineering Portfolio</title>
+    <meta name="description" content="Explore innovative robotics projects including VLR robots, swerve drive systems, FLL competitions, combustion engines, and kinetic launch platforms. Interactive 3D portfolio by Matas Čiuželis." />
+    <meta name="author" content="Matas Čiuželis"/>
+    <meta name="keywords" content="robotics, engineering, VLR, swerve drive, FLL, combustion engine, kinetic launch platform, 3D models, portfolio" />
+    
+    <!-- App icon and PWA -->
+    <link rel="icon" type="image/jpeg" href="/Icon.jpg" />
+    <link rel="apple-touch-icon" href="/Icon.jpg" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Critical resource hints for 3D models -->
+    <link rel="preload" href="/CAD_models/VLR_Robot.glb" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="/CAD_models/SwerveRobot.glb" as="fetch" crossorigin="anonymous">
+    <link rel="preload" href="/CAD_models/FLL_Robot.glb" as="fetch" crossorigin="anonymous">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Portfolio",
+      "name": "Matas' Project Showcase",
+      "description": "Interactive portfolio showcasing robotics and engineering projects with 3D visualizations",
+      "url": "https://your-domain.com/",
+      "author": {
+        "@type": "Person",
+        "name": "Matas Čiuželis",
+        "jobTitle": "Robotics Engineer"
+      },
+      "workExample": [
+        {
+          "@type": "CreativeWork",
+          "name": "VLR Robot",
+          "description": "Advanced robotics project with interactive 3D visualization"
+        },
+        {
+          "@type": "CreativeWork", 
+          "name": "Swerve Drive System",
+          "description": "Innovative omnidirectional drive system for robotics competitions"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Critical CSS for immediate rendering -->
+    <style>
+      html, body { 
+        margin: 0; 
+        padding: 0; 
+        background: #000; 
+        color: #fff; 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+      
+      #root { 
+        min-height: 100vh; 
+        background: #000;
+      }
+      
+      /* Prevent layout shift during font loading */
+      .font-inter { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+      }
+      
+    </style>
+    <script type="module" crossorigin src="/assets/index-8Qg0dHZ1.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CrMmQQK-.css">
+  </head>
+
+    <body>
+      
+      <div id="root"></div>
+      
+      <!-- Remove initial loader when React app loads -->
+      <!-- SPA routing support -->
+      <script>
+        // Single Page Apps for GitHub Pages
+        (function(l) {
+          if (l.search[1] === '/' ) {
+            var decoded = l.search.slice(1).split('&').map(function(s) { 
+              return s.replace(/~and~/g, '&')
+            }).join('?');
+            window.history.replaceState(null, null,
+                l.pathname.slice(0, -1) + decoded + l.hash
+            );
+          }
+        }(window.location))
+      </script>
+      
+      
+    </body>
+  </html>
