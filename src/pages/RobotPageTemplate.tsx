@@ -55,14 +55,17 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   }, [])
 
   return (
-      <div className="relative bg-[#101010]">
+      <div className="relative bg-[#101010] min-h-screen">
         <Navigation pageType="robot" scrollOffset={scrollValue} />
 
         {/* Canvas Section */}
         <div
             ref={robotSectionRef}
             className="relative bg-[#101010]"
-            style={{ height: isMobile && !lockScroll ? '60vh' : '100vh' }} // shrink on mobile when unlocked
+            style={{ 
+              height: isMobile && !lockScroll ? '60vh' : '100vh',
+              minHeight: isMobile && !lockScroll ? '60vh' : '100vh'
+            }}
         >
           <Canvas
               dpr={[1, 2]}
@@ -178,7 +181,10 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
         <div
             ref={contentSectionRef}
             className="relative z-10 bg-[#101010] text-white"
-            style={{ minHeight: '200vh', paddingBottom: '4rem' }} // increased to allow full scroll
+            style={{ 
+              minHeight: isMobile ? 'auto' : '200vh', 
+              paddingBottom: '4rem'
+            }}
         >
           {children}
         </div>
