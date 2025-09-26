@@ -37,8 +37,25 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   // Toggle mobile body scroll
   useEffect(() => {
     if (isMobile) {
-      document.body.style.overflow = lockScroll ? 'hidden' : 'auto'
-      return () => { document.body.style.overflow = 'auto' }
+      const html = document.documentElement
+      const body = document.body
+      const root = document.getElementById('root')
+      
+      if (lockScroll) {
+        html.classList.add('scroll-locked')
+        body.classList.add('scroll-locked')
+        root?.classList.add('scroll-locked')
+      } else {
+        html.classList.remove('scroll-locked')
+        body.classList.remove('scroll-locked')
+        root?.classList.remove('scroll-locked')
+      }
+      
+      return () => {
+        html.classList.remove('scroll-locked')
+        body.classList.remove('scroll-locked')
+        root?.classList.remove('scroll-locked')
+      }
     }
   }, [lockScroll, isMobile])
 
