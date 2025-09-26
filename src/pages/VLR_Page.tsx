@@ -92,11 +92,21 @@ export default function VLRPage() {
             >
                 <div className="relative z-10">
                     {/* Season Recap Section */}
-                    <section className="min-h-screen bg-black px-8 py-12">
+                    <section className="bg-black px-8 py-12">
                         <div className="max-w-6xl mx-auto">
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
                             <div className="flex items-center justify-center mt-6">
                                 <ImageSlideshow images={slideshowImages}/>
+                            </div>
+
+                            {/* Temporary content for mobile scroll testing */}
+                            <div className="mt-8 space-y-6 px-4 text-white">
+                                <p className="text-lg">Temporary content block 1</p>
+                                <p className="text-lg">Temporary content block 2</p>
+                                <p className="text-lg">Temporary content block 3</p>
+                                <p className="text-lg">Temporary content block 4</p>
+                                <p className="text-lg">Temporary content block 5</p>
+                                <p className="text-lg">Temporary content block 6</p>
                             </div>
                         </div>
                     </section>

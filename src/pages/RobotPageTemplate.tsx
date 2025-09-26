@@ -34,173 +34,169 @@ export default function RobotPageTemplate({ robot, children }: RobotPageTemplate
   const contentSectionRef = useRef<HTMLDivElement>(null)
   const isMobile = useIsMobile()
 
+  // Toggle mobile body scroll
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.overflow = lockScroll ? 'hidden' : 'auto'
+      return () => { document.body.style.overflow = 'auto' }
+    }
+  }, [lockScroll, isMobile])
+
   // Robot visibility observer
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setRobotVisible(entry.isIntersecting)
-      },
-      { threshold: 0.00001 }
+        ([entry]) => setRobotVisible(entry.isIntersecting),
+        { threshold: 0.00001 }
     )
-
-    if (robotSectionRef.current) {
-      observer.observe(robotSectionRef.current)
-    }
-
+    if (robotSectionRef.current) observer.observe(robotSectionRef.current)
     return () => {
-      if (robotSectionRef.current) {
-        observer.unobserve(robotSectionRef.current)
-      }
+      if (robotSectionRef.current) observer.unobserve(robotSectionRef.current)
     }
   }, [])
 
   return (
-    <div className="relative">{/* Remove overflow-hidden to allow scrolling */}
-      <Navigation pageType="robot" scrollOffset={scrollValue} />
+      <div className="relative bg-[#101010]">
+        <Navigation pageType="robot" scrollOffset={scrollValue} />
 
-      {/* Canvas section */}
-      <div ref={robotSectionRef} className="relative bg-[#101010]" style={{ height: lockScroll ? '100vh' : 'auto' }}>
-        <Canvas
-          dpr={[1, 2]}
-          style={{
-            width: '100vw',
-            height: '100vh',
-            position: 'relative',
-            pointerEvents: lockScroll ? 'auto' : 'none',
-            touchAction: lockScroll ? 'auto' : 'none',
-          }}
-          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-          onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#101010'))}
+        {/* Canvas Section */}
+        <div
+            ref={robotSectionRef}
+            className="relative bg-[#101010]"
+            style={{ height: isMobile && !lockScroll ? '60vh' : '100vh' }} // shrink on mobile when unlocked
         >
-          <Environment files="/old_depot.hdr" background={false} />
-          <primitive attach="background" object={new THREE.Color('#101010')} />
-
-          {lockScroll && (
-            <ScrollControls pages={1} damping={0}>
-              <Scroll>
-                <AnimationTracker
-                  onScroll={(v) => setAnimationProgress(v)}
-                  onUnlock={() => setLockScroll(false)}
-                  lockScroll={lockScroll}
-                />
-              </Scroll>
-            </ScrollControls>
-          )}
-
-          <PageTracker
-            onRelock={() => setLockScroll(true)}
-            lockScroll={lockScroll}
-            onScrollChange={(v) => setScrollValue(v)}
-          />
-
-          {/* Robot Component passed in as prop */}
-          <Suspense fallback={<CanvasLoader />}>
-            {robotVisible && React.cloneElement(robot as React.ReactElement, {
-              scrollValue: isMobile ? mobileSliderValue : animationProgress,
-            })}
-          </Suspense>
-
-          <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={!lockScroll}
-            minPolarAngle={0}
-            maxPolarAngle={Math.PI / 1.25}
-            makeDefault
-            key={controlsKey}
-          />
-          <Tone mapping="ACESFilmic" exposure={0.85} />
-
-          {!isMobile && (
-            <Perf
+          <Canvas
+              dpr={[1, 2]}
               style={{
-                position: 'absolute',
-                top: '4.5rem',
-                right: '1rem',
-                pointerEvents: 'none',
-                zIndex: 9999,
+                width: '100vw',
+                height: '100%',
+                position: 'relative',
+                pointerEvents: lockScroll ? 'auto' : 'none',
+                touchAction: lockScroll ? 'auto' : 'auto', // allow touch scroll after unlock
+                background: '#101010',
               }}
+              gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+              onCreated={({ gl }) => gl.setClearColor(new THREE.Color('#101010'))}
+          >
+            <Environment files="/old_depot.hdr" background={false} />
+            <primitive attach="background" object={new THREE.Color('#101010')} />
+
+            {!isMobile && lockScroll && (
+                <ScrollControls pages={1} damping={0}>
+                  <Scroll>
+                    <AnimationTracker
+                        onScroll={(v) => setAnimationProgress(v)}
+                        onUnlock={() => setLockScroll(false)}
+                        lockScroll={lockScroll}
+                    />
+                  </Scroll>
+                </ScrollControls>
+            )}
+
+            <PageTracker
+                onRelock={() => setLockScroll(true)}
+                lockScroll={lockScroll}
+                onScrollChange={(v) => setScrollValue(v)}
             />
-          )}
-        </Canvas>
 
-        {/* Mobile Controls */}
-        {isMobile && (
-          <div className="absolute bottom-16 left-0 right-0 z-50 px-6">
-            <div className="flex items-center justify-center space-x-4">
-              {/* Explosion Slider */}
-              <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={mobileSliderValue}
-                  onChange={(e) => setMobileSliderValue(parseFloat(e.target.value))}
-                  className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
-                  style={{
-                    background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${mobileSliderValue * 100}%, rgba(255,255,255,0.2) ${mobileSliderValue * 100}%, rgba(255,255,255,0.2) 100%)`
-                  }}
+            <Suspense fallback={<CanvasLoader />}>
+              {robotVisible &&
+                  React.cloneElement(robot as React.ReactElement, {
+                    scrollValue: isMobile ? mobileSliderValue : animationProgress,
+                  })}
+            </Suspense>
+
+            <PerspectiveCamera makeDefault position={[50, 25, -40]} fov={50} />
+
+            <OrbitControls
+                enableZoom={false}
+                enablePan={!lockScroll}
+                minPolarAngle={0}
+                maxPolarAngle={Math.PI / 1.25}
+                makeDefault
+                key={controlsKey}
+            />
+
+            <Tone mapping="ACESFilmic" exposure={0.85} />
+
+            {!isMobile && (
+                <Perf
+                    style={{
+                      position: 'absolute',
+                      top: '4.5rem',
+                      right: '1rem',
+                      pointerEvents: 'none',
+                      zIndex: 9999,
+                    }}
                 />
+            )}
+          </Canvas>
+
+          {/* Mobile Controls */}
+          {isMobile && lockScroll && (
+              <div className="absolute bottom-16 left-0 right-0 z-50 px-6">
+                <div className="flex items-center justify-center space-x-4">
+                  <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={mobileSliderValue}
+                        onChange={(e) => setMobileSliderValue(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+                        style={{
+                          background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${
+                              mobileSliderValue * 100
+                          }%, rgba(255,255,255,0.2) ${mobileSliderValue * 100}%, rgba(255,255,255,0.2) 100%)`,
+                        }}
+                    />
+                  </div>
+
+                  <button
+                      onClick={() => {
+                        setShowContent(true)
+                        setLockScroll(false)
+                        setTimeout(() => {
+                          contentSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        }, 100)
+                      }}
+                      className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
+                      aria-label="Toggle content visibility"
+                  >
+                    <ChevronDown
+                        className={`w-6 h-6 transition-transform duration-300 ${
+                            showContent ? 'rotate-180' : ''
+                        }`}
+                    />
+                  </button>
+                </div>
               </div>
+          )}
+        </div>
 
-              {/* Dropdown Arrow */}
-              <button
-                onClick={() => {
-                  console.log('Dropdown button clicked, showContent:', showContent)
-                  setShowContent(!showContent)
-                  if (!showContent) {
-                    // Scroll to content when showing it
-                     setTimeout(() => {
-                       const contentElement = contentSectionRef.current
-                       if (contentElement) {
-                         console.log('Scrolling to content element')
-                         contentElement.scrollIntoView({
-                           behavior: 'smooth',
-                           block: 'start'
-                         })
-                       } else {
-                         console.log('Content element not found, using fallback scroll')
-                         window.scrollTo({
-                           top: window.innerHeight * 1.1,
-                           behavior: 'smooth'
-                         })
-                       }
-                     }, 200)
-                  }
-                }}
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
-                aria-label="Toggle content visibility"
-              >
-                <ChevronDown 
-                  className={`w-6 h-6 transition-transform duration-300 ${showContent ? 'rotate-180' : ''}`} 
-                />
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Content Section */}
+        <div
+            ref={contentSectionRef}
+            className="relative z-10 bg-[#101010] text-white"
+            style={{ minHeight: '200vh', paddingBottom: '4rem' }} // increased to allow full scroll
+        >
+          {children}
+        </div>
       </div>
-
-      {/* Content section passed in as children */}
-      <div ref={contentSectionRef} className="relative z-10 bg-background">
-        {children}
-      </div>
-    </div>
   )
 }
 
 // --- Shared Components ---
 function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
   const gl = useThree((state) => state.gl)
-
   useEffect(() => {
     const prevFrag = THREE.ShaderChunk.tonemapping_pars_fragment
     const prevTM = gl.toneMapping
     const prevExp = gl.toneMappingExposure
 
     THREE.ShaderChunk.tonemapping_pars_fragment = prevFrag.replace(
-      'vec3 CustomToneMapping( vec3 color ) { return color; }',
-      `float startCompression = 0.8 - 0.04;
+        'vec3 CustomToneMapping( vec3 color ) { return color; }',
+        `float startCompression = 0.8 - 0.04;
        float desaturation = 0.15;
        vec3 CustomToneMapping( vec3 color ) {
          color *= toneMappingExposure;
@@ -218,8 +214,8 @@ function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
     )
 
     gl.toneMapping =
-      (THREE as unknown as Record<string, THREE.ToneMapping>)[`${mapping}ToneMapping`] ??
-      THREE.ACESFilmicToneMapping
+        (THREE as unknown as Record<string, THREE.ToneMapping>)[`${mapping}ToneMapping`] ??
+        THREE.ACESFilmicToneMapping
     gl.toneMappingExposure = exposure
 
     return () => {
@@ -228,15 +224,14 @@ function Tone({ mapping, exposure }: { mapping: string; exposure: number }) {
       THREE.ShaderChunk.tonemapping_pars_fragment = prevFrag
     }
   }, [mapping, exposure])
-
   return null
 }
 
 function AnimationTracker({
-  onScroll,
-  onUnlock,
-  lockScroll,
-}: {
+                            onScroll,
+                            onUnlock,
+                            lockScroll,
+                          }: {
   onScroll: (value: number) => void
   onUnlock: () => void
   lockScroll: boolean
