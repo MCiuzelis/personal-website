@@ -110,7 +110,7 @@ export default function Contact() {
 
         <header className="bg-black px-8 pt-20">
           <div className="max-w-screen-2xl mx-auto text-center">
-            <h1 className="section-heading text-white mb-8">Contact</h1>
+            <h1 className="section-heading text-white mb-8 mt-0">Contact</h1>
             <p className="text-gray-300 max-w-xl mx-auto mb-8 mt-4">
               If I managed to make this website as a mechanical engineer, I should be able to answer your questions.
             </p>
