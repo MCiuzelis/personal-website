@@ -90,7 +90,7 @@ export default function FLL_Page() {
                       playsInline
                       autoPlay
                       preload="auto"
-                      className={`block w-full h-full object-cover md:object-contain rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
                   </div>
                 </div>
