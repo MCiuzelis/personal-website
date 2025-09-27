@@ -7,47 +7,56 @@ import img2 from '@/assets/KineticLaunchPlatform/image2.jpeg'
 import img3 from '@/assets/KineticLaunchPlatform/image3.jpeg'
 
 const KineticLaunchPlatform: React.FC = () => {
-  // SEO
-  useEffect(() => {
-    const title = 'Kinetic Model Launch Platform'
-    document.title = title
-    const desc = 'A fully and rapidly reusable model rocket launch system'
-    let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
-    meta.content = desc
+    // SEO + disable scroll on mobile
+    useEffect(() => {
+        const title = 'Kinetic Model Launch Platform'
+        document.title = title
+        const desc = 'A fully and rapidly reusable model rocket launch system'
+        let meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+        if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta) }
+        meta.content = desc
 
-    let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
-    if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
-    link.href = window.location.origin + '/KineticLaunchPlatform'
-  }, [])
+        let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+        if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link) }
+        link.href = window.location.origin + '/KineticLaunchPlatform'
 
-  return (
-    <>
-      <Navigation pageType="other" scrollOffset={0} />
+        // disable scroll on mobile
+        const isMobile = window.innerWidth < 768
+        if (isMobile) {
+            document.body.style.overflow = 'hidden'
+        }
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [])
 
-        <header className="bg-black px-4 md:px-8 pt-20 md:pt-20 min-h-screen md:min-h-auto overflow-hidden md:overflow-visible">
-            <div className="max-w-screen-2xl mx-auto text-center h-screen md:h-auto flex flex-col justify-center md:block">
-                <h1 className="section-heading text-white mb-0 text-center px-2 md:px-0">
-                    Kinetic Model Launch Platform
-                </h1>
-                
-                <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-4 md:mt-8 mb-6 md:mb-10 text-center px-2 md:px-0">
-                    Together with Rokas Kirdulis we are designing a fully and rapidly reusable model rocket launch system, still in development, more details coming soon...
-                </p>
-                
-                <ThreeImageMosaic
-                    images={[
-                        { src: img1, alt: 'Kinetic model launch platform photo 1' },
-                        { src: img2, alt: 'Kinetic model launch platform photo 2' },
-                        { src: img3, alt: 'Kinetic model launch platform photo 3' },
-                    ]}
-                    className="mx-auto w-[85vw] md:w-[52vw] mt-2 md:mt-6"
-                    ariaLabelPrefix="Kinetic launch platform image"
-                />
-            </div>
-        </header>
-    </>
-  )
+    return (
+        <>
+            <Navigation pageType="other" scrollOffset={0} />
+
+            <header className="bg-black px-4 md:px-8 pt-20 md:pt-20 min-h-screen md:min-h-auto overflow-hidden md:overflow-visible">
+                <div className="max-w-screen-2xl mx-auto text-center h-auto md:h-auto flex flex-col md:block">
+                    <h1 className="section-heading text-white mb-0 text-center px-2 md:px-0">
+                        Kinetic Model Launch Platform
+                    </h1>
+
+                    <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-4 md:mt-8 mb-6 md:mb-10 text-center px-2 md:px-0">
+                        Together with Rokas Kirdulis we are designing a fully and rapidly reusable model rocket launch system, still in development, more details coming soon...
+                    </p>
+
+                    <ThreeImageMosaic
+                        images={[
+                            { src: img1, alt: 'Kinetic model launch platform photo 1' },
+                            { src: img2, alt: 'Kinetic model launch platform photo 2' },
+                            { src: img3, alt: 'Kinetic model launch platform photo 3' },
+                        ]}
+                        className="mx-auto w-[95vw] md:w-[52vw] mt-2 md:mt-6"
+                        ariaLabelPrefix="Kinetic launch platform image"
+                    />
+                </div>
+            </header>
+        </>
+    )
 }
 
 export default KineticLaunchPlatform
