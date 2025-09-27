@@ -91,32 +91,11 @@ const Navigation = ({
               </button>
             </div>
           ) : (
-            /* Other pages - keep current layout */
-            <div className="flex items-center justify-between px-2">
-              {/* Home Button */}
-              {pageType !== 'contact' && (
-                <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
-                  Home
-                </button>
-              )}
-              
-              {/* Center content */}
-              <div className="flex-1 text-center px-4">
-                {pageType === 'contact' ? (
-                  <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
-                    Home
-                  </button>
-                ) : pageType === 'other' ? (
-                  <span className="apple-nav-text text-xs">Learn more</span>
-                ) : null}
-              </div>
-              
-              {/* Contact Button */}
-              {pageType !== 'contact' && (
-                <button onClick={() => navigate('/contact')} className="apple-nav-text text-sm">
-                  Contact
-                </button>
-              )}
+            /* Other pages - only home button centered */
+            <div className="flex items-center justify-center">
+              <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
+                Home
+              </button>
             </div>
           )}
         </div>
