@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navigation from '@/components/Navigation'
-import { useIsMobile } from '@/hooks/use-mobile'
 import setupImg from "@/assets/Ruben'sTube/setup.jpeg"
 import tubeVideo from "@/assets/Ruben'sTube/video.mp4"
 
 const RubensTube: React.FC = () => {
-  const isMobile = useIsMobile()
-  
   // SEO
   useEffect(() => {
     const title = "Ruben's Tube Project"
@@ -69,7 +66,7 @@ const RubensTube: React.FC = () => {
 
   return (
       <>
-        <Navigation pageType="other" scrollOffset={0} hoveredCard={isMobile ? null : undefined} />
+        <Navigation pageType="other" scrollOffset={0} />
 
         <header className="bg-black px-8 pt-20">
           {/* Keep title + description inside the constrained container */}
@@ -83,7 +80,7 @@ const RubensTube: React.FC = () => {
           {/* Image */}
           <div
               ref={imgWrapRef}
-              className="mx-auto md:w-[88vw] w-[95vw] mt-6 pb-10 rounded-xl overflow-hidden"
+              className="mx-auto w-[88vw] mt-6 pb-10 rounded-xl overflow-hidden"
           >
             <img
                 src={setupImg}
@@ -92,7 +89,7 @@ const RubensTube: React.FC = () => {
                 decoding="async"
                 srcSet={`${setupImg} 1200w`} // replace with real responsive sizes if available
                 sizes="(max-width: 768px) 90vw, 1200px"
-                className={`block w-full h-auto max-h-[90vh] md:object-contain object-cover opacity-0 will-change-transform will-change-opacity ${
+                className={`block w-full h-auto max-h-[90vh] object-contain opacity-0 will-change-transform will-change-opacity ${
                     imgVisible ? 'animate-scale-fade-in' : ''
                 }`}
             />
@@ -103,7 +100,7 @@ const RubensTube: React.FC = () => {
           <section className="max-w-screen-2xl mx-auto">
             <h2 className="section-heading text-white mb-6 text-center">Project demonstration</h2>
             <div className="flex items-center justify-center">
-              <div className="pt-6 md:h-[90vh] h-[50vh] aspect-video">
+              <div className="pt-6 h-[50vh] md:h-[90vh] aspect-video">
                 <div
                     ref={wrapRef}
                     className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900"
@@ -116,7 +113,7 @@ const RubensTube: React.FC = () => {
                       playsInline
                       autoPlay
                       preload="metadata"
-                      className={`block w-full h-full md:object-contain object-cover rounded-xl opacity-0 will-change-transform will-change-opacity ${
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 will-change-transform will-change-opacity ${
                           visible ? 'animate-scale-fade-in' : ''
                       }`}
                   />
