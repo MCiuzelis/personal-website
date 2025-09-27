@@ -194,7 +194,7 @@ export default function VLRPage() {
                     </section>
 
                     {/* Robot in Action Section */}
-                    <section className="min-h-screen bg-black px-8 py-6">
+                    <section className="bg-black px-8 py-6">
                         <div className="max-w-screen-2xl mx-auto">
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
                             <div className="flex items-center justify-center mt-6">

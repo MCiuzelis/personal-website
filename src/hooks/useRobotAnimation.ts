@@ -79,10 +79,6 @@ export const useRobotAnimation = ({
 
   // 🎞 Animate parts with cumulative movement
   useFrame((_, delta) => {
-    // Debug logging to see what scrollValue we're getting
-    if (scrollValue > 0) {
-      console.log('Robot animation scrollValue:', scrollValue)
-    }
     
     // 1) explosion logic
     const totalMovement: Record<string, THREE.Vector3> = {}

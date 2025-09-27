@@ -98,7 +98,6 @@ export default function Contact() {
       })
       form.reset()
     } catch (err) {
-      console.error('Contact submit error:', err)
       toast({ title: 'Error', description: 'Failed to send message.', variant: 'destructive' })
     } finally {
       setIsSending(false)

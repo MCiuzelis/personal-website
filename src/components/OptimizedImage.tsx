@@ -66,7 +66,6 @@ export const OptimizedImage = ({
           isLoaded ? 'opacity-100' : 'opacity-0'
         } ${className}`}
         loading={priority ? 'eager' : 'lazy'}
-        fetchPriority={priority ? 'high' : 'auto'}
         onLoad={handleLoad}
         onError={handleError}
         {...props}
