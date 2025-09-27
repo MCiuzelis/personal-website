@@ -257,7 +257,7 @@ const FirstGlobalPage: React.FC = () => {
     <>
       <Navigation pageType="other" scrollOffset={0} />
 
-      <header className="bg-black px-8 pt-20 mt-16">
+      <header className="bg-black px-8 pt-20 mt-16 md:mt-0">
         <div className="max-w-screen-2xl mx-auto">
           <h1 className="section-heading text-white mb-12 md:mb-8 text-center md:text-center">2022 First Global Challenge</h1>
           <section className="flex items-center justify-center pb-20">
