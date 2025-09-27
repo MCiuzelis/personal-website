@@ -80,7 +80,7 @@ export default function FLL_Page() {
             <div className="max-w-screen-2xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
               <div className="flex items-center justify-center mt-6">
-                <div className="pt-1 h-[50vh] md:h-[90vh] aspect-video">
+                <div className="pt-1 h-[50vh] md:h-[90vh] w-full md:aspect-video">
                   <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                     <video
                       ref={videoRef}
@@ -90,7 +90,7 @@ export default function FLL_Page() {
                       playsInline
                       autoPlay
                       preload="auto"
-                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                      className={`block w-full h-full object-cover md:object-contain rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
                   </div>
                 </div>
@@ -105,8 +105,8 @@ export default function FLL_Page() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
                 {/* Mechanical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
-                  <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                  <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Mechanical</h3>
+                  <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                     <p>
                       I created a modular and compact robot base with an internal 4 output gearbox helping our robot to
                       achieve 4 different independent functions during a run with only 2 motors.
@@ -130,8 +130,8 @@ export default function FLL_Page() {
 
                 {/* Electrical Section */}
                 <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-6">Other</h3>
-                  <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                  <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Other</h3>
+                  <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                     <p>
                       I programmed the robot with EV3 python - a way more stable, robust and capable framework compared to the stadard EV3 block environment.
                     </p>

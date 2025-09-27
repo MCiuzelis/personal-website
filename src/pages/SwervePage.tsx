@@ -60,8 +60,8 @@ export default function SwervePage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
                             {/* Mechanical Section */}
                             <div className="space-y-6">
-                                <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
-                                <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                                <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Mechanical</h3>
+                                <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                                     <p>
                                         As the lead mechanical engineer, I modeled, tested, broke and remodeled the
                                         swerve drive unit, perfecting and optimising it
@@ -94,8 +94,8 @@ export default function SwervePage() {
 
                             {/* Electrical Section */}
                             <div className="space-y-6">
-                                <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
-                                <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                                <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Programming</h3>
+                                <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                                     <p>
                                         Coded all the kinematics for the differential swerve drive and optimised the
                                         algorithm for the quickest response.

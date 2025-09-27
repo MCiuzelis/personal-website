@@ -109,10 +109,10 @@ export default function VLRPage() {
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution to the
                                 team</h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-12">
-                                {/* Mechanical Section */}
-                                <div className="space-y-6">
-                                    <h3 className="text-2xl font-semibold text-white mb-6">Mechanical</h3>
-                                    <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                            {/* Mechanical Section */}
+                            <div className="space-y-6">
+                                <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Mechanical</h3>
+                                <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                                         <p>
                                             As the lead mechanical engineer I created most of the robot's CAD model with
                                             12 iterations of the robot throughout the season.
@@ -145,10 +145,10 @@ export default function VLRPage() {
                                         className="h-0.5 w-32 bg-gradient-to-r from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
                                 </div>
 
-                                {/* Electrical Section */}
-                                <div className="space-y-6">
-                                    <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
-                                    <div className="text-lg text-gray-300 leading-relaxed space-y-4">
+                            {/* Electrical Section */}
+                            <div className="space-y-6">
+                                <h3 className="text-2xl font-semibold text-white mb-6 text-center md:text-left">Programming</h3>
+                                <div className="text-lg text-gray-300 leading-relaxed space-y-4 text-center md:text-left">
                                         <p>
                                             Programmed and tuned most of the low - level parts, like motion profiles and
                                             PIDFVA controllers for the robot's arm, leaving the high level level parts,
