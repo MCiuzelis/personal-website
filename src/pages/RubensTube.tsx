@@ -113,7 +113,7 @@ const RubensTube: React.FC = () => {
                       playsInline
                       autoPlay
                       preload="metadata"
-                      className={`block w-full h-full object-cover md:object-contain rounded-xl opacity-0 will-change-transform will-change-opacity ${
+                      className={`block w-full h-full object-cover rounded-xl opacity-0 will-change-transform will-change-opacity ${
                           visible ? 'animate-scale-fade-in' : ''
                       }`}
                   />
