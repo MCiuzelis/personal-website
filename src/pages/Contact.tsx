@@ -156,7 +156,7 @@ export default function Contact() {
                   />
                 </section>
 
-                <div className="flex justify-end animate-enter">
+                <div className="flex justify-center md:justify-end animate-enter -mt-2 md:mt-0">
                   <Button type="submit" disabled={isSending}>
                     {isSending ? (
                         <>
