@@ -40,7 +40,7 @@ export default function FLL_Page() {
         setVisible(true)
         obs.disconnect()
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.1 })
     obs.observe(node)
     return () => obs.disconnect()
   }, [])
@@ -55,7 +55,7 @@ export default function FLL_Page() {
       } else {
         el.pause(); el.currentTime = 0
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.1 })
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
@@ -66,7 +66,7 @@ export default function FLL_Page() {
       >
         <div className="relative z-10">
           {/* Season Recap Section */}
-          <section className="min-h-screen bg-black px-8 py-12">
+          <section className="bg-black px-8 py-12 min-h-auto md:min-h-screen">
             <div className="max-w-6xl mx-auto">
               <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
               <div className="flex items-center justify-center mt-6">
@@ -76,27 +76,31 @@ export default function FLL_Page() {
           </section>
 
           {/* Robot in Action Section */}
-          <section className="min-h-screen bg-black px-8 py-6">
+          <section className="bg-black px-8 pt-0 pb-6 md:py-6 min-h-[auto]">
             <div className="max-w-screen-2xl mx-auto">
-              <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
-              <div className="flex items-center justify-center mt-6">
-                <div className="pt-1 h-[50vh] md:h-[90vh] w-full md:aspect-video">
+              <h2 className="section-heading text-white mb-0 pt-1 text-center md:mb-8 md:pt-8">
+                Robot in Action
+              </h2>
+              <div className="flex items-center justify-center mt-4 md:mt-6">
+                <div className="w-full md:w-[80%] md:aspect-video aspect-[16/9]">
                   <div ref={wrapRef} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                     <video
-                      ref={videoRef}
-                      src={FLLVideo}
-                      muted
-                      loop
-                      playsInline
-                      autoPlay
-                      preload="auto"
-                      className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                        ref={videoRef}
+                        src={FLLVideo}
+                        muted
+                        loop
+                        playsInline
+                        autoPlay
+                        preload="auto"
+                        className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                     />
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
+
 
           {/* My Contribution Section */}
           <section className="min-h-screen px-8 py-16" style={{ backgroundColor: '#101010' }}>
@@ -122,7 +126,7 @@ export default function FLL_Page() {
                 <div className="hidden md:flex justify-center">
                   <div className="w-0.5 h-80 bg-gradient-to-b from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
                 </div>
-                
+
                 {/* Mobile Separator */}
                 <div className="md:hidden flex justify-center py-6">
                   <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-white/60 to-transparent rounded-full shadow-lg"></div>
