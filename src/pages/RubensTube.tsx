@@ -29,7 +29,7 @@ const RubensTube: React.FC = () => {
         setImgVisible(true)
         obs.disconnect()
       }
-    }, { threshold: 0.1 })
+    }, { threshold: 0.3 })
     obs.observe(node)
     return () => obs.disconnect()
   }, [])
@@ -52,7 +52,7 @@ const RubensTube: React.FC = () => {
       } else {
         video.pause()
       }
-    }, { threshold: 0.1 })
+    }, { threshold: 0.3 })
 
     obs.observe(wrapper)
     return () => obs.disconnect()
@@ -80,7 +80,7 @@ const RubensTube: React.FC = () => {
           {/* Image */}
           <div
               ref={imgWrapRef}
-              className="mx-auto w-[88vw] mt-6 pb-10 rounded-none md:rounded-xl overflow-visible md:overflow-hidden"
+              className="mx-auto w-[88vw] mt-6 pb-10 rounded-xl overflow-hidden"
           >
             <img
                 src={setupImg}
@@ -89,7 +89,7 @@ const RubensTube: React.FC = () => {
                 decoding="async"
                 srcSet={`${setupImg} 1200w`}
                 sizes="(max-width: 768px) 90vw, 1200px"
-                className={`block w-full h-auto max-h-[80vh] md:max-h-[90vh] object-contain rounded-xl md:rounded-none will-change-transform will-change-opacity ${
+                className={`block w-full h-auto max-h-[80vh] md:max-h-[90vh] object-contain rounded-xl will-change-transform will-change-opacity ${
                     imgVisible ? 'animate-scale-fade-in' : ''
                 }`}
             />
@@ -103,7 +103,7 @@ const RubensTube: React.FC = () => {
               <div className="pt-0 md:pt-6 h-[50vh] md:h-[90vh] w-full md:aspect-video">
                 <div
                     ref={wrapRef}
-                    className="relative w-full h-full rounded-xl md:rounded-xl rounded-none md:overflow-hidden bg-gray-900"
+                    className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900"
                 >
                   <video
                       ref={videoRef}
@@ -113,7 +113,7 @@ const RubensTube: React.FC = () => {
                       playsInline
                       autoPlay
                       preload="metadata"
-                      className={`block w-full h-full object-cover md:object-contain rounded-xl md:rounded-xl rounded-none opacity-0 will-change-transform will-change-opacity ${
+                      className={`block w-full h-full object-cover md:object-contain rounded-xl opacity-0 will-change-transform will-change-opacity ${
                           visible ? 'animate-scale-fade-in' : ''
                       }`}
                   />
