@@ -259,15 +259,15 @@ const FirstGlobalPage: React.FC = () => {
 
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2022 First Global Challenge</h1>
+          <h1 className="section-heading text-white mb-12 md:mb-8 text-center md:text-center">2022 First Global Challenge</h1>
           <section className="flex items-center justify-center pb-20">
-            <div className="h-[50vh] md:h-[80vh] aspect-video">
-              <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
+            <div className="h-[50vh] md:h-[80vh] aspect-video max-w-[90vw] md:max-w-none">
+              <div className="relative w-full h-full rounded-lg md:rounded-lg overflow-hidden bg-gray-900">
                 <img
                     ref={heroRef}
                     src={main}
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${heroVisible ? 'animate-scale-fade-in' : ''}`}
                 />
               </div>
             </div>
@@ -277,65 +277,65 @@ const FirstGlobalPage: React.FC = () => {
 
       <main className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2022 Robot development</h2>
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center md:text-center">2022 Robot development</h2>
           <div
               ref={mosaicRef2022}
-              className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]"
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[90vw] md:w-[min(82vw,82vh)]"
           >
             {/* Top-left */}
-            <section aria-label="Robot development image 1" className="rounded-xl overflow-hidden aspect-square">
+            <section aria-label="Robot development image 1" className="rounded-xl md:rounded-xl overflow-hidden aspect-square">
               <img
                   src={mosaic1}
                   alt="Robot development 1"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
                   style={{ animationDelay: mosaicVisible2022 ? '0ms' : undefined }}
               />
             </section>
 
             {/* Top-right */}
-            <section aria-label="Robot development image 2" className="rounded-xl overflow-hidden aspect-square">
+            <section aria-label="Robot development image 2" className="rounded-xl md:rounded-xl overflow-hidden aspect-square">
               <img
                   src={mosaic2}
                   alt="Robot development 2"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
                   style={{ animationDelay: mosaicVisible2022 ? '150ms' : undefined }}
               />
             </section>
 
             {/* Bottom-right */}
-            <section aria-label="Robot development image 3" className="rounded-xl overflow-hidden aspect-square">
+            <section aria-label="Robot development image 3" className="rounded-xl md:rounded-xl overflow-hidden aspect-square">
               <img
                   src={mosaic3}
                   alt="Robot development 3"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
                   style={{ animationDelay: mosaicVisible2022 ? '300ms' : undefined }}
               />
             </section>
 
             {/* Bottom-left */}
-            <section aria-label="Robot development image 4" className="rounded-xl overflow-hidden aspect-square">
+            <section aria-label="Robot development image 4" className="rounded-xl md:rounded-xl overflow-hidden aspect-square">
               <img
                   src={mosaic4}
                   alt="Robot development 4"
                   loading="lazy"
                   decoding="async"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2022 ? 'animate-scale-fade-in' : ''}`}
                   style={{ animationDelay: mosaicVisible2022 ? '450ms' : undefined }}
               />
             </section>
           </div>
         </section>
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2022 Kit capture video</h2>
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center md:text-center">2022 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[50vh] md:h-[85vh] aspect-video">
-              <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+            <div className="h-[50vh] md:h-[85vh] aspect-video max-w-[90vw] md:max-w-none">
+              <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl md:rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2022}
                     src={kitVideo}
@@ -367,15 +367,15 @@ const FirstGlobalPage: React.FC = () => {
       <section className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
         {/* Hero section */}
         <div className="max-w-screen-2xl mx-auto">
-          <h1 className="section-heading text-white mb-12 md:mb-8 text-center">2024 First Global Challenge</h1>
+          <h1 className="section-heading text-white mb-12 md:mb-8 text-center md:text-center">2024 First Global Challenge</h1>
           <section className="flex items-center justify-center mb-20">
-            <div className="h-[50vh] md:h-[80vh] aspect-video">
-              <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-900">
+            <div className="h-[50vh] md:h-[80vh] aspect-video max-w-[90vw] md:max-w-none">
+              <div className="relative w-full h-full rounded-lg md:rounded-lg overflow-hidden bg-gray-900">
                   <img
                       ref={heroRef2024}
                       src={main2}
                       decoding="async"
-                      className={`block w-full h-full object-cover opacity-0 ${heroVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                      className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${heroVisible2024 ? 'animate-scale-fade-in' : ''}`}
                   />
               </div>
             </div>
@@ -384,53 +384,53 @@ const FirstGlobalPage: React.FC = () => {
 
         {/* Robot development - custom grid + vertical video */}
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2024 Robot development</h2>
+          <h2 className="section-heading text-white mb-12 md:mb-6 text-center md:text-center">2024 Robot development</h2>
           {/* Unified container that scales as one element */}
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[65vw] justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[90vw] md:w-[65vw] justify-center">
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}
                 className="grid grid-cols-2 gap-2"
             >
               {/* Square 1 */}
-              <section aria-label="Robot development image 5" className="rounded-xl overflow-hidden aspect-square bg-black">
+              <section aria-label="Robot development image 5" className="rounded-xl md:rounded-xl overflow-hidden aspect-square bg-black">
                 <img
                     src={mosaic5}
                     alt="Robot development 5"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
                     style={{ animationDelay: mosaicVisible2024 ? '0ms' : undefined }}
                 />
               </section>
 
               {/* Square 2 */}
-              <section aria-label="Robot development image 6" className="rounded-xl overflow-hidden aspect-square bg-black">
+              <section aria-label="Robot development image 6" className="rounded-xl md:rounded-xl overflow-hidden aspect-square bg-black">
                 <img
                     src={mosaic6}
                     alt="Robot development 6"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
                     style={{ animationDelay: mosaicVisible2024 ? '150ms' : undefined }}
                 />
               </section>
 
               {/* Horizontal image spanning both columns */}
-              <section aria-label="Robot development image 7" className="rounded-xl overflow-hidden col-span-2 aspect-[2/1] bg-black">
+              <section aria-label="Robot development image 7" className="rounded-xl md:rounded-xl overflow-hidden col-span-2 aspect-[2/1] bg-black">
                 <img
                     src={mosaic7}
                     alt="Robot development 7"
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full h-full object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVisible2024 ? 'animate-scale-fade-in' : ''}`}
                     style={{ animationDelay: mosaicVisible2024 ? '300ms' : undefined }}
                 />
               </section>
             </div>
 
             {/* Vertical video that matches the height of the image grid */}
-            <div className="rounded-xl overflow-hidden bg-gray-900 h-full -ml-1">
+            <div className="rounded-xl md:rounded-xl overflow-hidden bg-gray-900 h-full -ml-1 max-w-[90vw] md:max-w-none mx-auto">
               <video
                   ref={mosaicVideoRef2024}
                   src={mosaic8}
@@ -439,7 +439,7 @@ const FirstGlobalPage: React.FC = () => {
                   playsInline
                   autoPlay
                   preload="auto"
-                  className={`block w-full h-full object-cover opacity-0 ${mosaicVideoVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover object-center md:object-cover opacity-0 ${mosaicVideoVisible2024 ? 'animate-scale-fade-in' : ''}`}
               />
             </div>
           </div>
@@ -447,10 +447,10 @@ const FirstGlobalPage: React.FC = () => {
 
         {/* Kit capture video */}
         <section className="max-w-screen-2xl mx-auto">
-          <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2024 Kit capture video</h2>
+          <h2 className="section-heading text-white mb-6 md:mb-6 text-center md:text-center">2024 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[50vh] md:h-[85vh] aspect-[1920/950]">
-              <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+            <div className="h-[50vh] md:h-[85vh] aspect-[1920/950] max-w-[90vw] md:max-w-none">
+              <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl md:rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2024}
                     src={kitVideo2}
@@ -481,10 +481,10 @@ const FirstGlobalPage: React.FC = () => {
       {/* My Contribution Section */}
         <section className="min-h-screen px-8 py-16" style={{backgroundColor: '#101010'}}>
           <div className="max-w-6xl mx-auto">
-            <h2 className="section-heading text-white mb-8 pt-8 text-center">My Contribution</h2>
+            <h2 className="section-heading text-white mb-8 pt-8 text-center md:text-center">My Contribution</h2>
             <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr_auto_2fr] gap-12 md:gap-20 mt-12">
               {/* Mechanical Section */}
-              <div className="space-y-6">
+              <div className="space-y-6 text-center md:text-left">
                 <h3 className="text-2xl font-semibold text-white mb-6" >Mechanical</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
@@ -509,7 +509,7 @@ const FirstGlobalPage: React.FC = () => {
               </div>
 
               {/* Programming Section */}
-              <div className="space-y-6">
+              <div className="space-y-6 text-center md:text-left">
                 <h3 className="text-2xl font-semibold text-white mb-6">Programming</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
@@ -534,7 +534,7 @@ const FirstGlobalPage: React.FC = () => {
               </div>
 
               {/* Filmmaking Section */}
-              <div className="space-y-6">
+              <div className="space-y-6 text-center md:text-left">
                 <h3 className="text-2xl font-semibold text-white mb-6">Filmmaking</h3>
                 <div className="text-lg text-gray-300 leading-relaxed space-y-4">
                   <p>
