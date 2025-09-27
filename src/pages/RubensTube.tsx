@@ -89,7 +89,7 @@ const RubensTube: React.FC = () => {
                 decoding="async"
                 srcSet={`${setupImg} 1200w`} // replace with real responsive sizes if available
                 sizes="(max-width: 768px) 90vw, 1200px"
-                className={`block w-full h-auto max-h-[90vh] object-contain opacity-0 will-change-transform will-change-opacity ${
+                className={`block w-full h-auto max-h-[95vh] md:max-h-[90vh] object-contain opacity-0 will-change-transform will-change-opacity ${
                     imgVisible ? 'animate-scale-fade-in' : ''
                 }`}
             />
@@ -100,10 +100,10 @@ const RubensTube: React.FC = () => {
           <section className="max-w-screen-2xl mx-auto">
             <h2 className="section-heading text-white mb-6 text-center">Project demonstration</h2>
             <div className="flex items-center justify-center">
-              <div className="pt-6 h-[50vh] md:h-[90vh] aspect-video">
+              <div className="pt-6 h-[50vh] md:h-[90vh] w-full md:aspect-video">
                 <div
                     ref={wrapRef}
-                    className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900"
+                    className="relative w-full h-full rounded-xl md:rounded-xl rounded-none md:overflow-hidden bg-gray-900"
                 >
                   <video
                       ref={videoRef}
@@ -113,7 +113,7 @@ const RubensTube: React.FC = () => {
                       playsInline
                       autoPlay
                       preload="metadata"
-                      className={`block w-full h-full object-cover rounded-xl opacity-0 will-change-transform will-change-opacity ${
+                      className={`block w-full h-full object-cover md:object-contain rounded-xl md:rounded-xl rounded-none opacity-0 will-change-transform will-change-opacity ${
                           visible ? 'animate-scale-fade-in' : ''
                       }`}
                   />

@@ -82,15 +82,15 @@ const CombustionEngine: React.FC = () => {
             A small servo actuates the throttle valve of an 8hp go cart combustion engine to mimic the changing pitch of music.
           </p>
 
-          <div className="mx-auto mt-6 pb-10 flex justify-center gap-4 max-w-[2500px]">
-            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+          <div className="mx-auto mt-6 pb-10 flex flex-col md:flex-row justify-center gap-4 max-w-[2500px]">
+            <div className="w-full md:w-[70vw] h-[40vh] md:h-[38vw] rounded-xl overflow-hidden">
               <img
                   src={img1}
                   alt="Combustion engine photo 1"
                   className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
               />
             </div>
-            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+            <div className="w-full md:w-[70vw] h-[40vh] md:h-[38vw] rounded-xl overflow-hidden">
               <img
                   src={img2}
                   alt="Combustion engine photo 2"
@@ -106,15 +106,15 @@ const CombustionEngine: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 text-center">Engine in action</h2>
           <div className="flex items-center justify-center">
-            <div className="pt-6 h-[90vh] aspect-video">
-              <div ref={wrap1} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
+            <div className="pt-6 h-[50vh] md:h-[90vh] w-full md:aspect-video">
+              <div ref={wrap1} className="relative w-full h-full rounded-xl md:rounded-xl rounded-none md:overflow-hidden bg-gray-900">
                 <LazyVideo
                   src={video1}
                   muted={muted1}
                   loop
                   playsInline
                   autoPlay
-                  className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full object-cover md:object-contain rounded-xl md:rounded-xl rounded-none opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
                 />
                 <button
                   onClick={() => setMuted1(m => !m)}
