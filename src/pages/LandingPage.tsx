@@ -206,6 +206,16 @@ const LandingPage = () => {
         return () => window.removeEventListener('hashchange', handleHashChange)
     }, [])
 
+    useEffect(() => {
+        const preventScroll = (e: TouchEvent) => e.preventDefault();
+        document.body.style.overflow = 'hidden';
+        document.body.addEventListener('touchmove', preventScroll, { passive: false });
+        return () => {
+            document.body.style.overflow = '';
+            document.body.removeEventListener('touchmove', preventScroll);
+        };
+    }, []);
+
     const handleScrollChange = (scrolled: number) => {
         setHasScrolled(scrolled)
         setScrollOffset(scrolled)

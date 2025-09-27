@@ -23,7 +23,6 @@ const schema = z.object({
 })
 
 export default function Contact() {
-  const [scrollOffset, setScrollOffset] = useState(0)
   const [isSending, setIsSending] = useState(false)
   const [dotCount, setDotCount] = useState(0)
 
@@ -33,12 +32,6 @@ export default function Contact() {
     mode: 'onTouched',
   })
 
-  // Scroll tracking
-  useEffect(() => {
-    const onScroll = () => setScrollOffset(window.scrollY)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   // SEO setup
   useEffect(() => {
@@ -75,6 +68,18 @@ export default function Contact() {
     return () => clearInterval(interval)
   }, [isSending])
 
+  useEffect(() => {
+    const preventScroll = (e: TouchEvent) => e.preventDefault();
+    document.body.style.overflow = 'hidden';
+    document.body.addEventListener('touchmove', preventScroll, { passive: false });
+    return () => {
+      document.body.style.overflow = '';
+      document.body.removeEventListener('touchmove', preventScroll);
+    };
+  }, []);
+
+
+
   const onSubmit = async (values: z.infer<typeof schema>) => {
     const webhookUrl = "https://script.google.com/macros/s/AKfycbyxWVRHZlolwU0WbXAaEnV7P_uJKDmr2lPAkf4Fyx5gmvkRNd8_QX3gB1808G_KflkY5w/exec"
 
@@ -106,7 +111,7 @@ export default function Contact() {
 
   return (
       <div className="relative min-h-screen" style={{ backgroundColor: '#000' }}>
-        <Navigation scrollOffset={scrollOffset} pageType="contact" />
+        <Navigation scrollOffset={0} pageType="contact" />
 
         <header className="bg-black px-8 pt-20">
           <div className="max-w-screen-2xl mx-auto text-center">
