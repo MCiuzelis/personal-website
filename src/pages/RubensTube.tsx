@@ -29,7 +29,7 @@ const RubensTube: React.FC = () => {
         setImgVisible(true)
         obs.disconnect()
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.1 })
     obs.observe(node)
     return () => obs.disconnect()
   }, [])
@@ -52,7 +52,7 @@ const RubensTube: React.FC = () => {
       } else {
         video.pause()
       }
-    }, { threshold: 0.3 })
+    }, { threshold: 0.1 })
 
     obs.observe(wrapper)
     return () => obs.disconnect()
@@ -71,8 +71,8 @@ const RubensTube: React.FC = () => {
         <header className="bg-black px-8 pt-20">
           {/* Keep title + description inside the constrained container */}
           <div className="max-w-screen-2xl mx-auto text-center">
-            <h1 className="section-heading text-white mb-0">Ruben&apos;s Tube</h1>
-            <p className="text-gray-300 text-base max-w-xl mx-auto mt-8 mb-10">
+            <h1 className="section-heading text-white mt-0 mb-0">Ruben&apos;s Tube</h1>
+            <p className="text-gray-300 text-base max-w-xl mx-auto mt-6 mb-6">
               A fascinating physics demonstration and music project meant to visualize audio waveforms with flames.
             </p>
           </div>
