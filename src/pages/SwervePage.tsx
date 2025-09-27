@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import SwerveRobot from '@/components/SwerveRobot'
 import RobotPageTemplate from './RobotPageTemplate'
+import { useIsMobile } from '@/hooks/use-mobile'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
 import team from '@/assets/SwervePage/SwerveTeamPicture.jpeg'
 import image1 from '@/assets/SwervePage/img1.jpg'
@@ -16,6 +17,7 @@ import video3 from '@/assets/SwervePage/vid2.mp4'
 const slideshowImages = [team, image1, image3, image4, image2, image5, video1, video3, video2]
 
 export default function SwervePage() {
+    const isMobile = useIsMobile()
     useEffect(() => {
         const title = '2023 - 2024 FTC Swerve season'
         document.title = title
@@ -38,7 +40,7 @@ export default function SwervePage() {
     }, [])
     return (
         <RobotPageTemplate
-            robot={<SwerveRobot position={[-1, -3.5, -1]} scale={13} rotation-y={0}/>}
+            robot={<SwerveRobot position={[-1, -3.5, -1]} scale={isMobile ? 8.7 : 13} rotation-y={0}/>}
         >
             <div className="relative z-10">
                 {/* Season Recap Section */}

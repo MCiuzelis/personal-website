@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import FLL_Robot from '@/components/FLL_Robot.tsx'
 import RobotPageTemplate from './RobotPageTemplate'
+import { useIsMobile } from '@/hooks/use-mobile'
 import ImageSlideshow from "@/components/ImageSlideshow.tsx";
 import image1 from '@/assets/FLL_Page/img1.jpeg'
 import image3 from '@/assets/FLL_Page/img3.jpeg'
@@ -13,6 +14,7 @@ import FLLVideo from '@/assets/FLL_Page/FLL_RobotInAction.mp4'
 const slideshowImages = [image1, image3, image4, image5, image6, image7]
 
 export default function FLL_Page() {
+  const isMobile = useIsMobile()
   useEffect(() => {
     const title = 'FIRST LEGO League Robot'
     document.title = title
@@ -60,7 +62,7 @@ export default function FLL_Page() {
 
   return (
       <RobotPageTemplate
-          robot={<FLL_Robot position={[0, -11, 0]} scale={38} rotation-y={0} />}
+          robot={<FLL_Robot position={[0, -11, 0]} scale={isMobile ? 25.3 : 38} rotation-y={0} />}
       >
         <div className="relative z-10">
           {/* Season Recap Section */}

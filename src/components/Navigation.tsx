@@ -86,7 +86,7 @@ const Navigation = ({
           ) : pageType === 'robot' ? (
             /* Robot pages - only home button centered */
             <div className="flex items-center justify-center">
-              <button onClick={() => navigate('/')} className="apple-nav-text text-sm">
+              <button onClick={() => navigate('/#projects')} className="apple-nav-text text-sm">
                 Home
               </button>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import VLRRobot from '@/components/VLR_Robot'
 import RobotPageTemplate from './RobotPageTemplate'
+import { useIsMobile } from '@/hooks/use-mobile'
 import ImageSlideshow from '@/components/ImageSlideshow'
 import RobotInAction from '@/assets/VLR_Page/RobotInAction.mp4'
 import {useEffect, useRef, useState} from 'react'
@@ -20,6 +21,7 @@ const slideshowImages = [image1, image2, image3, image4, image5, image6, image7,
 
 
 export default function VLRPage() {
+    const isMobile = useIsMobile()
     const videoRef = useRef<HTMLVideoElement | null>(null)
 
 
@@ -88,7 +90,7 @@ export default function VLRPage() {
     return (
         <div>
             <RobotPageTemplate
-                robot={<VLRRobot position={[1, -4, 1]} scale={21} rotation-y={0}/>}
+                robot={<VLRRobot position={[1, -4, 1]} scale={isMobile ? 14 : 21} rotation-y={0}/>}
             >
                 <div className="relative z-10">
                     {/* Season Recap Section */}
@@ -198,7 +200,7 @@ export default function VLRPage() {
                         <div className="max-w-screen-2xl mx-auto">
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
                             <div className="flex items-center justify-center mt-6">
-                                <div className="pt-1 h-[50vh] md:h-[85vh] aspect-video">
+                                <div className="pt-1 h-[50vh] md:h-[85vh] w-full md:aspect-video">
                                     <div ref={wrapRef}
                                          className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                                         <LazyVideo
@@ -207,7 +209,7 @@ export default function VLRPage() {
                                             loop
                                             playsInline
                                             autoPlay
-                                            className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
+                                            className={`block w-full h-full object-cover md:object-contain rounded-xl opacity-0 ${visible ? 'animate-scale-fade-in' : ''}`}
                                         />
                                         <button
                                             onClick={() => setMuted(m => !m)}
