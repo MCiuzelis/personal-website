@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import { LazyVideo } from '@/components/LazyVideo'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 import img1 from '@/assets/EnginePage/engine1.png'
 import img2 from '@/assets/EnginePage/engine4.jpeg'
@@ -9,6 +10,8 @@ import video1 from '@/assets/EnginePage/engineInAction.mp4'
 
 
 const CombustionEngine: React.FC = () => {
+  const isMobile = useIsMobile()
+  
   // SEO
   useEffect(() => {
     const title = 'Music playing combustion engine'
@@ -72,29 +75,29 @@ const CombustionEngine: React.FC = () => {
 
   return (
     <>
-      <Navigation pageType="other" scrollOffset={0} />
+      <Navigation pageType="other" scrollOffset={0} hoveredCard={isMobile ? null : undefined} />
 
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto text-center pb-20">
-          <h1 className="section-heading text-white">Combustion Engine</h1>
+          <h1 className="section-heading text-white md:text-left text-center">Combustion Engine</h1>
 
-          <p className="text-gray-300 text-base max-w-l mx-auto mt-6 mb-10">
+          <p className="text-gray-300 text-base max-w-l mx-auto mt-6 mb-10 md:text-left text-center">
             A small servo actuates the throttle valve of an 8hp go cart combustion engine to mimic the changing pitch of music.
           </p>
 
-          <div className="mx-auto mt-6 pb-10 flex justify-center gap-4 max-w-[2500px]">
-            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+          <div className="mx-auto mt-6 pb-10 flex md:flex-row flex-col items-center justify-center gap-4 max-w-[2500px]">
+            <div className="md:w-[70vw] w-[90vw] md:h-[38vw] h-[50vw] rounded-xl overflow-hidden">
               <img
                   src={img1}
                   alt="Combustion engine photo 1"
-                  className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
+                  className="w-full h-full md:object-cover object-cover opacity-0 animate-scale-fade-in"
               />
             </div>
-            <div className="w-[70vw] h-[38vw] rounded-xl overflow-hidden">
+            <div className="md:w-[70vw] w-[90vw] md:h-[38vw] h-[50vw] rounded-xl overflow-hidden">
               <img
                   src={img2}
                   alt="Combustion engine photo 2"
-                  className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
+                  className="w-full h-full md:object-cover object-cover opacity-0 animate-scale-fade-in"
                   style={{ animationDelay: '150ms' }}
               />
             </div>
@@ -106,7 +109,7 @@ const CombustionEngine: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 text-center">Engine in action</h2>
           <div className="flex items-center justify-center">
-            <div className="pt-6 h-[90vh] aspect-video">
+            <div className="pt-6 md:h-[90vh] h-[50vh] md:aspect-video aspect-video">
               <div ref={wrap1} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <LazyVideo
                   src={video1}
@@ -114,7 +117,7 @@ const CombustionEngine: React.FC = () => {
                   loop
                   playsInline
                   autoPlay
-                  className={`block w-full h-full object-cover rounded-xl opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
+                  className={`block w-full h-full md:object-contain object-cover rounded-xl opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
                 />
                 <button
                   onClick={() => setMuted1(m => !m)}

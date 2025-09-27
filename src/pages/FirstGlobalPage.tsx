@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useIsMobile } from '@/hooks/use-mobile'
 import main from '@/assets/FGC/main.jpeg'
 import mosaic1 from '@/assets/FGC/mosaic1.jpeg'
 import mosaic2 from '@/assets/FGC/mosaic2.jpeg'
@@ -15,6 +16,8 @@ import kitVideo2 from '@/assets/FGC/2024_KitCapture.mp4'
 import Navigation from "@/components/Navigation.tsx";
 
 const FirstGlobalPage: React.FC = () => {
+  const isMobile = useIsMobile()
+  
   // SEO setup
   useEffect(() => {
     const title = '2022, 2024 First Global Challenge'
@@ -255,7 +258,7 @@ const FirstGlobalPage: React.FC = () => {
   }, [muted2024])
   return (
     <>
-      <Navigation pageType="other" scrollOffset={0} />
+      <Navigation pageType="other" scrollOffset={0} hoveredCard={isMobile ? null : undefined} />
 
       <header className="bg-black px-8 pt-20">
         <div className="max-w-screen-2xl mx-auto">
@@ -278,9 +281,9 @@ const FirstGlobalPage: React.FC = () => {
       <main className="bg-black px-8 pb-20 pt-12 space-y-32 md:space-y-40">
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2022 Robot development</h2>
-          <div
+           <div
               ref={mosaicRef2022}
-              className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto w-[min(82vw,82vh)]"
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 mx-auto md:w-[min(82vw,82vh)] w-[90vw]"
           >
             {/* Top-left */}
             <section aria-label="Robot development image 1" className="rounded-xl overflow-hidden aspect-square">
@@ -334,7 +337,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2022 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[50vh] md:h-[85vh] aspect-video">
+            <div className="md:h-[85vh] h-[50vh] aspect-video">
               <div ref={videoWrapperRef2022} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2022}
@@ -346,7 +349,7 @@ const FirstGlobalPage: React.FC = () => {
                     preload="auto"
                     controls={false}
                     onCanPlay={() => setVideoReady(true)}
-                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible2022 ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full md:object-contain object-cover rounded-xl opacity-0 ${videoVisible2022 ? 'animate-scale-fade-in' : ''}`}
                 />
                 {/* Mute button inside video */}
                 <button
@@ -386,7 +389,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-12 md:mb-6 text-center">2024 Robot development</h2>
           {/* Unified container that scales as one element */}
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto w-[65vw] justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3 mx-auto md:w-[65vw] w-[90vw] justify-center">
             {/* Grid of images */}
             <div
                 ref={mosaicRef2024}
@@ -449,7 +452,7 @@ const FirstGlobalPage: React.FC = () => {
         <section className="max-w-screen-2xl mx-auto">
           <h2 className="section-heading text-white mb-6 md:mb-6 text-center">2024 Kit capture video</h2>
           <div className="flex items-center justify-center">
-            <div className="h-[50vh] md:h-[85vh] aspect-[1920/950]">
+            <div className="md:h-[85vh] h-[50vh] aspect-[1920/950]">
               <div ref={videoWrapperRef2024} className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                 <video
                     ref={videoRef2024}
@@ -461,7 +464,7 @@ const FirstGlobalPage: React.FC = () => {
                     preload="auto"
                     controls={false}
                     onCanPlay={() => setVideoReady(true)}
-                    className={`block w-full h-full object-cover rounded-xl opacity-0 ${videoVisible2024 ? 'animate-scale-fade-in' : ''}`}
+                    className={`block w-full h-full md:object-contain object-cover rounded-xl opacity-0 ${videoVisible2024 ? 'animate-scale-fade-in' : ''}`}
                 />
                 {/* Mute button */}
                 <button

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import ThreeImageMosaic from '@/components/ThreeImageMosaic'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 import img1 from '@/assets/KineticLaunchPlatform/image1.jpg'
 import img2 from '@/assets/KineticLaunchPlatform/image2.jpeg'
 import img3 from '@/assets/KineticLaunchPlatform/image3.jpeg'
 
 const KineticLaunchPlatform: React.FC = () => {
+  const isMobile = useIsMobile()
+  
   // SEO
   useEffect(() => {
     const title = 'Kinetic Model Launch Platform'
@@ -23,7 +26,7 @@ const KineticLaunchPlatform: React.FC = () => {
 
   return (
     <>
-      <Navigation pageType="other" scrollOffset={0} />
+      <Navigation pageType="other" scrollOffset={0} hoveredCard={isMobile ? null : undefined} />
 
         <header className="bg-black px-8 pt-20">
             <div className="max-w-screen-2xl mx-auto text-center">
@@ -41,7 +44,7 @@ const KineticLaunchPlatform: React.FC = () => {
                         { src: img2, alt: 'Kinetic model launch platform photo 2' },
                         { src: img3, alt: 'Kinetic model launch platform photo 3' },
                     ]}
-                    className="mx-auto w-[52vw] mt-6"
+                    className="mx-auto md:w-[52vw] w-[85vw] mt-6"
                     ariaLabelPrefix="Kinetic launch platform image"
                 />
             </div>
