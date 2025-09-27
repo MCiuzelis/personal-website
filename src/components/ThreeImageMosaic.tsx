@@ -20,8 +20,8 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
 
   return (
     <div ref={ref} className={className}>
-      <div className="grid grid-cols-[2fr_1fr] grid-rows-2 gap-3 aspect-[3/2]">
-        <section aria-label={`${ariaLabelPrefix} 1`} className="row-span-2 rounded-xl overflow-hidden">
+      <div className="grid grid-cols-[2fr_1fr] grid-rows-2 gap-1 md:gap-3 aspect-[3/2]">
+        <section aria-label={`${ariaLabelPrefix} 1`} className="row-span-2 rounded-lg md:rounded-xl overflow-hidden">
           <img
             src={images[0].src}
             alt={images[0].alt}
@@ -35,7 +35,7 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
           />
         </section>
 
-        <section aria-label={`${ariaLabelPrefix} 2`} className="rounded-xl overflow-hidden">
+        <section aria-label={`${ariaLabelPrefix} 2`} className="rounded-lg md:rounded-xl overflow-hidden">
           <img
             src={images[1].src}
             alt={images[1].alt}
@@ -49,7 +49,7 @@ const ThreeImageMosaic: React.FC<ThreeImageMosaicProps> = ({ images, className =
           />
         </section>
 
-        <section aria-label={`${ariaLabelPrefix} 3`} className="rounded-xl overflow-hidden">
+        <section aria-label={`${ariaLabelPrefix} 3`} className="rounded-lg md:rounded-xl overflow-hidden">
           <img
             src={images[2].src}
             alt={images[2].alt}

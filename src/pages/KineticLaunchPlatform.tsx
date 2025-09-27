@@ -25,13 +25,13 @@ const KineticLaunchPlatform: React.FC = () => {
     <>
       <Navigation pageType="other" scrollOffset={0} />
 
-        <header className="bg-black px-8 pt-20">
-            <div className="max-w-screen-2xl mx-auto text-center">
-                <h1 className="section-heading text-white mb-0">
+        <header className="bg-black px-4 md:px-8 pt-20 md:pt-20 min-h-screen md:min-h-auto overflow-hidden md:overflow-visible">
+            <div className="max-w-screen-2xl mx-auto text-center h-screen md:h-auto flex flex-col justify-center md:block">
+                <h1 className="section-heading text-white mb-0 text-center px-2 md:px-0">
                     Kinetic Model Launch Platform
                 </h1>
                 
-                <p className="text-gray-300 text-base max-w-2xl mx-auto mt-8 mb-10">
+                <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto mt-4 md:mt-8 mb-6 md:mb-10 text-center px-2 md:px-0">
                     Together with Rokas Kirdulis we are designing a fully and rapidly reusable model rocket launch system, still in development, more details coming soon...
                 </p>
                 
@@ -41,7 +41,7 @@ const KineticLaunchPlatform: React.FC = () => {
                         { src: img2, alt: 'Kinetic model launch platform photo 2' },
                         { src: img3, alt: 'Kinetic model launch platform photo 3' },
                     ]}
-                    className="mx-auto w-[52vw] mt-6"
+                    className="mx-auto w-[85vw] md:w-[52vw] mt-2 md:mt-6"
                     ariaLabelPrefix="Kinetic launch platform image"
                 />
             </div>
