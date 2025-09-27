@@ -80,7 +80,7 @@ export default function VLRPage() {
                 el.pause();
                 el.currentTime = 0
             }
-        }, {threshold: 0.3})
+        }, {threshold: 0.1})
         obs.observe(el)
         return () => obs.disconnect()
     }, [])
@@ -97,16 +97,6 @@ export default function VLRPage() {
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">Season Recap</h2>
                             <div className="flex items-center justify-center mt-6">
                                 <ImageSlideshow images={slideshowImages}/>
-                            </div>
-
-                            {/* Temporary content for mobile scroll testing */}
-                            <div className="mt-8 space-y-6 px-4 text-white">
-                                <p className="text-lg">Temporary content block 1</p>
-                                <p className="text-lg">Temporary content block 2</p>
-                                <p className="text-lg">Temporary content block 3</p>
-                                <p className="text-lg">Temporary content block 4</p>
-                                <p className="text-lg">Temporary content block 5</p>
-                                <p className="text-lg">Temporary content block 6</p>
                             </div>
                         </div>
                     </section>
@@ -208,7 +198,7 @@ export default function VLRPage() {
                         <div className="max-w-screen-2xl mx-auto">
                             <h2 className="section-heading text-white mb-8 pt-8 text-center">Robot in Action</h2>
                             <div className="flex items-center justify-center mt-6">
-                                <div className="pt-1 h-[50vh] md:h-[90vh] aspect-video">
+                                <div className="pt-1 h-[50vh] md:h-[85vh] aspect-video">
                                     <div ref={wrapRef}
                                          className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900">
                                         <LazyVideo

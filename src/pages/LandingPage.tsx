@@ -586,7 +586,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
     const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
         nameText,
         50,
-        profilePictureAnimated ? 1200 : 999999 // Wait for profile pic animation
+        profilePictureAnimated ? 500 : 999999 // Wait for profile pic animation
     )
     const { displayText: descriptionDisplay, showCursor } = useThreeStepTypingEffect(
         descriptions,
