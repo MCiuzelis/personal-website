@@ -55,8 +55,8 @@ const useTypingEffect = (text: string, speed = 50, delay = 0) => {
  */
 const useThreeStepTypingEffect = (
     texts: string[],
-    typeSpeed = 30,
-    deleteSpeed = 20,
+    typeSpeed = 40,//30,
+    deleteSpeed = 30,//20,
     pauseDuration = 2000,
     startDelay = 0,
     appendDelay = 1000
@@ -572,9 +572,12 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
 function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
     const nameText = "Matas Čiuželis"
     const descriptions = useMemo(() => [
-        "I created a swerve drive in my mom's garage.",
-        " Oops, wrong audience",
+        "Hobbyist and maker",
+        "",
         "Mechanical engineering student at the University of Glasgow"
+        // "I built a swerve drive in my mom's garage.",
+        // " Oops, wrong audience",
+        // "Mechanical engineering student at the University of Glasgow"
     ], [])
 
     // State for profile picture animation
