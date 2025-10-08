@@ -695,8 +695,8 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
     const nameText = "Matas Čiuželis"
     const descriptions = useMemo(() => [
-        "I created a swerve drive in my mom's garage.",
-        " Oops, wrong audience",
+        "Hobbyist and maker",
+        "",
         "Mechanical engineering student at the University of Glasgow"
     ], [])
 
