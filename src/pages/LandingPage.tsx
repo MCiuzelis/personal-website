@@ -9,6 +9,14 @@ import Navigation from '@/components/Navigation'
 import {useAssetPreloader} from '@/hooks/useAssetPreloader'
 import {useIsMobile} from '@/hooks/use-mobile'
 
+const NAME_TEXT = "Matas Čiuželis"
+const DESCRIPTIONS = [
+    "Engineer and filmmaker",
+    "",
+    "Mechanical engineering student at the University of Glasgow",
+]
+
+
 // Typing animation hook (unchanged)
 const useTypingEffect = (text: string, speed = 50, delay = 0) => {
     const [displayText, setDisplayText] = useState('')
@@ -570,15 +578,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
 
 // Profile intro component
 function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
-    const nameText = "Matas Čiuželis"
-    const descriptions = useMemo(() => [
-        "Hobbyist and maker",
-        "",
-        "Mechanical engineering student at the University of Glasgow"
-        // "I built a swerve drive in my mom's garage.",
-        // " Oops, wrong audience",
-        // "Mechanical engineering student at the University of Glasgow"
-    ], [])
+    const descriptions = useMemo(() => DESCRIPTIONS, [])
 
     // State for profile picture animation
     const [profilePictureAnimated, setProfilePictureAnimated] = useState(false)
@@ -597,7 +597,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
     // Only start typing after profile picture is in place
     const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
-        nameText,
+        NAME_TEXT,
         50,
         profilePictureAnimated ? 500 : 999999 // Wait for profile pic animation
     )
@@ -651,7 +651,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
                         <h1 className="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-inter font-normal mb-1 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
                             style={{lineHeight: '1.1', height: '1.1em'}}>
                             <span>{nameDisplay}</span>
-                            {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
+                            {nameDisplay !== NAME_TEXT && <span className="animate-pulse ml-1">|</span>}
                         </h1>
                         <div className="space-y-1">
                             <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 font-inter font-normal tracking-wide max-w-lg leading-relaxed h-16 overflow-hidden">
@@ -693,12 +693,7 @@ function ProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onSc
 
 // Mobile Profile intro component
 function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean, onScrollClick: () => void }) {
-    const nameText = "Matas Čiuželis"
-    const descriptions = useMemo(() => [
-        "Hobbyist and maker",
-        "",
-        "Mechanical engineering student at the University of Glasgow"
-    ], [])
+    const descriptions = useMemo(() => DESCRIPTIONS, [])
 
     // State for profile picture animation
     const [profilePictureAnimated, setProfilePictureAnimated] = useState(false)
@@ -717,7 +712,7 @@ function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean
 
     // Only start typing after profile picture is in place
     const {displayText: nameDisplay, isComplete: nameComplete} = useTypingEffect(
-        nameText,
+        NAME_TEXT,
         50,
         profilePictureAnimated ? 1200 : 999999 // Wait for profile pic animation
     )
@@ -770,7 +765,7 @@ function MobileProfileIntro({showProfile, onScrollClick}: { showProfile: boolean
                     <h1 className="text-3xl sm:text-4xl font-inter font-normal mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-normal tracking-tight"
                         style={{lineHeight: '1.1', height: '1.1em'}}>
                         <span>{nameDisplay}</span>
-                        {nameDisplay !== nameText && <span className="animate-pulse ml-1">|</span>}
+                        {nameDisplay !== NAME_TEXT && <span className="animate-pulse ml-1">|</span>}
                     </h1>
                     <div className="space-y-1">
                         <p className="text-base sm:text-lg text-gray-400 font-inter font-normal tracking-wide max-w-sm leading-relaxed h-12 overflow-hidden">
