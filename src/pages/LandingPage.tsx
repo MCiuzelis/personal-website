@@ -11,7 +11,7 @@ import {useIsMobile} from '@/hooks/use-mobile'
 
 const NAME_TEXT = "Matas Čiuželis"
 const DESCRIPTIONS = [
-    "Engineer and filmmaker",
+    "Engineer and maker",
     "",
     "Mechanical engineering student at the University of Glasgow",
 ]
