@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import Navigation from '@/components/Navigation'
 import {useAssetPreloader} from '@/hooks/useAssetPreloader'
 import {useIsMobile} from '@/hooks/use-mobile'
+import { AUTONOMOUS_RC_CAR_NAV_LABEL } from './autonomousRcCarContent'
 
 const NAME_TEXT = "Matas Čiuželis"
 const DESCRIPTIONS = [
@@ -154,8 +155,10 @@ import card5 from '@/assets/ProjectThumbnails/FLL.jpg'
 import card6 from '@/assets/ProjectThumbnails/FGC.jpeg'
 import card7 from '@/assets/ProjectThumbnails/Swerve.jpg'
 import card8 from '@/assets/ProjectThumbnails/VLR.jpg'
+import card9 from '@/assets/ProjectThumbnails/Rc_car.jpeg'
 
-const cardImages = [card2, card3, card4, card5, card6, card7, card8]
+const cardImages = [card2, card3, card4, card5, card6, card7, card8, card9]
+const PROJECT_CAROUSEL_RADIUS = 1.38
 
 const LandingPage = () => {
     const [hasScrolled, setHasScrolled] = useState(0)
@@ -347,7 +350,7 @@ function Rig({onScrollChange, showProfile, ...props}: RigProps) {
 
 /* --- Carousel, Card, MobileCard, MobileCardNavigation unchanged --- */
 
-function Carousel({radius = 1.175, count = 7, onCardHover}: {
+function Carousel({radius = PROJECT_CAROUSEL_RADIUS, count = 8, onCardHover}: {
     radius?: number,
     count?: number,
     onCardHover: (cardIndex: number | null) => void
@@ -400,13 +403,13 @@ function Card({url, cardIndex, onCardHover, ...props}: CardProps) {
 
     const handleClick = (e: ThreeEvent<MouseEvent>, cardIndex: number) => {
         e.stopPropagation()
-        const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR']
+        const routes = ['KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'FLL', 'FirstGlobal', 'Swerve', 'VLR', 'AutonomousRcCar']
         navigate(routes[cardIndex])
     }
 
     useFrame((state, delta) => {
         if (ref.current) {
-            easing.damp3(ref.current.scale, hovered ? 1.16 : 1, 0.1, delta)
+            easing.damp3(ref.current.scale, hovered ? 1.14 : 1.025, 0.1, delta)
             easing.damp(ref.current.material, 'radius', hovered ? 0.1 : 0.05, 0.2, delta)
             easing.damp(ref.current.material, 'zoom', hovered ? 1.035 : 1, 0.2, delta)
         }
@@ -450,7 +453,7 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
     const cardWidth = 320
     
     // Reorder to match desktop sequence (VLR first, then follow the rotation)
-    const mobileCardImages = [card8, card7, card5, card6, card2, card3, card4, ]
+    const mobileCardImages = [card8, card7, card5, card6, card2, card3, card4, card9]
     const mobileProjectTitles = [
         'FTC final season robot',
         'Swerve Drive',
@@ -458,9 +461,10 @@ function MobileCarousel({ cardIndex, onCardChange, onCardHover }: {
         'FIRST Global Challenge',
         'Kinetic Launch Platform', 
         "Ruben's Tube",
-        'Combustion Engine'
+        'Combustion Engine',
+        AUTONOMOUS_RC_CAR_NAV_LABEL
     ]
-    const mobileRoutes = ['VLR', 'Swerve', 'FLL', 'FirstGlobal', 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine']
+    const mobileRoutes = ['VLR', 'Swerve', 'FLL', 'FirstGlobal', 'KineticLaunchPlatform', 'RubensTube', 'CombustionEngine', 'AutonomousRcCar']
     
     const totalCards = mobileCardImages.length
 

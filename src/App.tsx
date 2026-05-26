@@ -20,6 +20,7 @@ const FirstGlobalPage = lazy(() => import("./pages/FirstGlobalPage"));
 const CombustionEngine = lazy(() => import("./pages/CombustionEngine"));
 const KineticLaunchPlatform = lazy(() => import("./pages/KineticLaunchPlatform"));
 const RubensTube = lazy(() => import("./pages/RubensTube"));
+const AutonomousRcCar = lazy(() => import("./pages/AutonomousRcCar"));
 const Contact = lazy(() => import("./pages/Contact"));
 
 // Optimized query client for better performance
@@ -107,6 +108,13 @@ function AnimatedRoutes() {
             <PageWrapper>
               <Suspense fallback={<LoadingSpinner />}>
                 <RubensTube />
+              </Suspense>
+            </PageWrapper>
+          }/>
+          <Route path="/AutonomousRcCar" element={
+            <PageWrapper>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AutonomousRcCar />
               </Suspense>
             </PageWrapper>
           }/>

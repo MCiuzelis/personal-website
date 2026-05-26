@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import * as React from 'react'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { AUTONOMOUS_RC_CAR_NAV_LABEL } from '@/pages/autonomousRcCarContent'
 
 interface NavigationProps {
   scrollOffset: number
@@ -24,6 +25,7 @@ const Navigation = ({
     "First Global Challenge projects",
     "2023 - 2024 FTC season's swerve robot",
     "2024 - 2025 FTC season's mecanum robot",
+    AUTONOMOUS_RC_CAR_NAV_LABEL,
   ]
 
   const landed = scrollOffset === 0

@@ -32,7 +32,6 @@ const CombustionEngine: React.FC = () => {
 
   // Video controls
   const v1 = useRef<HTMLVideoElement | null>(null)
-  const [muted1, setMuted1] = useState(true)
   const wrap1 = useRef<HTMLDivElement | null>(null)
   const [visible1, setVisible1] = useState(false)
 
@@ -64,8 +63,6 @@ const CombustionEngine: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
-  useEffect(() => { if (v1.current) v1.current.muted = muted1 }, [muted1])
-
   return (
       <>
         <Navigation pageType="other" scrollOffset={0} />
@@ -79,14 +76,14 @@ const CombustionEngine: React.FC = () => {
             </p>
 
             <div className="mx-auto mt-6 pb-10 flex flex-col md:flex-row justify-center gap-2 md:gap-4 max-w-[2500px]">
-              <div className="w-full md:w-[70vw] h-[40vh] md:h-[38vw] rounded-xl overflow-hidden">
+              <div className="w-full md:w-[50vw] h-[30vh] md:h-[32vw] rounded-xl overflow-hidden">
                 <img
                     src={img1}
                     alt="Combustion engine photo 1"
                     className="w-full h-full object-cover opacity-0 animate-scale-fade-in"
                 />
               </div>
-              <div className="w-full md:w-[70vw] h-[40vh] md:h-[38vw] rounded-xl overflow-hidden">
+              <div className="w-full md:w-[50vw] h-[30vh] md:h-[32vw] rounded-xl overflow-hidden">
                 <img
                     src={img2}
                     alt="Combustion engine photo 2"
@@ -106,20 +103,12 @@ const CombustionEngine: React.FC = () => {
                 <div ref={wrap1} className="relative w-full h-full rounded-md md:rounded-xl overflow-hidden bg-gray-900">
                   <LazyVideo
                       src={video1}
-                      muted={muted1}
+                      muted
                       loop
                       playsInline
                       autoPlay
                       className={`block w-full h-full object-cover md:object-contain rounded-md md:rounded-xl opacity-0 ${visible1 ? 'animate-scale-fade-in' : ''}`}
                   />
-                  <button
-                      onClick={() => setMuted1(m => !m)}
-                      aria-pressed={!muted1}
-                      aria-label={muted1 ? 'Unmute video' : 'Mute video'}
-                      className="absolute bottom-3 left-3 px-4 py-2 rounded-md bg-white/10 text-white backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-                  >
-                    {muted1 ? 'Unmute' : 'Mute'}
-                  </button>
                 </div>
               </div>
             </div>
